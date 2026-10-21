@@ -1,0 +1,26 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2025-latest
+    container_name: matvi-sqlserver
+    hostname: matvi-sqlserver
+    restart: unless-stopped
+
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Developer"
+      MSSQL_SA_PASSWORD: "${SA_PASSWORD}"
+      MSSQL_COLLATION: "Modern_Spanish_CI_AI"
+      MSSQL_INSTANCE_NAME: "Matvi"
+
+    ports:
+      - "51432:1433"
+
+    volumes:
+      - /var/opt/mssql:/var/opt/mssql
+
+    networks:
+      - matvi_network
+
+networks:
+  matvi_network:
+    external: true

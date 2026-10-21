@@ -1,0 +1,3 @@
+app.materialesvillanueva.com {
+    reverse_proxy matvi-app:7022
+}

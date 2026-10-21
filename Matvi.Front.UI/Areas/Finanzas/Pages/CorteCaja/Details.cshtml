@@ -1,0 +1,576 @@
+@page
+@using Matvi.Front.UI.Security.Services
+@using Matvi.Front.UI.Extensions
+@inject IUsuarioActualService UsuarioActualService
+@model Matvi.Front.UI.Areas.Finanzas.Pages.CorteCaja.DetailsModel
+@{
+    ViewData["Title"] = "Corte de caja";
+    ViewData["Modulo"] = "Finanzas";
+    ViewData["UrlAnterior"] = Url.Page("Index");
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+@await Html.PartialAsync("_DataTablesStylesPartial")
+
+<input type="hidden" id="corte-id" value="@Model.Corte!.SafeId" />
+
+<div class="row align-items-start gy-2 mb-2">
+    <div class="col-auto">
+        <div class="align-items-center justify-content-center mv-perfil-circle">
+            @Model.GetProfileLetters(Model.Corte!.CtUsua_Nombre)
+        </div>
+    </div>
+    <div class="col">
+        <h4 class="mb-0">Corte @Model.Corte!.Folio</h4>
+        <span class="text-muted">@Model.Corte.CtUsua_Nombre</span>
+    </div>
+    <div class="col text-end">
+        @if (Model.Corte.FechaCierre == null)
+        {
+            <span class="badge bg-success">ABIERTA</span>
+        }
+        else
+        {
+            <span class="badge bg-secondary">CERRADA</span>
+        }
+    </div>
+</div>
+
+<div>
+    <ul class="nav nav-tabs nav-bordered" id="corteTabs" role="tablist">
+        <li class="nav-item">
+            <a href="#tab-general" data-bs-toggle="tab" aria-expanded="true" class="nav-link active">
+                <span class="d-inline-block d-sm-none"><i class="mdi mdi-cash-register"></i></span>
+                <span class="d-none d-sm-inline-block">General</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#tab-resumen" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
+                <span class="d-inline-block d-sm-none"><i class="mdi mdi-chart-box-outline"></i></span>
+                <span class="d-none d-sm-inline-block">Resumen de movimientos</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#tab-movimientos" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
+                <span class="d-inline-block d-sm-none"><i class="mdi mdi-swap-horizontal"></i></span>
+                <span class="d-none d-sm-inline-block">Movimientos</span>
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+
+        <!-- TAB GENERAL -->
+        <div class="tab-pane show active" id="tab-general">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Sucursal</label>
+                    <div class="input-group">
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            <i class="mdi mdi-storefront-outline"></i>
+                        </span>
+                        <output class="form-control mv-output-control">
+                            @Model.Corte.CtSucu_Nombre
+                        </output>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Usuario</label>
+                    <div class="input-group">
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            <i class="mdi mdi-account-outline"></i>
+                        </span>
+                        <output class="form-control mv-output-control">
+                            @Model.Corte.CtUsua_Nombre
+                        </output>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Fecha de apertura</label>
+                    <div class="input-group">
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            <i class="mdi mdi-calendar"></i>
+                        </span>
+                        <output class="form-control mv-output-control">
+                            @Model.Corte.FechaApertura.ToString("dd/MM/yyyy HH:mm:ss")
+                        </output>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Fecha de cierre</label>
+                    <div class="input-group">
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            <i class="mdi mdi-calendar-check"></i>
+                        </span>
+                        <output class="form-control mv-output-control">
+                            @(Model.Corte.FechaCierre?.ToString("dd/MM/yyyy HH:mm:ss") ?? "—")
+                        </output>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Fondo inicial</label>
+                    <div class="input-group">
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            <i class="mdi mdi-currency-usd"></i>
+                        </span>
+                        <output class="form-control mv-output-control">
+                            @Model.Corte.FondoInicial.ToString("N2")
+                        </output>
+                    </div>
+                </div>
+                @if (!string.IsNullOrWhiteSpace(Model.Corte.Notas))
+                {
+                    <div class="col-md-12">
+                        <label class="form-label">Notas</label>
+                        <output class="form-control mv-output-control">
+                            @Model.Corte.Notas
+                        </output>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- TAB RESUMEN -->
+        <div class="tab-pane" id="tab-resumen">
+            
+            <!-- CARD PRINCIPAL 1: FLUJO DE FONDOS Y ARQUEO -->
+            <div class="card border shadow-none my-3">
+                <div class="card-header bg-transparent border-bottom py-2">
+                    <h5 class="card-title mb-0 text-uppercase font-14"><i class="mdi mdi-cash-multiple me-1"></i>Flujo de Fondos y Arqueo</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="border rounded p-3 h-100">
+                                <label class="form-label fw-bold mb-1"><i class="mdi mdi-cash-refund me-1"></i>Total pagos</label>
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text p-0 ps-2 pe-2">
+                                        <i class="mdi mdi-currency-usd"></i>
+                                    </span>
+                                    <output class="form-control mv-output-control fw-bold">
+                                        @(Model.Corte.TotalPagos?.ToString("N2") ?? "—")
+                                    </output>
+                                </div>
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <label class="form-label mb-1 small text-muted">Efectivo</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text p-0 ps-2 pe-2">
+                                                <i class="mdi mdi-currency-usd"></i>
+                                            </span>
+                                            <output class="form-control mv-output-control fw-bold">
+                                                @(Model.Corte.TotalPagosEfectivo?.ToString("N2") ?? "0.00")
+                                            </output>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="form-label mb-1 small text-muted">Banco</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text p-0 ps-2 pe-2">
+                                                <i class="mdi mdi-currency-usd"></i>
+                                            </span>
+                                            <output class="form-control mv-output-control fw-bold">
+                                                @(Model.Corte.TotalPagosBancario?.ToString("N2") ?? "0.00")
+                                            </output>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="border rounded p-3 h-100">
+                                <label class="form-label fw-bold mb-1"><i class="mdi mdi-cash-plus me-1"></i>Total cobros</label>
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text p-0 ps-2 pe-2">
+                                        <i class="mdi mdi-currency-usd"></i>
+                                    </span>
+                                    <output class="form-control mv-output-control fw-bold">
+                                        @(Model.Corte.TotalCobros?.ToString("N2") ?? "—")
+                                    </output>
+                                </div>
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <label class="form-label mb-1 small text-muted">Efectivo</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text p-0 ps-2 pe-2">
+                                                <i class="mdi mdi-currency-usd"></i>
+                                            </span>
+                                            <output class="form-control mv-output-control fw-bold">
+                                                @(Model.Corte.TotalCobrosEfectivo?.ToString("N2") ?? "0.00")
+                                            </output>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="form-label mb-1 small text-muted">Banco</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text p-0 ps-2 pe-2">
+                                                <i class="mdi mdi-currency-usd"></i>
+                                            </span>
+                                            <output class="form-control mv-output-control fw-bold">
+                                                @(Model.Corte.TotalCobrosBancario?.ToString("N2") ?? "0.00")
+                                            </output>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="border rounded p-3 h-100">
+                                <label class="form-label fw-bold mb-1"><i class="mdi mdi-cash-minus me-1"></i>Total gastos</label>
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text p-0 ps-2 pe-2">
+                                        <i class="mdi mdi-currency-usd"></i>
+                                    </span>
+                                    <output class="form-control mv-output-control fw-bold">
+                                        @(Model.Corte.TotalGastos?.ToString("N2") ?? "—")
+                                    </output>
+                                </div>
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <label class="form-label mb-1 small text-muted">Efectivo</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text p-0 ps-2 pe-2">
+                                                <i class="mdi mdi-currency-usd"></i>
+                                            </span>
+                                            <output class="form-control mv-output-control fw-bold">
+                                                @(Model.Corte.TotalGastosEfectivo?.ToString("N2") ?? "0.00")
+                                            </output>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="form-label mb-1 small text-muted">Banco</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text p-0 ps-2 pe-2">
+                                                <i class="mdi mdi-currency-usd"></i>
+                                            </span>
+                                            <output class="form-control mv-output-control fw-bold">
+                                                @(Model.Corte.TotalGastosBancario?.ToString("N2") ?? "0.00")
+                                            </output>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Entregas repartidores</label>
+                            <div class="input-group">
+                                <span class="input-group-text p-0 ps-2 pe-2">
+                                    <i class="mdi mdi-truck-delivery-outline"></i>
+                                </span>
+                                <output class="form-control mv-output-control fw-bold">
+                                    @(Model.Corte.TotalEntregasRepartidor?.ToString("N2") ?? "0.00")
+                                </output>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Fondo final (sistema)</label>
+                            <div class="input-group">
+                                <span class="input-group-text p-0 ps-2 pe-2">
+                                    <i class="mdi mdi-currency-usd"></i>
+                                </span>
+                                <output class="form-control mv-output-control fw-bold">
+                                    @(Model.Corte.FondoFinalSistema?.ToString("N2") ?? "—")
+                                </output>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Fondo final (contado)</label>
+                            <div class="input-group">
+                                <span class="input-group-text p-0 ps-2 pe-2">
+                                    <i class="mdi mdi-currency-usd"></i>
+                                </span>
+                                <output class="form-control mv-output-control fw-bold">
+                                    @(Model.Corte.FondoFinalContado?.ToString("N2") ?? "—")
+                                </output>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Diferencia</label>
+                            <div class="input-group">
+                                <span class="input-group-text p-0 ps-2 pe-2">
+                                    <i class="mdi mdi-scale-balance"></i>
+                                </span>
+                                <output class="form-control mv-output-control @((Model.Corte.Diferencia ?? 0) >= 0 ? "text-success" : "text-danger") fw-bold">
+                                    @(Model.Corte.Diferencia?.ToString("N2") ?? "—")
+                                </output>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD PRINCIPAL 2: RESULTADO DEL CORTE -->
+            <div class="card border shadow-none mb-3">
+                <div class="card-header bg-transparent border-bottom py-2">
+                    <h5 class="card-title mb-0 text-uppercase font-14"><i class="mdi mdi-calculator me-1"></i>Resultado del corte</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row align-items-stretch g-2 text-center">
+                        <!-- PASO 1: VENTAS DEL CORTE -->
+                        <div class="col-lg">
+                            <div class="border rounded p-3 h-100 d-flex flex-column justify-content-between">
+                                <div>
+                                    <span class="badge bg-secondary-subtle text-secondary mb-1">INGRESO</span>
+                                    <h6 class="text-muted text-uppercase font-12 fw-bold mb-2">Ventas del corte</h6>
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-text p-0 ps-2 pe-2">
+                                        <i class="mdi mdi-currency-usd"></i>
+                                    </span>
+                                    <output class="form-control mv-output-control fw-bold text-center">
+                                        @(Model.Corte.TotalVentas?.ToString("N2") ?? "—")
+                                    </output>
+                                </div>
+                                <small class="text-muted d-block mt-1 font-11">Ventas cobradas</small>
+                            </div>
+                        </div>
+
+                        <!-- OPERADOR MENOS -->
+                        <div class="col-auto px-1 align-self-center">
+                            <span class="fs-4 text-muted fw-bold">−</span>
+                        </div>
+
+                        <!-- PASO 2: COSTO MERCANCÍA -->
+                        <div class="col-lg">
+                            <div class="border rounded p-3 h-100 d-flex flex-column justify-content-between">
+                                <div>
+                                    <span class="badge bg-secondary-subtle text-secondary mb-1">COSTO DIRECTO</span>
+                                    <h6 class="text-muted text-uppercase font-12 fw-bold mb-2">Costo mercancía</h6>
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-text p-0 ps-2 pe-2">
+                                        <i class="mdi mdi-currency-usd"></i>
+                                    </span>
+                                    <output class="form-control mv-output-control fw-bold text-center">
+                                        @(Model.Corte.CostoVentasReal?.ToString("N2") ?? "—")
+                                    </output>
+                                </div>
+                                <small class="text-muted d-block mt-1 font-11">Costo de lo vendido</small>
+                            </div>
+                        </div>
+
+                        <!-- OPERADOR IGUAL -->
+                        <div class="col-auto px-1 align-self-center">
+                            <span class="fs-4 text-muted fw-bold">=</span>
+                        </div>
+
+                        <!-- PASO 3: UTILIDAD BRUTA -->
+                        <div class="col-lg">
+                            <div class="border rounded p-3 h-100 d-flex flex-column justify-content-between">
+                                <div>
+                                    <span class="badge bg-secondary-subtle text-secondary mb-1">MARGEN BRUTO</span>
+                                    <h6 class="text-muted text-uppercase font-12 fw-bold mb-2">Utilidad bruta</h6>
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-text p-0 ps-2 pe-2">
+                                        <i class="mdi mdi-currency-usd"></i>
+                                    </span>
+                                    <output class="form-control mv-output-control fw-bold text-center">
+                                        @(Model.Corte.UtilidadBruta?.ToString("N2") ?? "—")
+                                    </output>
+                                </div>
+                                <small class="text-muted d-block mt-1 font-11">Mercancía cobrada</small>
+                            </div>
+                        </div>
+
+                        <!-- OPERADOR MENOS -->
+                        <div class="col-auto px-1 align-self-center">
+                            <span class="fs-4 text-muted fw-bold">−</span>
+                        </div>
+
+                        <!-- PASO 4: GASTOS DEL CORTE -->
+                        <div class="col-lg">
+                            <div class="border rounded p-3 h-100 d-flex flex-column justify-content-between">
+                                <div>
+                                    <span class="badge bg-secondary-subtle text-secondary mb-1">GASTOS OPERATIVOS</span>
+                                    <h6 class="text-muted text-uppercase font-12 fw-bold mb-2">Gastos corte</h6>
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-text p-0 ps-2 pe-2">
+                                        <i class="mdi mdi-currency-usd"></i>
+                                    </span>
+                                    <output class="form-control mv-output-control fw-bold text-center">
+                                        @(Model.Corte.TotalGastos?.ToString("N2") ?? "—")
+                                    </output>
+                                </div>
+                                <small class="text-muted d-block mt-1 font-11">Efec @(Model.Corte.TotalGastosEfectivo?.ToString("N2") ?? "0.00") · Banco @(Model.Corte.TotalGastosBancario?.ToString("N2") ?? "0.00")</small>
+                            </div>
+                        </div>
+
+                        <!-- OPERADOR IGUAL -->
+                        <div class="col-auto px-1 align-self-center">
+                            <span class="fs-4 text-muted fw-bold">=</span>
+                        </div>
+
+                        <!-- PASO 5: UTILIDAD NETA / RESULTADO FINAL -->
+                        <div class="col-lg">
+                            <div class="border rounded p-3 h-100 d-flex flex-column justify-content-between">
+                                <div>
+                                    <span class="badge @((Model.Corte.UtilidadNeta ?? 0) >= 0 ? "bg-success-subtle text-success" : "bg-danger-subtle text-danger") mb-1">RESULTADO FINAL</span>
+                                    <h6 class="@((Model.Corte.UtilidadNeta ?? 0) >= 0 ? "text-success" : "text-danger") text-uppercase font-12 fw-bold mb-2">Utilidad neta</h6>
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-text p-0 ps-2 pe-2">
+                                        <i class="mdi mdi-currency-usd @((Model.Corte.UtilidadNeta ?? 0) >= 0 ? "text-success" : "text-danger")"></i>
+                                    </span>
+                                    <output class="form-control mv-output-control @((Model.Corte.UtilidadNeta ?? 0) >= 0 ? "text-success" : "text-danger") fw-bold text-center">
+                                        @(Model.Corte.UtilidadNeta?.ToString("N2") ?? "—")
+                                    </output>
+                                </div>
+                                <small class="text-muted d-block mt-1 font-11">@((Model.Corte.UtilidadNeta ?? 0) >= 0 ? "Ganancia del corte" : "Pérdida operativa")</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if ((Model.Corte.VentasSinCostear ?? 0) > 0)
+                    {
+                        <div class="alert alert-warning py-2 px-3 mt-3 mb-0 font-13">
+                            <i class="mdi mdi-alert-circle-outline me-1 align-middle"></i>
+                            Ventas sin costear: <strong>@Model.Corte.VentasSinCostear.ToTruncateMoney()</strong>
+                            (@(Model.Corte.PorcentajeVentasSinCostear?.ToString("N2") ?? "0")% del total) —
+                            la utilidad puede estar sobreestimada.
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- CARD PRINCIPAL 3: COBERTURA DE GASTOS -->
+            <div class="card border shadow-none mb-3">
+                <div class="card-header bg-transparent border-bottom py-2">
+                    <h5 class="card-title mb-0 text-uppercase font-14"><i class="mdi mdi-chart-line me-1 text-primary"></i>Cobertura de gastos</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        @if ((Model.Corte.TotalGastos ?? 0) > 0)
+                        {
+                            var cobertura = Model.Corte.PorcentajeCoberturaGastos ?? 0;
+                            <div class="col-md-12">
+                                <div class="progress mb-1" style="height: 12px;">
+                                    <div class="progress-bar @((Model.Corte.UtilidadNeta ?? 0) >= 0 ? "bg-success" : "bg-danger")"
+                                         role="progressbar"
+                                         style="width: @(cobertura)%"
+                                         aria-valuenow="@cobertura" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <small class="text-muted">
+                                    Los gastos se cubrieron en un <strong>@cobertura%</strong> con el margen de la mercancía.
+                                </small>
+                            </div>
+                            if ((Model.Corte.UtilidadNeta ?? 0) < 0)
+                            {
+                                <div class="col-md-12">
+                                    <div class="alert alert-danger py-2 px-3 mb-0 font-13">
+                                        <i class="mdi mdi-alert-octagon-outline me-1"></i>
+                                        Los gastos superan la utilidad de la mercancía: se absorbieron
+                                        <strong>@(Model.Corte.GastosAbsorbidosDeCapital?.ToTruncateMoney() ?? "$0.00")</strong>
+                                        del costo de mercancía / capital del negocio.
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="col-md-12">
+                                <div class="alert alert-success py-2 px-3 mb-0 font-13">
+                                    <i class="mdi mdi-check-circle-outline me-1"></i>
+                                    No hubo gastos en este corte: el margen de la mercancía se conserva íntegro.
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB MOVIMIENTOS -->
+        <div class="tab-pane" id="tab-movimientos">
+            <div class="mt-2">
+                <ul class="nav nav-pills nav-justified mb-3" id="movimientosSubTabs" role="tablist">
+                    <li class="nav-item">
+                        <a href="#subtab-pagos" data-bs-toggle="tab" aria-expanded="true" class="nav-link active">
+                            <i class="mdi mdi-credit-card-outline me-1"></i> Pagos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#subtab-cobros" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
+                            <i class="mdi mdi-cash-plus me-1"></i> Cobros
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#subtab-gastos" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
+                            <i class="mdi mdi-cash-minus me-1"></i> Gastos
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <!-- SUBTAB PAGOS -->
+                    <div class="tab-pane show active" id="subtab-pagos">
+                        <table id="corte-pagos-datatable"
+                               class="table table-sm table-hover activate-select dt-responsive nowrap w-100">
+                            <thead>
+                                <tr>
+                                    <th class="text-start">Folio</th>
+                                    <th class="text-start">Fecha</th>
+                                    <th class="text-start">Proveedor</th>
+                                    <th class="text-start">Medio de pago</th>
+                                    <th class="text-center">Tipo</th>
+                                    <th class="text-end">Monto</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+
+                    <!-- SUBTAB COBROS -->
+                    <div class="tab-pane" id="subtab-cobros">
+                        <table id="corte-cobros-datatable"
+                               class="table table-sm table-hover activate-select dt-responsive nowrap w-100">
+                            <thead>
+                                <tr>
+                                    <th class="text-start">Folio</th>
+                                    <th class="text-start">Fecha</th>
+                                    <th class="text-start">Cliente</th>
+                                    <th class="text-start">Medio de pago</th>
+                                    <th class="text-center">Tipo</th>
+                                    <th class="text-end">Monto</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+
+                    <!-- SUBTAB GASTOS -->
+                    <div class="tab-pane" id="subtab-gastos">
+                        <table id="corte-gastos-datatable"
+                               class="table table-sm table-hover activate-select dt-responsive nowrap w-100">
+                            <thead>
+                                <tr>
+                                    <th class="text-start">Folio</th>
+                                    <th class="text-start">Fecha</th>
+                                    <th class="text-start">Tipo</th>
+                                    <th class="text-start">Proveedor</th>
+                                    <th class="text-start">Concepto</th>
+                                    <th class="text-start">Medio de pago</th>
+                                    <th class="text-center">Tipo</th>
+                                    <th class="text-end">Importe</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="ContainerModal"></div>
+
+@section Scripts {
+    @await Html.PartialAsync("_DataTablesScriptsPartial")
+    <script src="~/js/modules/Finanzas/CorteCaja/Details.js" asp-append-version="true"></script>
+}

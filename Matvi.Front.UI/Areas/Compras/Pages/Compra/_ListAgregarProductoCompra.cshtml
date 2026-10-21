@@ -1,0 +1,127 @@
+@using Matvi.Back.Application.Modules.Compras.Compra.Dtos
+@using Matvi.Front.UI.Extensions
+@model List<AgregarProductoCompraDto>
+
+<style>
+    .money-cell {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .currency {
+        text-align: left;
+    }
+
+    .amount {
+        text-align: right;
+        flex-grow: 1;
+    }
+</style>
+
+<table id="tblProductos" class="table table-sm table-hover activate-select dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>Producto</th>
+            <th>Presentación</th>
+            <th class="text-center">Cantidad</th>
+            <th class="text-end">Costo</th>
+            <th class="text-end">Importe</th>
+            <th class="text-center">Quitar</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <span class="d-block">@item.CtProd_Nombre</span>
+                    <small class="text-muted">
+                        @if (!string.IsNullOrEmpty(item.CtProd_EspecificacionTecnica))
+                        {
+                            <span>(@item.CtProd_EspecificacionTecnica)</span>
+                        }
+                        @if (!string.IsNullOrEmpty(item.CtProd_Marca))
+                        {
+                            <span>[@item.CtProd_Marca]</span>
+                        }
+                    </small>
+                </td>
+                <td>
+                    @item.CtPresProd_Nombre @item.CtPresProd_FactorUBI.ToCustomDecimalFormat() @item.CtUnidBaseInve_Abreviatura
+                </td>
+                <td class="text-center">    
+                    @item.CantidadFld.ToCustomDecimalFormat()
+                </td>
+                <td>
+                    <div class="money-cell">
+                        <span class="currency">$</span>
+                        <span class="amount">
+                            @item.CostoUP.ToTruncateMoney().Replace("$", "")
+                        </span>
+                    </div>
+                </td>
+                <td>
+                    <div class="money-cell">
+                        <span class="currency">$</span>
+                        <span class="amount">
+                            @item.Importe.ToTruncateMoney().Replace("$", "")
+                        </span>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <a href="javascript:void(0);" onclick="onEliminarProductoClick('@item.CtPresProd_IdFld')" title="Eliminar">
+                        <i class="mdi mdi-trash-can"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="4" class="fw-bold text-end">
+                Total
+            </td>
+            <td>
+                <div class="money-cell">
+                    <span class="currency">$</span>
+                    <span class="amount">
+                        @Model.Sum(i => i.Importe).ToTruncateMoney()
+                    </span>
+                </div>
+            </td>
+            <td>
+                <input type="hidden" id="hdnTotalCompra" value="@Model.Sum(i => i.Importe)" />
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+<script>
+
+    function onEliminarProductoClick(idPresentacionProducto) {
+        $.ajax({
+            url: '/Compras/Compra/Create?handler=EliminarProductoCompra',
+            type: 'POST',
+            data: { idPresentacionProducto },
+            headers: {
+                'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+            },
+            beforeSend: function() {
+                if ($.fn.DataTable.isDataTable('#tblProductos')) {
+                    $('#tblProductos').DataTable().destroy();
+                }
+            },
+            success: function(response) {
+                $("#ContainerProductos").html(response);
+
+                let total = parseFloat($("#hdnTotalCompra").val());
+                $("#txtTotal").val(MV_formatMiles(total));
+            },
+            complete: function() {
+                inicializarTablaProductos();
+            }
+        });
+    }
+
+</script>

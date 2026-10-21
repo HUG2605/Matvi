@@ -1,0 +1,108 @@
+@using Matvi.Back.Application.Modules.Seguridad.Login.Dtos
+@using Matvi.Front.UI.Extensions
+@using Matvi.Front.UI.Security.Services
+@inject IUsuarioActualService UsuarioActualService
+@model List<SucursalLoginDto>
+@{
+    Layout = null;
+    var title = "Seleccionar sucursal a sesión";
+    var idModal = "mdlSeleccionarSucursalSesion";
+}
+<div class="modal fade" id="@idModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">@title</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-md-12">
+                        <label for="sucursalSelect" class="form-label">Sucursales disponibles</label>
+                        <select id="sucursalSelect" class="form-select">
+                            <option disabled selected value="">-- Elige una sucursal --</option>
+                            @foreach (var sucursal in Model!)
+                            {
+                                <option value="@sucursal.Id">@sucursal.Nombre</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                @if (UsuarioActualService.EstaSucursalEnSesionYRelacionada == false)
+                {
+                    <a asp-page="/Index" class="btn mv-btn-secondary">
+                        <i class="mdi mdi-clock-outline me-2"></i>Más tarde
+                    </a>
+                }
+                else
+                {
+                    <button type="button" class="btn mv-btn-secondary" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="mdi mdi-clock-outline me-2"></i>Más tarde
+                    </button>
+                }
+                <button type="button" class="btn mv-btn-primary" onclick="asignarSucursalDesdeModal()">
+                    <i class="mdi mdi-office-building-marker me-2"></i>Seleccionar
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function obtenerModalSucursal() {
+        const modalEl = document.getElementById('@idModal');
+        if (!modalEl) return null;
+        return bootstrap.Modal.getOrCreateInstance(modalEl);
+    }
+
+    (function () {
+        var sucursalRelacionada = @(UsuarioActualService.EstaSucursalEnSesionYRelacionada ? "true" : "false");
+        var requiereSucursal = @(ViewData["RequiereSucursal"] as bool? == true ? "true" : "false");
+
+        if (sucursalRelacionada === false && requiereSucursal === true) {
+            // Pequeño delay para asegurar que Bootstrap y el DOM estén listos
+            setTimeout(function () {
+                const instance = obtenerModalSucursal();
+                if (instance) {
+                    instance.show();
+                }
+            }, 150);
+        }
+    })();
+
+    function asignarSucursalDesdeModal() {
+        const select = document.getElementById("sucursalSelect");
+        const idSucursal = select?.value;
+
+        if (!idSucursal) {
+            Matvi.alert(
+                Matvi.alertType.Warning,
+                "@title",
+                "Selecciona una sucursal",
+                function () { }
+            );
+            return;
+        }
+
+        $.ajax({
+            url: '/Index?handler=SetSesionSucursal',
+            type: 'GET',
+            data: { idSucursal: idSucursal },
+            success: function (response) {
+                Matvi.alert(
+                    response.messageType,
+                    "@title",
+                    response.message,
+                    function () {
+                        window.location.reload();
+                    }
+                );
+            }
+        });
+    }
+</script>

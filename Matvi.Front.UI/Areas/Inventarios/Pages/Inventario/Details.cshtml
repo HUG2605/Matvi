@@ -1,0 +1,160 @@
+﻿@page
+@using Matvi.Front.UI.Security.Permission
+@using Matvi.Front.UI.Security.Services
+@inject IUsuarioActualService UsuarioActualService
+@model Matvi.Front.UI.Areas.Inventarios.Pages.Inventario.DetailsModel
+@{
+    ViewData["Title"] = "Inventario";
+    ViewData["Modulo"] = "Inventarios";
+    ViewData["UrlAnterior"] = Url.Page("Index");
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="row align-items-start gy-2">
+    <div class="col-auto">
+        <div class="align-items-center justify-content-center mv-perfil-circle">
+            @Model.GetProfileLetters(Model.ProductoSucursal!.CtProd_NombreCompleto)
+        </div>
+    </div>
+
+    <div class="col">
+        <h4 class="mb-0">@Model.ProductoSucursal!.CtProd_NombreCompleto</h4>
+
+        <!-- Botones visibles en pantallas pequeñas -->
+        <div class="d-block d-md-none mt-2">
+            @await Html.PartialAsync("_DetailsActions", Model.ProductoSucursal.CtProd_SafeId)
+        </div>
+    </div>
+    <!-- Botones alineados a la derecha en pantallas grandes -->
+    <div class="col-auto d-none d-md-flex justify-content-end align-items-center">
+        @await Html.PartialAsync("_DetailsActions", Model.ProductoSucursal.CtProd_SafeId)
+    </div>
+</div>
+
+<div>
+    <ul class="nav nav-tabs nav-bordered">
+        <li class="nav-item">
+            <a href="#home-b1" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
+                <span class="d-inline-block d-sm-none"><i class="mdi mdi-home-variant"></i></span>
+                <span class="d-none d-sm-inline-block">General</span>
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane show active" id="home-b1">
+           
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Sucursal</label>
+                    <output class="form-control mv-output-control">
+                        @Model.ProductoSucursal!.CtSuc_Nombre
+                    </output>
+                </div>
+                <div class="col-md-9">
+                    <label class="form-label">Producto</label>
+                    <output class="form-control mv-output-control">
+                        @Model.ProductoSucursal.CtProd_NombreCompleto
+                    </output>
+                </div>
+
+                @{
+                    var existencias = Model.ProductoSucursal.ExistenciasUBI;
+                    var minimo = Model.ProductoSucursal.StockMinimoUBI;
+                    var maximo = Model.ProductoSucursal.StockMaximoUBI;
+
+                    var bgClass = existencias < minimo ? "bg-danger text-white"
+                                : existencias > maximo ? "bg-warning text-dark"
+                                : "bg-success text-white";
+                }
+
+                <div class="col-md-3">
+                    <label class="form-label">Stock mínimo en UBI</label>
+                    <div class="input-group">
+                        <output class="form-control mv-output-control">
+                            @Model.ProductoSucursal.StockMinimoUBI.ToString("#,##0.###")
+                        </output>
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            @Model.ProductoSucursal.CtUnidBaseInve_Abreviatura
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Existencias en UBI</label>
+                    <div class="input-group">
+                        <output class="form-control mv-output-control @bgClass">
+                            @Model.ProductoSucursal.ExistenciasUBI.ToString("#,##0.###")
+                        </output>
+                        <span class="input-group-text p-0 ps-2 pe-2 @bgClass">
+                            @Model.ProductoSucursal.CtUnidBaseInve_Abreviatura
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Stock máximo en UBI</label>
+                    <div class="input-group">
+                        <output class="form-control mv-output-control">
+                            @Model.ProductoSucursal.StockMaximoUBI.ToString("#,##0.###")
+                        </output>
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            @Model.ProductoSucursal.CtUnidBaseInve_Abreviatura
+                        </span>
+                    </div>
+                </div>
+
+
+
+                @*           <div class="col-md-3">
+                    <label class="form-label">Stock mínimo en UBI</label>
+                    <div class="input-group">
+                        <output class="form-control mv-output-control">
+                            @Model.ProductoSucursal.StockMinimoUBI.ToString("#,##0.###")
+                        </output>
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            @Model.ProductoSucursal.CtUnidBaseInve_Abreviatura
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Existencias en UBI</label>
+                    <div class="input-group">
+                        <output class="form-control mv-output-control">
+                            @Model.ProductoSucursal.ExistenciasUBI.ToString("#,##0.###")
+                        </output>
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            @Model.ProductoSucursal.CtUnidBaseInve_Abreviatura
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Stock máximo en UBI</label>
+                    <div class="input-group">
+                        <output class="form-control mv-output-control">
+                            @Model.ProductoSucursal.StockMaximoUBI.ToString("#,##0.###")
+                        </output>
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            @Model.ProductoSucursal.CtUnidBaseInve_Abreviatura
+                        </span>
+                    </div>
+                </div> *@
+                <div class="col-md-3">
+                    <label class="form-label">Regularizado</label>
+                    <output class="form-control mv-output-control">
+                        @(Model.ProductoSucursal.Regularizado ? "SÍ" : "NO")
+                    </output>
+                </div>
+
+                <div class="col-md-12">
+                    <label class="form-label">Ubicación</label>
+                    <output class="form-control mv-output-control">
+                        @Model.ProductoSucursal.Ubicacion
+                    </output>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ContainerModal">
+</div>

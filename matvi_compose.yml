@@ -1,0 +1,57 @@
+services:
+
+  caddy:
+    image: caddy:2
+    container_name: matvi-caddy
+    restart: unless-stopped
+
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+
+    networks:
+      - matvi_network
+
+    depends_on:
+      - matvi
+
+
+  matvi:
+    image: diginteldockeruser/matvi:latest
+    container_name: matvi-app
+    restart: unless-stopped
+
+    env_file:
+      - .env
+
+    environment:
+      TZ: America/Mexico_City
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: "http://+:7022"
+      ConnectionStrings__DefaultConnection: "Server=${DB_SERVER};Database=${DB_DATABASE};User=${DB_USER};Password=${DB_PASSWORD};TrustServerCertificate=true;Command Timeout=300"
+      AppSystem__LinuxRoot: "${LINUXROOT}"
+      Vapid__Subject: "${SUBJECT}"
+      Vapid__PublicKey: "${PUBLICKEY}"
+      Vapid__PrivateKey: "${PRIVATEKEY}"
+
+    volumes:
+      - /Matvi.Repository:/Matvi.Repository
+
+    networks:
+      - matvi_network
+
+
+networks:
+  matvi_network:
+    external: true
+
+
+volumes:
+  caddy_data:
+  caddy_config:

@@ -1,0 +1,111 @@
+@page
+@using Matvi.Front.UI.Extensions
+@using Matvi.Front.UI.Security.Permission
+@using Matvi.Front.UI.Security.Services
+@inject IUsuarioActualService UsuarioActualService
+@model Matvi.Front.UI.Areas.Configuracion.Pages.Empresa.DetailsModel
+@{
+    ViewData["Title"] = "Empresa";
+    ViewData["Modulo"] = "Configuración";
+    ViewData["UrlAnterior"] = Url.Page("Index");
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="row align-items-start gy-2">
+    <div class="col-auto">
+        @if (string.IsNullOrEmpty(Model.Empresa!.Logotipo))
+        {
+            <div class="align-items-center justify-content-center mv-perfil-circle">
+                @Model.GetProfileLetters(Model.Empresa.Nombre!)
+            </div>
+        }
+        else
+        {
+            <img src="data:image/jpeg;base64,@Model.Empresa.Logotipo" alt="Logotipo"
+                 class="object-fit-cover mv-perfil-circle" />
+        }
+    </div>
+
+    <div class="col">
+        <h4 class="mb-0">@Model.Empresa.Nombre</h4>
+        <span class="text-muted">Tel: @Model.Empresa.Telefono!.ToPhoneFormat()</span>
+
+        <!-- Botones visibles en pantallas pequeñas -->
+        <div class="d-block d-md-none mt-2">
+
+            @if (UsuarioActualService.TienePermiso(
+                        Funcion.Configuracion_Empresa,
+                        Accion.Editar))
+            {
+                <a class="btn btn-sm rounded-circle me-2 mv-btn-icon-secondary"
+                   asp-page="/Empresa/Edit"
+                   asp-route-Id="@Model.Empresa.SafeId"
+                   data-ajax="true"
+                   data-ajax-update="#ContainerModal"
+                   data-ajax-method="GET"
+                   data-ajax-mode="replace"
+                   title="Editar" aria-label="Editar">
+                    <i class="mdi mdi-square-edit-outline fs-5"></i>
+                </a>
+            }
+        </div>
+    </div>
+
+    <!-- Botones alineados a la derecha en pantallas grandes -->
+    <div class="col-auto d-none d-md-flex justify-content-end align-items-center">
+
+        @if (UsuarioActualService.TienePermiso(
+                Funcion.Configuracion_Empresa,
+                Accion.Editar))
+        {
+            <a class="btn btn-sm rounded-circle me-2 mv-btn-icon-secondary"
+               asp-page="/Empresa/Edit"
+               asp-route-Id="@Model.Empresa.SafeId"
+               data-ajax="true"
+               data-ajax-update="#ContainerModal"
+               data-ajax-method="GET"
+               data-ajax-mode="replace"
+               title="Editar" aria-label="Editar">
+                <i class="mdi mdi-square-edit-outline fs-5"></i>
+            </a>
+        }
+    </div>
+</div>
+
+<div>
+    <ul class="nav nav-tabs nav-bordered">
+        <li class="nav-item">
+            <a href="#home-b1" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
+                <span class="d-inline-block d-sm-none"><i class="mdi mdi-home-variant"></i></span>
+                <span class="d-none d-sm-inline-block">General</span>
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane show active" id="home-b1">
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Nombre comercial</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Empresa.Nombre
+                    </output>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Teléfono</label>
+                    <div class="input-group">
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            <i class="mdi mdi-phone"></i>
+                        </span>
+                        <output class="form-control mv-output-control">
+                            @Model.Empresa.Telefono
+                        </output>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div id="ContainerModal">
+</div>

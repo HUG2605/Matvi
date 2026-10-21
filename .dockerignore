@@ -1,0 +1,15 @@
+**/.vs
+**/.git
+**/.gitignore
+**/*.user
+**/*.suo
+
+# Excluir carpetas de build locales de Windows (contienen rutas absolutas de Windows
+# en project.assets.json que rompen la compilación en Docker/Linux)
+**/bin/
+**/obj/
+
+# Otros archivos innecesarios
+**/*.md
+**/Dockerfile*
+**/.dockerignore

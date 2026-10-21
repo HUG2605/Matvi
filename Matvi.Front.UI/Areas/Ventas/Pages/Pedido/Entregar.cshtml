@@ -1,0 +1,211 @@
+@page
+@using Matvi.Front.UI.Extensions
+@using Matvi.Front.UI.Security.Permission
+@using Matvi.Front.UI.Security.Services
+@inject IUsuarioActualService UsuarioActualService
+@model Matvi.Front.UI.Areas.Ventas.Pages.Pedido.EntregarModel
+@{
+    Layout = null;
+    var title = "Registrar entrega";
+    var idModal = "mdlEntregarPedido";
+    var idForm = "frmEntregarPedido";
+}
+
+<link href="~/css/matvi.stepper.css" rel="stylesheet" />
+<form id="@idForm"
+      class="needs-validation"
+      method="post"
+      asp-page-handler="Entregar"
+      data-ajax="true"
+      autocomplete="off"
+      data-ajax-success="Success_Entregar">
+
+    <div class="modal fade" id="@idModal" data-bs-backdrop="true" data-bs-keyboard="false"
+         data-bs-focus="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">@title</h4>
+                    <button type="button" class="btn-close btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="mv-steps-vertical">
+
+                        @* ====================== PASO 1 ====================== *@
+                        <div class="mv-step-vertical active">
+                            <div class="mv-step-vertical-icon">1</div>
+                            <div class="mv-step-vertical-content">
+                                <div class="mv-step-vertical-title">Generales</div>
+                                <div id="collapseEntregarGenerales" class="mv-step-vertical-body collapse show">
+                                    <div class="row g-3">
+                                        <div class="col-md-4">
+                                            <label class="form-label">Sucursal</label>
+                                            <output class="form-control mv-output-control">@Model.Pedido!.CtSucu_Nombre</output>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Folio</label>
+                                            <output class="form-control mv-output-control">@Model.Pedido.Folio</output>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Fecha</label>
+                                            <output class="form-control mv-output-control">@Model.Pedido.Fecha.ToString("dd/MM/yyyy HH:mm:ss")</output>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Cliente</label>
+                                            <output class="form-control mv-output-control">
+                                                @(Model.Pedido.CtClie_Nombre ?? Model.Pedido.NombreClienteMostrador)
+                                            </output>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Estatus</label>
+                                            <output class="form-control mv-output-control">@Model.Pedido.CtEstatus_Nombre</output>
+                                        </div>
+                                        @if (Model.Pedido.EntregaDomicilio)
+                                        {
+                                            <div class="col-md-12">
+                                                <label class="form-label">Dirección de entrega</label>
+                                                <output class="form-control mv-output-control">@Model.Pedido.DireccionEntrega</output>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @* ====================== PASO 2 ====================== *@
+                        <div class="mv-step-vertical">
+                            <div class="mv-step-vertical-icon">2</div>
+                            <div class="mv-step-vertical-content">
+                                <div class="mv-step-vertical-title">Productos a entregar</div>
+                                <div id="collapseEntregarProductos" class="mv-step-vertical-body collapse">
+
+                                    <div class="alert alert-info py-2 mt-2 mb-2">
+                                        <i class="mdi mdi-truck-delivery-outline me-1"></i>
+                                        Captura por cada producto cuánto se entregó y cuánto se rechazó.
+                                        Si hay rechazo, indica el motivo (el sistema registra el reingreso al inventario).
+                                    </div>
+
+                                    <input type="hidden" id="hdnIdPedido" value="@Model.Pedido.Id" />
+
+                                    <div class="table-responsive mt-2">
+                                        <table class="table table-sm table-hover mb-0 mv-table-static" id="tblEntregar">
+                                            <thead>
+                                                <tr>
+                                                    <th>Producto</th>
+                                                    <th>Presentación</th>
+                                                    <th class="text-center">Cant. solicitada</th>
+                                                    <th class="text-center">Custodia <span class="text-muted small">(a entregar/rechazar)</span></th>
+                                                    <th class="text-center" style="min-width:140px">A entregar</th>
+                                                    <th class="text-center" style="min-width:140px">A rechazar</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (Model.Pedido.Productos != null && Model.Pedido.Productos.Any())
+                                                {
+                                                    foreach (var item in Model.Pedido.Productos)
+                                                    {
+                                                        var custodia = item.CantidadSurtida - item.CantidadEntregada - item.CantidadRechazada;
+                                                        <tr>
+                                                            <td>@item.CtProd_NombreCompleto</td>
+                                                            <td>@item.CtPresProd_Nombre (@item.CtUnidBaseInve_Abreviatura)</td>
+                                                            <td class="text-center fw-bold">@item.Cantidad.ToCustomDecimalFormat()</td>
+                                                            <td class="text-center" data-custodia="@custodia">@custodia.ToCustomDecimalFormat()</td>
+                                                            <td class="text-center">
+                                                                @if (custodia > 0)
+                                                                {
+                                                                    <input type="number"
+                                                                           class="form-control form-control-sm text-end txt-entregar"
+                                                                           min="0"
+                                                                           max="@custodia"
+                                                                           step="0.00001"
+                                                                           data-id="@item.Id"
+                                                                           data-custodia="@custodia"
+                                                                           value="@custodia" />
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span class="text-muted small">-</span>
+                                                                }
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @if (custodia > 0)
+                                                                {
+                                                                    <input type="number"
+                                                                           class="form-control form-control-sm text-end txt-rechazar"
+                                                                           min="0"
+                                                                           max="@custodia"
+                                                                           step="0.00001"
+                                                                           data-id="@item.Id"
+                                                                           data-custodia="@custodia"
+                                                                           placeholder="0" />
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span class="text-muted small">-</span>
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td colspan="6" class="text-center text-muted py-3">
+                                                            <i class="mdi mdi-information-outline me-1"></i>Sin productos en este pedido.
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="row g-3 mt-2" id="divMotivoRechazo">
+                                        <div class="col-md-12">
+                                            <label for="txtMotivoRechazo" id="lblMotivoRechazo" class="form-label">Motivo de rechazo</label>
+                                            <textarea id="txtMotivoRechazo"
+                                                      class="form-control"
+                                                      rows="2"
+                                                      maxlength="500"
+                                                      placeholder="Indica el motivo por el cual el cliente rechazó la mercancía..."></textarea>
+                                            <span id="txtMotivoRechazo-error" class="text-danger small"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="btnEntregarAnterior" class="btn mv-btn-secondary">
+                        <i class="mdi mdi-arrow-left me-2"></i>Anterior
+                    </button>
+                    <button type="button" id="btnEntregarSiguiente" class="btn mv-btn-secondary">
+                        <i class="mdi mdi-arrow-right me-2"></i>Siguiente
+                    </button>
+                    <button type="button" id="btnRegistrarEntrega" class="btn mv-btn-primary d-none">
+                        <i class="mdi mdi-checkbox-marked-circle-outline me-2"></i>Registrar entrega
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
+
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+<script>
+    window.entregarConfig = {
+        idModal: '@idModal',
+        idForm: '@idForm',
+        confirmTitle: '@Html.Raw(title)'
+    };
+</script>
+<script src="~/js/matvi.stepper.js"></script>
+<script src="~/js/modules/ventas/pedido/entregar.js"></script>

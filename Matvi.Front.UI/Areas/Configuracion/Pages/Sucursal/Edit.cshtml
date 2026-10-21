@@ -1,0 +1,106 @@
+@page
+@model Matvi.Front.UI.Areas.Configuracion.Pages.Sucursal.EditModel
+@{
+    Layout = null;
+    var title = "Datos de la sucursal";
+    var idModal = "mdlEditSucursal";
+    var idForm = "frmEditSucursal";
+}
+
+<form id="@idForm"
+      class="needs-validation"
+      method="post"
+      asp-page-handler="Edit"
+      data-ajax="true"
+      data-ajax-success="Success_Edit">
+
+    <input asp-for="Sucursal.SafeId" type="hidden" />
+
+    <div class="modal fade" id="@idModal" data-bs-backdrop="static" data-bs-keyboard="false" data-bs-focus="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">@title</h4>
+                    <button type="button" class="btn-close btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col text-start">
+                            <h5 class="mv-text-enf3">
+                                <i class="mdi mdi-pencil-outline me-2"></i>Editar
+                            </h5>
+                        </div>
+                        <div class="col text-end">
+                            <label class="form-label text-danger">&#9679; Valores requeridos</label>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-9">
+                            <label asp-for="Sucursal.NombreFld" class="form-label mv-form-label-required"></label>
+                            <div class="input-group">
+                                <span class="input-group-text p-0 ps-2 pe-2"><i class="mdi mdi-store"></i></span>
+                                <input asp-for="Sucursal.NombreFld" class="form-control" />
+                            </div>
+                            <span asp-validation-for="Sucursal.NombreFld"></span>
+                        </div>
+                        <div class="col-md-3">
+                            <label asp-for="Sucursal.ClaveFld" class="form-label mv-form-label-required"></label>
+                            <div class="input-group">
+                                <span class="input-group-text p-0 ps-2 pe-2"><i class="mdi mdi-key"></i></span>
+                                <input asp-for="Sucursal.ClaveFld" class="form-control" />
+                            </div>
+                            <span asp-validation-for="Sucursal.ClaveFld"></span>
+                        </div>
+
+                        
+                        <div class="col-md-12">
+                            <label asp-for="Sucursal.DireccionFld" class="form-label mv-form-label-required"></label>
+                            <div class="input-group">
+                                <span class="input-group-text" p-0 ps-2 pe-2>
+                                    <i class="mdi mdi-map-marker"></i>
+                                </span>
+                                <textarea asp-for="Sucursal.DireccionFld" class="form-control" rows="2"></textarea>
+                            </div>
+                            <span asp-validation-for="Sucursal.DireccionFld"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="Sucursal.TelefonoFld" class="form-label mv-form-label-required"></label>
+                            <div class="input-group">
+                                <span class="input-group-text" p-0 ps-2 pe-2>
+                                    <i class="mdi mdi-phone"></i>
+                                </span>
+                                <input asp-for="Sucursal.TelefonoFld" class="form-control" />
+                            </div>
+                            <span asp-validation-for="Sucursal.TelefonoFld"></span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn mv-btn-primary">
+                        <i class="mdi mdi-content-save me-2"></i>Guardar
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+<script>
+
+    window.sucursalConfig=
+    {
+    idModal: '@idModal',
+    idForm: '@idForm',
+    title: '@Html.Raw(title)'
+    };
+
+</script>
+
+<script src="~/js/modules/configuracion/sucursal/edit.js"></script>

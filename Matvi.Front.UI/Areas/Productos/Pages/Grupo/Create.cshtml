@@ -1,0 +1,93 @@
+@page
+@model Matvi.Front.UI.Areas.Productos.Pages.Grupo.CreateModel
+@{
+    Layout = null;
+    var title = "Datos del grupo";
+    var idModal = "mdlCreateGrupo";
+    var idForm = "frmCreateGrupo";
+}
+
+<form id="@idForm"
+      class="needs-validation"
+      method="post"
+      asp-page-handler="Create"
+      data-ajax="true"
+      data-ajax-success="Success_Create">
+
+    <div class="modal fade" id="@idModal" data-bs-backdrop="static" data-bs-keyboard="false" data-bs-focus="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">@title</h4>
+                    <button type="button" class="btn-close btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col text-start">
+                            <h5 class="mv-text-enf3">
+                                <i class="mdi mdi-plus-circle-outline me-2"></i> Nuevo
+                            </h5>
+                        </div>
+                        <div class="col text-end">
+                            <label class="form-label text-danger">&#9679; Valores requeridos</label>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+
+                        <div class="col-md-12">
+                            <label asp-for="Grupo.CtSecc_IdFld" class="form-label mv-form-label-required"></label>
+                            <div class="input-group">
+                                <span class="input-group-text p-0 ps-2 pe-2"><i class="mdi mdi-shape"></i></span>
+                                <select asp-for="Grupo.CtSecc_IdFld" class="form-select" asp-items="Model.SeccionSelectList">
+                                    <option value="">SELECCIONAR</option>
+                                </select>
+                            </div>
+                            <span asp-validation-for="Grupo.CtSecc_IdFld"></span>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label asp-for="Grupo.NombreFld" class="form-label mv-form-label-required"></label>
+                            <div class="input-group">
+                                <span class="input-group-text p-0 ps-2 pe-2"><i class="mdi mdi-buffer"></i></span>
+                                <input asp-for="Grupo.NombreFld" class="form-control" />
+                            </div>
+                            <span asp-validation-for="Grupo.NombreFld"></span>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label asp-for="Grupo.DescripcionFld" class="form-label mv-form-label-required"></label>
+                            <div class="input-group">
+                                <span class="input-group-text p-0 ps-2 pe-2"><i class="mdi mdi-text-box-outline"></i></span>
+                                <textarea asp-for="Grupo.DescripcionFld" class="form-control" rows="2"></textarea>
+                            </div>
+                            <span asp-validation-for="Grupo.DescripcionFld"></span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn mv-btn-primary">
+                        <i class="mdi mdi-content-save me-2"></i>Guardar
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</form>
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+
+<script>
+    window.grupoCreateConfig = {
+        idModal: '@idModal',
+        idForm: '@idForm',
+        title: '@Html.Raw(title)'
+    };
+</script>
+<script src="~/js/modules/Productos/Grupo/Create.js"></script>
+

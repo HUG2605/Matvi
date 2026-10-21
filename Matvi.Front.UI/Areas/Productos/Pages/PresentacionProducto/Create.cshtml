@@ -1,0 +1,194 @@
+@page
+@using Matvi.Back.Application.Common.Enums
+@using Matvi.Back.Application.Common.Extensions
+@model Matvi.Front.UI.Areas.Productos.Pages.PresentacionProducto.CreateModel
+@{
+    Layout = null;
+    var title = "Datos de la presentación del producto";
+    var idModal = "mdlCreatePresentacionProducto";
+    var idForm = "frmCreatePresentacionProducto";
+}
+<form id="@idForm"
+      class="needs-validation"
+      method="post"
+      asp-page-handler="Create"
+      data-ajax="true"
+      autocomplete="off"
+      data-ajax-success="Success_Create">
+
+    <div class="modal fade" id="@idModal" data-bs-backdrop="static" data-bs-keyboard="false" data-bs-focus="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">@title</h4>
+                    <button type="button" class="btn-close btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col text-start">
+                            <h5 class="mv-text-enf3">
+                                <i class="mdi mdi-plus-circle-outline me-2"></i> Nuevo
+                            </h5>
+                        </div>
+                        <div class="col text-end">
+                            <label class="form-label text-danger">&#9679; Valores requeridos</label>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+
+                        <input asp-for="PresentacionProducto.CtProd_IdFld" type="hidden"/>
+
+                        <div class="col-md-12">
+                            <label asp-for="PresentacionProducto.CtProd_Nombre" class="form-label mv-form-label-required"></label>
+                            <output class="form-control mv-output-control">
+                                @Model.PresentacionProducto.CtProd_NombreCompleto
+                            </output>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="PresentacionProducto.NombreFld" class="form-label mv-form-label-required"></label>
+                            <input asp-for="PresentacionProducto.NombreFld" class="form-control" />
+                            <span asp-validation-for="PresentacionProducto.NombreFld"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="PresentacionProducto.FactorUBIFld" class="form-label mv-form-label-required"></label>
+                            <div class="input-group">
+                                <input asp-for="PresentacionProducto.FactorUBIFld" class="form-control" type="number" value="" step="0.001" />
+                                <span class="input-group-text">@Model.PresentacionProducto.CtUnidBaseInve_Abreviatura</span>
+                            </div>
+                            <span asp-validation-for="PresentacionProducto.FactorUBIFld"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="PresentacionProducto.EsParaCompraFld" class="form-label"></label>
+                            <div class="form-control border-0">
+                                <div class="form-check form-switch">
+                                    <input asp-for="PresentacionProducto.EsParaCompraFld" type="checkbox" class="form-check-input" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="PresentacionProducto.EsParaVentaFld" class="form-label"></label>
+                            <div class="form-control border-0">
+                                <div class="form-check form-switch">
+                                    <input asp-for="PresentacionProducto.EsParaVentaFld" type="checkbox" class="form-check-input" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 d-none" id="colPrecioVenta">
+                            <label asp-for="PresentacionProducto.PrecioVentaFld" class="form-label mv-form-label-required"></label>
+                            <div class="input-group">
+                                <span class="input-group-text p-0 ps-2 pe-2"><i class="mdi mdi-currency-usd"></i></span>
+                                <input asp-for="PresentacionProducto.PrecioVentaFld" class="form-control" type="number" value="" step="0.01" />
+                            </div>
+                            <span asp-validation-for="PresentacionProducto.PrecioVentaFld"></span>
+                        </div>
+                        <div class="col-md-6 d-none" id="colPrecioMayoreo">
+                            <label asp-for="PresentacionProducto.PrecioMayoreoFld" class="form-label"></label>
+                            <div class="input-group">
+                                <span class="input-group-text p-0 ps-2 pe-2"><i class="mdi mdi-currency-usd"></i></span>
+                                <input asp-for="PresentacionProducto.PrecioMayoreoFld" class="form-control" type="number" value="" step="0.01" />
+                            </div>
+                            <span asp-validation-for="PresentacionProducto.PrecioMayoreoFld"></span>
+                        </div>
+
+                        <div class="col-md-6 d-none" id="colUnidadesMayoreo">
+                            <label asp-for="PresentacionProducto.UnidadesMayoreoFld" class="form-label"></label>
+                            <input asp-for="PresentacionProducto.UnidadesMayoreoFld" class="form-control" type="number" value="" step="1" />
+                            <span asp-validation-for="PresentacionProducto.UnidadesMayoreoFld"></span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn mv-btn-primary">
+                        <i class="mdi mdi-content-save me-2"></i>Guardar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+<script>
+
+    //#region MODAL
+
+    var modalElement = document.getElementById('@idModal');
+    var modal = new bootstrap.Modal(modalElement);
+    modal.show();
+
+    modalElement.addEventListener('hidden.bs.modal', event => {
+        $("#ContainerModal").html("");
+        modal.dispose();
+        modal = null;
+    });
+
+    //#endregion
+
+    //#region READY
+
+    $(function() {
+        actualizarCampos();
+    });
+
+    //#endregion
+
+    //#region CHENGE EsParaVentaFld
+
+    $("#PresentacionProducto_EsParaVentaFld").change(function(){
+        actualizarCampos();
+    });
+
+    function actualizarCampos() {
+        var esVenta = $("#PresentacionProducto_EsParaVentaFld").is(":checked");
+        
+        var $columnas = $("#colPrecioVenta, #colPrecioMayoreo, #colUnidadesMayoreo");
+
+        if (esVenta) {
+            $columnas.removeClass("d-none"); // Muestra los elementos
+        } else {
+            $columnas.addClass("d-none");    // Oculta los elementos
+            $("#PresentacionProducto_PrecioVentaFld").val(0);
+            $("#PresentacionProducto_PrecioMayoreoFld").val("")
+            $("#PresentacionProducto_UnidadesMayoreoFld").val("")
+        }
+    }
+
+    //#endregion
+
+    //#region CREATE
+
+    $("#@idForm .mv-btn-primary").on("click", function () {
+        if ($("#@idForm").valid()) {
+
+            Matvi.confirm('@Html.Raw(title)', "¿Confirma que desea crear la información de la presentación del producto?", function (resp) {
+                if (resp == true) {
+                    $("#@idForm").submit();
+                }
+            });
+        }
+    });
+
+    //#endregion
+
+    //#region EXITO Y RECARGA
+
+    function Success_Create(response) {
+        //debugger;
+        Matvi.alert(response.messageType, "@title", response.message, function () {
+            if(response.messageType == Matvi.alertType.Success)
+            {
+                $("#home-b3").load("/Productos/PresentacionProducto?handler=List&productoId=" + '@Model.PresentacionProducto.CtProd_IdFld.ToString().ToObfuscated()');
+                $(".modal.show").modal("hide");
+            }
+        });
+    }
+
+    //#endregion
+
+</script>

@@ -1,0 +1,213 @@
+@page
+@using Matvi.Back.Application.Common.Enums
+@using Matvi.Front.UI.Extensions
+@model Matvi.Front.UI.Areas.Ventas.Pages.Pedido.CancelarModel
+@{
+    Layout = null;
+    var title = "Cancelar pedido o líneas";
+    var idModal = "mdlCancelarPedido";
+    var idForm = "frmCancelarPedido";
+    var tienePagos = Model.Pedido?.TotalPagado > 0;
+}
+
+<link href="~/css/matvi.stepper.css" rel="stylesheet" />
+<form id="@idForm"
+      class="needs-validation"
+      method="post"
+      asp-page-handler="Cancelar"
+      data-ajax="true"
+      autocomplete="off"
+      data-ajax-success="Success_Cancelar">
+
+    <div class="modal fade" id="@idModal" data-bs-backdrop="true" data-bs-keyboard="false"
+         data-bs-focus="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <i class="mdi mdi-close-octagon text-danger me-1"></i>
+                        @title
+                    </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="row align-items-center mb-2">
+                        <div class="col text-end">
+                            <label class="form-label text-danger mb-0">&#9679; Valores requeridos</label>
+                        </div>
+                    </div>
+
+                    <div class="mv-steps-vertical">
+
+                        @* ====================== PASO 1 ====================== *@
+                        <div class="mv-step-vertical active">
+                            <div class="mv-step-vertical-icon">1</div>
+                            <div class="mv-step-vertical-content">
+                                <div class="mv-step-vertical-title">Generales del pedido</div>
+                                <div id="collapseCancelarGenerales" class="mv-step-vertical-body collapse show">
+                                    <div class="row g-3">
+                                        <div class="col-md-4">
+                                            <label class="form-label">Sucursal</label>
+                                            <output class="form-control mv-output-control">@Model.Pedido!.CtSucu_Nombre</output>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Folio</label>
+                                            <output class="form-control mv-output-control">@Model.Pedido.Folio</output>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Fecha</label>
+                                            <output class="form-control mv-output-control">@Model.Pedido.Fecha.ToString("dd/MM/yyyy HH:mm:ss")</output>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Cliente</label>
+                                            <output class="form-control mv-output-control">
+                                                @(Model.Pedido.CtClie_Nombre ?? Model.Pedido.NombreClienteMostrador)
+                                            </output>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Estatus actual</label>
+                                            <output class="form-control mv-output-control">@Model.Pedido.CtEstatus_Nombre</output>
+                                        </div>
+
+                                        @if (tienePagos)
+                                        {
+                                            <div class="col-md-12">
+                                                <div class="alert alert-warning py-2 mb-0">
+                                                    <i class="mdi mdi-alert-circle-outline me-1"></i>
+                                                    <strong>Atención:</strong> Este pedido cuenta con pagos o anticipos registrados por un total de
+                                                    <strong>@Model.Pedido.TotalPagado.ToString("C2")</strong>.
+                                                    Al cancelar, se registrará automáticamente una <strong>devolución por
+                                                    @Model.Pedido.TotalPagado.ToString("C2")</strong> como egreso en el corte de caja activo.
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @* ====================== PASO 2 ====================== *@
+                        <div class="mv-step-vertical">
+                            <div class="mv-step-vertical-icon">2</div>
+                            <div class="mv-step-vertical-content">
+                                <div class="mv-step-vertical-title">Productos a cancelar y motivo</div>
+                                <div id="collapseCancelarProductos" class="mv-step-vertical-body collapse">
+
+                                    <div class="alert alert-info py-2 mt-2 mb-2">
+                                        <i class="mdi mdi-information-outline me-1"></i>
+                                        Solo se puede cancelar mercancía <strong>pendiente por surtir</strong>.
+                                        La mercancía ya surtida debe resolverse mediante entrega o rechazo en domicilio.
+                                    </div>
+
+                                    <div class="table-responsive mt-2">
+                                        <table class="table table-sm table-hover mb-0 mv-table-static" id="tblCancelarProductos">
+                                            <thead>
+                                                <tr>
+                                                    <th>Producto</th>
+                                                    <th>Presentación</th>
+                                                    <th class="text-center">Solicitado</th>
+                                                    <th class="text-center">Ya surtido</th>
+                                                    <th class="text-center">Cancelado</th>
+                                                    <th class="text-center">Cancelable</th>
+                                                    <th class="text-center" style="min-width:140px">A cancelar</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (Model.Pedido.Productos != null && Model.Pedido.Productos.Any())
+                                                {
+                                                    foreach (var item in Model.Pedido.Productos)
+                                                    {
+                                                        var cancelable = item.CantidadPendienteSurtir;
+                                                        var habilitado = cancelable > 0;
+                                                        <tr>
+                                                            <td>@item.CtProd_NombreCompleto</td>
+                                                            <td>@item.CtPresProd_Nombre (@item.CtUnidBaseInve_Abreviatura)</td>
+                                                            <td class="text-center fw-bold">@item.Cantidad.ToCustomDecimalFormat()</td>
+                                                            <td class="text-center">@item.CantidadSurtida.ToCustomDecimalFormat()</td>
+                                                            <td class="text-center">@item.CantidadCancelada.ToCustomDecimalFormat()</td>
+                                                            <td class="text-center">@cancelable.ToCustomDecimalFormat()</td>
+                                                            <td class="text-center">
+                                                                <input type="number"
+                                                                       class="form-control form-control-sm text-end txt-cancelar"
+                                                                       min="0"
+                                                                       max="@cancelable"
+                                                                       step="0.00001"
+                                                                       data-id="@item.Id"
+                                                                       data-cancelable="@cancelable"
+                                                                       value="@(habilitado ? cancelable.ToCustomDecimalFormat() : "0")"
+                                                                       @(habilitado ? "" : "disabled")
+                                                                       placeholder="0" />
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td colspan="7" class="text-center text-muted py-3">
+                                                            <i class="mdi mdi-information-outline me-1"></i>Sin productos en este pedido.
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="row g-3 mt-2">
+                                        <div class="col-md-12">
+                                            <label for="txtMotivoCancelacion" class="form-label mv-form-label-required">Motivo de cancelación</label>
+                                            <textarea id="txtMotivoCancelacion"
+                                                      name="Motivo"
+                                                      class="form-control"
+                                                      rows="3"
+                                                      required
+                                                      maxlength="500"
+                                                      placeholder="Indica el motivo de la cancelación administrativa (obligatorio)..."></textarea>
+                                            <span id="txtMotivoCancelacion-error" class="text-danger small"></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="btnCancelarAnterior" class="btn mv-btn-secondary">
+                        <i class="mdi mdi-arrow-left me-2"></i>Anterior
+                    </button>
+                    <button type="button" id="btnCancelarSiguiente" class="btn mv-btn-secondary">
+                        <i class="mdi mdi-arrow-right me-2"></i>Siguiente
+                    </button>
+                    <button type="button" id="btnRegistrarCancelacion" class="btn mv-btn-primary d-none">
+                        <i class="mdi mdi-close-octagon me-2"></i>Confirmar cancelación
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</form>
+
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+<script>
+    window.cancelarConfig = {
+        idModal: '@idModal',
+        idForm: '@idForm',
+        confirmTitle: '@Html.Raw(title)',
+        idPedido: @Model.Pedido!.Id,
+        idCajaActiva: @(Model.IdCajaActiva.HasValue ? Model.IdCajaActiva.Value.ToString() : "null"),
+        urlPost: '@Url.Page("/Pedido/Cancelar", "Cancelar", new { area = "Ventas" })'
+    };
+</script>
+<script src="~/js/matvi.stepper.js"></script>
+<script src="~/js/modules/ventas/pedido/cancelar.js"></script>

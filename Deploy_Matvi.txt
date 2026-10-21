@@ -1,0 +1,19 @@
+Windows
+
+docker build -t diginteldockeruser/matvi:latest .
+
+docker push diginteldockeruser/matvi:latest
+
+-- VERIFICAR EN DOCKER HUB
+
+Linux VPS
+
+cd /opt/matvi
+
+docker compose pull matvi
+
+docker compose up -d --force-recreate matvi
+
+docker ps
+
+docker exec matvi-app printenv

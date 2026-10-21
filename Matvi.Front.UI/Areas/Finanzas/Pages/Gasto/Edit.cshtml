@@ -1,0 +1,138 @@
+@page
+@model Matvi.Front.UI.Areas.Finanzas.Pages.Gasto.EditModel
+@{
+    Layout = null;
+    var title = "Datos del gasto";
+    var idModal = "mdlEditGasto";
+    var idForm = "frmEditGasto";
+}
+<form id="@idForm"
+      class="needs-validation"
+      method="post"
+      asp-page-handler="Edit"
+      data-ajax="true"
+      autocomplete="off"
+      data-ajax-success="Success_Edit">
+
+    <input asp-for="Gasto.SafeId" type="hidden" />
+
+    <div class="modal fade show" id="@idModal" data-bs-backdrop="static" data-bs-keyboard="false"
+         data-bs-focus="true" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">@title</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col text-start">
+                            <h5 class="mv-text-enf3">
+                                <i class="mdi mdi-pencil-outline me-2"></i>Editar
+                            </h5>
+                        </div>
+                        <div class="col text-end">
+                            <label class="form-label text-danger">&#9679; Valores requeridos</label>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+
+                        <!-- SECCIÓN: Clasificación -->
+                        <div class="col-12">
+                            <small class="text-muted text-uppercase fw-bold">
+                                <i class="mdi mdi-tag-outline me-1"></i>Clasificación
+                            </small>
+                            <hr class="mt-1 mb-0">
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label asp-for="Gasto.CtTipoGast_Id" class="form-label mv-form-label-required"></label>
+                            <select asp-for="Gasto.CtTipoGast_Id"
+                                    class="form-select"
+                                    asp-items="Model.TipoGastoSelectList">
+                                <option value="">SELECCIONAR</option>
+                            </select>
+                            <span asp-validation-for="Gasto.CtTipoGast_Id"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="Gasto.ProveedorFld" class="form-label mv-form-label-required"></label>
+                            <input asp-for="Gasto.ProveedorFld" class="form-control" type="text" />
+                            <span asp-validation-for="Gasto.ProveedorFld"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="Gasto.ConceptoFld" class="form-label mv-form-label-required"></label>
+                            <input asp-for="Gasto.ConceptoFld" class="form-control" type="text" />
+                            <span asp-validation-for="Gasto.ConceptoFld"></span>
+                        </div>
+
+                        <!-- SECCIÓN: Pago -->
+                        <div class="col-12">
+                            <small class="text-muted text-uppercase fw-bold">
+                                <i class="mdi mdi-credit-card-outline me-1"></i>Pago
+                            </small>
+                            <hr class="mt-1 mb-0">
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label asp-for="Gasto.CtMediPago_IdFld" class="form-label mv-form-label-required"></label>
+                            <select asp-for="Gasto.CtMediPago_IdFld"
+                                    class="form-select"
+                                    asp-items="Model.MedioPagoSelectList">
+                                <option value="">SELECCIONAR</option>
+                            </select>
+                            <span asp-validation-for="Gasto.CtMediPago_IdFld"></span>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label asp-for="Gasto.ImporteFld" class="form-label"></label>
+                            <div class="input-group">
+                                <span class="input-group-text p-0 ps-2 pe-2">
+                                    <i class="mdi mdi-currency-usd"></i>
+                                </span>
+                                <output class="form-control mv-output-control">@Model.Gasto.ImporteFld.ToString("N2")</output>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="Gasto.NotasGastoFld" class="form-label"></label>
+                            <div class="input-group">
+                                <span class="input-group-text p-0 ps-2 pe-2">
+                                    <i class="mdi mdi-note"></i>
+                                </span>
+                                <textarea asp-for="Gasto.NotasGastoFld"
+                                          class="form-control"
+                                          rows="2"></textarea>
+                            </div>
+                            <span asp-validation-for="Gasto.NotasGastoFld"></span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="btnGuardar" class="btn mv-btn-primary">
+                        <i class="mdi mdi-content-save me-2"></i>Guardar
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
+
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+<script>
+    window.gastoEditConfig = {
+        idModal: '@idModal',
+        idForm: '@idForm',
+        title: '@Html.Raw(title)'
+    };
+</script>
+<script src="~/js/modules/Finanzas/Gasto/Edit.js"></script>

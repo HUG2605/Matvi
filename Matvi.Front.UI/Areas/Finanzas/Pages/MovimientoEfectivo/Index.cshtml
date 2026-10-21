@@ -1,0 +1,36 @@
+@page
+@model Matvi.Front.UI.Areas.Finanzas.Pages.MovimientoEfectivo.IndexModel
+
+@{
+    ViewData["Title"] = "Movimientos de Efectivo";
+    ViewData["Modulo"] = "Finanzas";
+    ViewData["RequiereSucursal"] = true;
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+@await Html.PartialAsync("_DataTablesStylesPartial")
+
+<table id="movimiento-efectivo-datatable"
+       class="table table-sm table-hover activate-select dt-responsive nowrap w-100">
+    <thead>
+        <tr>
+            <th class="text-start">Fecha</th>
+            <th class="text-start">Tipo</th>
+            <th class="text-start">Origen</th>
+            <th class="text-start">Folio origen</th>
+            <th class="text-start">Concepto / Tercero</th>
+            <th class="text-start">Cajero</th>
+            <th class="text-end">Monto</th>
+            <th class="text-center">Corte de caja</th>
+            <th class="text-center">Acciones</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<div id="ContainerModal"></div>
+
+@section Scripts {
+    @await Html.PartialAsync("_DataTablesScriptsPartial")
+    <script src="~/js/modules/Finanzas/MovimientoEfectivo/Index.js" asp-append-version="true"></script>
+}

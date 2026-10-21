@@ -1,0 +1,188 @@
+   @page
+@using Matvi.Front.UI.Extensions
+@using Matvi.Front.UI.Security.Permission
+@using Matvi.Front.UI.Security.Services
+@inject IUsuarioActualService UsuarioActualService
+@model Matvi.Front.UI.Areas.Ventas.Pages.Cliente.DetailsModel
+@{
+    ViewData["Title"] = "Cliente";
+    ViewData["Modulo"] = "Ventas";
+    ViewData["UrlAnterior"] = Url.Page("Index");
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="row align-items-start gy-2">
+<div class="col-auto">
+    <div class="align-items-center justify-content-center mv-perfil-circle">
+        @Model.GetProfileLetters(Model.Cliente!.Nombre!)
+    </div>
+</div>
+
+<div class="col">
+    <h4 class="mb-0">@Model.Cliente.Nombre</h4>
+    <span class="text-muted">Tel: @Model.Cliente.Telefono!.ToPhoneFormat()</span>
+
+    <!-- Botones visibles en pantallas pequeñas -->
+    <div class="d-block d-md-none mt-2">
+        @await Html.PartialAsync("_DetailsActions", Model.Cliente.SafeId)
+    </div>
+</div>
+    <!-- Botones alineados a la derecha en pantallas grandes -->
+    <div class="col-auto d-none d-md-flex justify-content-end align-items-center">
+        @await Html.PartialAsync("_DetailsActions", Model.Cliente.SafeId)
+    </div>
+</div>
+
+<div>
+    <ul class="nav nav-tabs nav-bordered">
+        <li class="nav-item">
+            <a href="#home-b1" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
+                <span class="d-inline-block d-sm-none"><i class="mdi mdi-home-variant"></i></span>
+                <span class="d-none d-sm-inline-block">General</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#home-b2" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
+                <span class="d-inline-block d-sm-none"><i class="mdi mdi-truck"></i></span>
+                <span class="d-none d-sm-inline-block">Fiscales</span>
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane show active" id="home-b1">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Nombre</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Cliente.Nombre
+                    </output>
+                </div>
+
+                <div class="col-md-8">
+                    <label class="form-label">Domicilio</label>
+                    <div class="input-group">
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            <i class="mdi mdi-map-marker"></i>
+                        </span>
+                        <output class="form-control mv-output-control">
+                            @Model.Cliente.Direccion
+                        </output>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Teléfono</label>
+                    <div class="input-group">
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            <i class="mdi mdi-phone"></i>
+                        </span>
+                        <output class="form-control mv-output-control">
+                            @Model.Cliente.Telefono!.ToPhoneFormat()
+                        </output>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Alias</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Cliente.Alias
+                    </output>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Límite de crédito semanal</label>
+                    <div class="input-group">
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            <i class="mdi mdi-credit-card-outline"></i>
+                        </span>
+                        <output class="form-control mv-output-control">
+                            @Model.Cliente.LimiteCreditoSemanal.ToString("N2")
+                        </output>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane show" id="home-b2">
+            <div class="row g-3">
+                <div class="col-md-12">
+                    <label class="form-label">Regimen Fiscal</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Cliente.CtRegiFisc_Nombre
+                    </output>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">RFC</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Cliente.RFCFiscal
+                    </output>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Calle Fiscal</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Cliente.CalleFiscal
+                    </output>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Número Exterior Fiscal</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Cliente.NumeroExteriorFiscal
+                    </output>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Número Interior Fiscal</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Cliente.NumeroInteriorFiscal
+                    </output>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Código Postal Fiscal</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Cliente.CodigoPostalFiscal
+                    </output>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Colonia Fiscal</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Cliente.ColoniaFiscal
+                    </output>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Localidad Fiscal</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Cliente.LocalidadFiscal
+                    </output>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Municipio Fiscal</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Cliente.MunicipioFiscal
+                    </output>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Entidad Federativa Fiscal</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Cliente.EntidadFederativaFiscal
+                    </output>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div id="ContainerModal">
+</div>
+
+@section Scripts {
+  
+    <script>
+
+        window.clienteDeleteConfig = {
+            title: '@Html.Raw(ViewData["Title"])',
+            safeId: '@Model.Cliente.SafeId',
+            urlAnterior: '@ViewData["UrlAnterior"]',
+            urlBase: '/Ventas/Cliente'
+        };
+    </script>
+
+    <script src="~/js/modules/Ventas/Cliente/Delete.js"></script>
+}

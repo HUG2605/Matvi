@@ -1,0 +1,192 @@
+﻿ <Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Modules\Compras\Compra\Helpers\**" />
+    <Compile Remove="Modules\Configuracion\**" />
+    <Compile Remove="Modules\Productos\**" />
+    <Compile Remove="Modules\Seguridad\Rol\**" />
+    <Compile Remove="Modules\Seguridad\Usuario\**" />
+    <EmbeddedResource Remove="Modules\Compras\Compra\Helpers\**" /> 
+    <EmbeddedResource Remove="Modules\Configuracion\**" />
+    <EmbeddedResource Remove="Modules\Productos\**" />
+    <EmbeddedResource Remove="Modules\Seguridad\Rol\**" />
+    <EmbeddedResource Remove="Modules\Seguridad\Usuario\**" />
+    <None Remove="Modules\Compras\Compra\Helpers\**" />
+    <None Remove="Modules\Configuracion\**" />
+    <None Remove="Modules\Productos\**" />
+    <None Remove="Modules\Seguridad\Rol\**" />
+    <None Remove="Modules\Seguridad\Usuario\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Modules\Compras\Proveedor\Handlers\ListarProveedorProductoGridQryHdl.cs" />
+    <Compile Remove="Modules\Compras\Proveedor\Handlers\ListarProveedorSelectQryHdl.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Modules\Configuracion\Empresa\Commands\EditarEmpresaCmd.cs" />
+    <Compile Include="Modules\Configuracion\Empresa\Dtos\DetallarEmpresaDto.cs" />
+    <Compile Include="Modules\Configuracion\Empresa\Dtos\EditarEmpresaDto.cs" />
+    <Compile Include="Modules\Configuracion\Empresa\Dtos\ListarEmpresaDto.cs" />
+    <Compile Include="Modules\Configuracion\Empresa\Handlers\DetallarEmpresaQryHdl.cs" />
+    <Compile Include="Modules\Configuracion\Empresa\Handlers\EditarEmpresaCmdHdl.cs" />
+    <Compile Include="Modules\Configuracion\Empresa\Handlers\EditarEmpresaQryHdl.cs" />
+    <Compile Include="Modules\Configuracion\Empresa\Handlers\ListarEmpresaGridQryHdl.cs" />
+    <Compile Include="Modules\Configuracion\Empresa\Queries\DetallarEmpresaQry.cs" />
+    <Compile Include="Modules\Configuracion\Empresa\Queries\EditarEmpresaQry.cs" />
+    <Compile Include="Modules\Configuracion\Empresa\Queries\ListarEmpresaGridQry.cs" />
+    <Compile Include="Modules\Configuracion\Sucursal\Commands\CrearSucursalCmd.cs" />
+    <Compile Include="Modules\Configuracion\Sucursal\Commands\EditarSucursalCmd.cs" />
+    <Compile Include="Modules\Configuracion\Sucursal\Commands\EliminarSucursalCmd.cs" />
+    <Compile Include="Modules\Configuracion\Sucursal\Dtos\CrearSucursalDto.cs" />
+    <Compile Include="Modules\Configuracion\Sucursal\Dtos\DetallarSucursalDto.cs" />
+    <Compile Include="Modules\Configuracion\Sucursal\Dtos\EditarSucursalDto.cs" />
+    <Compile Include="Modules\Configuracion\Sucursal\Dtos\ListarSucursalDto.cs" />
+    <Compile Include="Modules\Configuracion\Sucursal\Handlers\CrearSucursalCmdHdl.cs" />
+    <Compile Include="Modules\Configuracion\Sucursal\Handlers\DetallarSucursalQryHdl.cs" />
+    <Compile Include="Modules\Configuracion\Sucursal\Handlers\EditarSucursalCmdHdl.cs" />
+    <Compile Include="Modules\Configuracion\Sucursal\Handlers\EditarSucursalQryHdl.cs" />
+    <Compile Include="Modules\Configuracion\Sucursal\Handlers\EliminarSucursalCmdHdl.cs" />
+    <Compile Include="Modules\Configuracion\Sucursal\Handlers\ListarSucursalGridQryHdl.cs" />
+    <Compile Include="Modules\Configuracion\Sucursal\Queries\DetallarSucursalQry.cs" />
+    <Compile Include="Modules\Configuracion\Sucursal\Queries\EditarSucursalQry.cs" />
+    <Compile Include="Modules\Configuracion\Sucursal\Queries\ListarSucursalGridQry.cs" />
+    <Compile Include="Modules\Productos\Grupo\Commands\CrearGrupoCmd.cs" />
+    <Compile Include="Modules\Productos\Grupo\Commands\EditarGrupoCmd.cs" />
+    <Compile Include="Modules\Productos\Grupo\Commands\EliminarGrupoCmd.cs" />
+    <Compile Include="Modules\Productos\Grupo\Dtos\CrearGrupoDto.cs" />
+    <Compile Include="Modules\Productos\Grupo\Dtos\DetallarGrupoDto.cs" />
+    <Compile Include="Modules\Productos\Grupo\Dtos\EditarGrupoDto.cs" />
+    <Compile Include="Modules\Productos\Grupo\Dtos\ListarGrupoDto.cs" />
+    <Compile Include="Modules\Productos\Grupo\Handlers\CrearGrupoCmdHdl.cs" />
+    <Compile Include="Modules\Productos\Grupo\Handlers\DetallarGrupoQryHdl.cs" />
+    <Compile Include="Modules\Productos\Grupo\Handlers\EditarGrupoCmdHdl.cs" />
+    <Compile Include="Modules\Productos\Grupo\Handlers\EditarGrupoQryHdl.cs" />
+    <Compile Include="Modules\Productos\Grupo\Handlers\EliminarGrupoCmdHdl.cs" />
+    <Compile Include="Modules\Productos\Grupo\Handlers\ListarGrupoGridQryHdl.cs" />
+    <Compile Include="Modules\Productos\Grupo\Handlers\ListarGrupoSelectQryHdl.cs" />
+    <Compile Include="Modules\Productos\Grupo\Handlers\ObtenerGrupoDescripcionQryHdl.cs" />
+    <Compile Include="Modules\Productos\Grupo\Queries\DetallarGrupoQry.cs" />
+    <Compile Include="Modules\Productos\Grupo\Queries\EditarGrupoQry.cs" />
+    <Compile Include="Modules\Productos\Grupo\Queries\ListarGrupoGridQry.cs" />
+    <Compile Include="Modules\Productos\Grupo\Queries\ListarGrupoSelectQry.cs" />
+    <Compile Include="Modules\Productos\Grupo\Queries\ObtenerGrupoDescripcionQry.cs" />
+    <Compile Include="Modules\Productos\PresentacionProducto\Commands\EditarPresentacionProductoCmd.cs" />
+    <Compile Include="Modules\Productos\PresentacionProducto\Dtos\EditarPresentacionProductoDto.cs" />
+    <Compile Include="Modules\Productos\PresentacionProducto\Handlers\CrearPresentacionProductoQryHdl.cs" />
+    <Compile Include="Modules\Productos\PresentacionProducto\Handlers\EditarPresentacionProductoCmdHdl.cs" />
+    <Compile Include="Modules\Productos\PresentacionProducto\Handlers\EditarPresentacionProductoQryHdl.cs" />
+    <Compile Include="Modules\Productos\PresentacionProducto\Handlers\ListarPresentacionProductoSelectQryHdl.cs" />
+    <Compile Include="Modules\Productos\PresentacionProducto\Queries\CrearPresentacionProductoQry.cs" />
+    <Compile Include="Modules\Productos\PresentacionProducto\Queries\EditarPresentacionProductoQry.cs" />
+    <Compile Include="Modules\Productos\PresentacionProducto\Queries\ListarPresentacionProductoSelectQry.cs" />
+    <Compile Include="Modules\Productos\PresentacionProducto\Commands\CrearPresentacionProductoCmd.cs" />
+    <Compile Include="Modules\Productos\PresentacionProducto\Commands\EliminarPresentacionProductoCmd.cs" />
+    <Compile Include="Modules\Productos\PresentacionProducto\Dtos\CrearPresentacionProductoDto.cs" />
+    <Compile Include="Modules\Productos\PresentacionProducto\Dtos\ListarPresentacionProductoDto.cs" />
+    <Compile Include="Modules\Productos\PresentacionProducto\Handlers\CrearPresentacionProductoCmdHdl.cs" />
+    <Compile Include="Modules\Productos\PresentacionProducto\Handlers\EliminarPresentacionProductoCmdHdl.cs" />
+    <Compile Include="Modules\Productos\PresentacionProducto\Handlers\ListarPresentacionProductoGridQryHdl.cs" />
+    <Compile Include="Modules\Productos\PresentacionProducto\Queries\ListarPresentacionProductoGridQry.cs" />
+    <Compile Include="Modules\Productos\Producto\Commands\CrearProductoCmd.cs" />
+    <Compile Include="Modules\Productos\Producto\Commands\EditarProductoCmd.cs" />
+    <Compile Include="Modules\Productos\Producto\Commands\EliminarProductoCmd.cs" />
+    <Compile Include="Modules\Productos\Producto\Dtos\CrearProductoDto.cs" />
+    <Compile Include="Modules\Productos\Producto\Dtos\DetallarProductoDto.cs" />
+    <Compile Include="Modules\Productos\Producto\Dtos\EditarProductoDto.cs" />
+    <Compile Include="Modules\Productos\Producto\Dtos\ListarProductoDto.cs" />
+    <Compile Include="Modules\Productos\Producto\Dtos\RelacionarProveedorDto.cs" />
+    <Compile Include="Modules\Productos\Producto\Handlers\CrearProductoCmdHdl.cs" />
+    <Compile Include="Modules\Productos\Producto\Handlers\CrearProductoQryHdl.cs" />
+    <Compile Include="Modules\Productos\Producto\Handlers\DetallarProductoQryHdl.cs" />
+    <Compile Include="Modules\Productos\Producto\Handlers\EditarProductoCmdHdl.cs" />
+    <Compile Include="Modules\Productos\Producto\Handlers\EditarProductoQryHdl.cs" />
+    <Compile Include="Modules\Productos\Producto\Handlers\EliminarProductoCmdHdl.cs" />
+    <Compile Include="Modules\Productos\Producto\Handlers\ListarProductoGridQryHdl.cs" />
+    <Compile Include="Modules\Productos\Producto\Helpers\ProductoQueriesHelper.cs" />
+    <Compile Include="Modules\Productos\Producto\Queries\CrearProductoQry.cs" />
+    <Compile Include="Modules\Productos\Producto\Queries\DetallarProductoQry.cs" />
+    <Compile Include="Modules\Productos\Producto\Queries\EditarProductoQry.cs" />
+    <Compile Include="Modules\Productos\Producto\Queries\ListarProductoGridQry.cs" />
+    <Compile Include="Modules\Productos\Producto\Queries\ListarProductoSelectCoincidenciaQry.cs" />
+    <Compile Include="Modules\Productos\Producto\Handlers\ListarProductoSelectCoincidenciaQryHdl.cs" />
+    <Compile Include="Modules\Productos\Seccion\Commands\CrearSeccionCmd.cs" />
+    <Compile Include="Modules\Productos\Seccion\Commands\EditarSeccionCmd.cs" />
+    <Compile Include="Modules\Productos\Seccion\Commands\EliminarSeccionCmd.cs" />
+    <Compile Include="Modules\Productos\Seccion\Dtos\CrearSeccionDto.cs" />
+    <Compile Include="Modules\Productos\Seccion\Dtos\DetallarSeccionDto.cs" />
+    <Compile Include="Modules\Productos\Seccion\Dtos\EditarSeccionDto.cs" />
+    <Compile Include="Modules\Productos\Seccion\Dtos\ListarSeccionDto.cs" />
+    <Compile Include="Modules\Productos\Seccion\Handlers\CrearSeccionCmdHdl.cs" />
+    <Compile Include="Modules\Productos\Seccion\Handlers\DetallarSeccionQryHdl.cs" />
+    <Compile Include="Modules\Productos\Seccion\Handlers\EditarSeccionCmdHdl.cs" />
+    <Compile Include="Modules\Productos\Seccion\Handlers\EditarSeccionQryHdl.cs" />
+    <Compile Include="Modules\Productos\Seccion\Handlers\EliminarSeccionCmdHdl.cs" />
+    <Compile Include="Modules\Productos\Seccion\Handlers\ListarSeccionGridQryHdl.cs" />
+    <Compile Include="Modules\Productos\Seccion\Handlers\ListarSeccionSelectDescGrupQryHdl.cs" />
+    <Compile Include="Modules\Productos\Seccion\Handlers\ListarSeccionSelectQryHdl.cs" />
+    <Compile Include="Modules\Productos\Seccion\Queries\DetallarSeccionQry.cs" />
+    <Compile Include="Modules\Productos\Seccion\Queries\EditarSeccionQry.cs" />
+    <Compile Include="Modules\Productos\Seccion\Queries\ListarSeccionGridQry.cs" />
+    <Compile Include="Modules\Productos\Seccion\Queries\ListarSeccionSelectDescGrupQry.cs" />
+    <Compile Include="Modules\Productos\Seccion\Queries\ListarSeccionSelectQry.cs" />
+    <Compile Include="Modules\Productos\UnidadBaseInventario\Handlers\ListarUnidadBaseInventarioSelectQryHdl.cs" />
+    <Compile Include="Modules\Productos\UnidadBaseInventario\Queries\ListarUnidadBaseInventarioSelectQry.cs" />
+    <Compile Include="Modules\Seguridad\Rol\Commands\EditarRolCmd.cs" />
+    <Compile Include="Modules\Seguridad\Rol\Dtos\EditarRolDto.cs" />
+    <Compile Include="Modules\Seguridad\Rol\Dtos\ListarRolDto.cs" />
+    <Compile Include="Modules\Seguridad\Rol\Dtos\RolAccionDto.cs" />
+    <Compile Include="Modules\Seguridad\Rol\Dtos\RolFuncionDto.cs" />
+    <Compile Include="Modules\Seguridad\Rol\Handlers\EditarRolCmdHdl.cs" />
+    <Compile Include="Modules\Seguridad\Rol\Handlers\EditarRolQryHdl.cs" />
+    <Compile Include="Modules\Seguridad\Rol\Handlers\ListarCatalogoRolesQryHdl.cs" />
+    <Compile Include="Modules\Seguridad\Rol\Handlers\ListarRolQryHdl.cs" />
+    <Compile Include="Modules\Seguridad\Rol\Queries\EditarRolQry.cs" />
+    <Compile Include="Modules\Seguridad\Rol\Queries\ListarCatalogoRolesQry.cs" />
+    <Compile Include="Modules\Seguridad\Rol\Queries\ListarRolQry.cs" />
+    <Compile Include="Modules\Seguridad\Usuario\Commands\CrearUsuarioCmd.cs" />
+    <Compile Include="Modules\Seguridad\Usuario\Commands\EditarUsuarioCmd.cs" />
+    <Compile Include="Modules\Seguridad\Usuario\Commands\EliminarUsuarioCmd.cs" />
+    <Compile Include="Modules\Seguridad\Usuario\Dtos\CrearUsuarioDto.cs" />
+    <Compile Include="Modules\Seguridad\Usuario\Dtos\DetallarUsuarioDto.cs" />
+    <Compile Include="Modules\Seguridad\Usuario\Dtos\EditarUsuarioDto.cs" />
+    <Compile Include="Modules\Seguridad\Usuario\Dtos\ListarUsuarioDto.cs" />
+    <Compile Include="Modules\Seguridad\Usuario\Dtos\RelacionarSucursalDto.cs" />
+    <Compile Include="Modules\Seguridad\Usuario\Handlers\CrearUsuarioCmdHdl.cs" />
+    <Compile Include="Modules\Seguridad\Usuario\Handlers\CrearUsuarioQryHdl.cs" />
+    <Compile Include="Modules\Seguridad\Usuario\Handlers\DetallarUsuarioQryHdl.cs" />
+    <Compile Include="Modules\Seguridad\Usuario\Handlers\EditarUsuarioCmdHdl.cs" />
+    <Compile Include="Modules\Seguridad\Usuario\Handlers\EditarUsuarioQryHdl.cs" />
+    <Compile Include="Modules\Seguridad\Usuario\Handlers\EliminarUsuarioCmdHdl.cs" />
+    <Compile Include="Modules\Seguridad\Usuario\Handlers\ListarUsuariosQryHdl.cs" />
+    <Compile Include="Modules\Seguridad\Usuario\Handlers\ListarRepartidorSelectQryHdl.cs" />
+    <Compile Include="Modules\Seguridad\Usuario\Queries\CrearUsuarioQry.cs" />
+    <Compile Include="Modules\Seguridad\Usuario\Queries\DetallarUsuarioQry.cs" />
+    <Compile Include="Modules\Seguridad\Usuario\Queries\EditarUsuarioQry.cs" />
+    <Compile Include="Modules\Seguridad\Usuario\Queries\ListarUsuariosQry.cs" />
+    <Compile Include="Modules\Seguridad\Usuario\Queries\ListarRepartidorSelectQry.cs" />
+    <Compile Include="Modules\Seguridad\Usuario\Helpers\UsuarioQueriesHelper.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Matvi.Back.Infrastructure\Matvi.Back.Infrastructure.csproj" />
+    <ProjectReference Include="..\Matvi.Transversal\Matvi.Transversal.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Modules\Inventarios\Movimiento\Commands\" />
+    <Folder Include="Modules\Ventas\Pedido\Helpers\" />
+  </ItemGroup>
+
+</Project>

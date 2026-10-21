@@ -1,0 +1,114 @@
+﻿@page
+@model Matvi.Front.UI.Areas.Inventarios.Pages.Inventario.EditModel
+@{
+    Layout = null;
+    var title = "Datos del producto en sucursal";
+    var idModal = "mdlEditProdSucu";
+    var idForm = "frmEditProdSucu";
+}
+<form id="@idForm"
+      class="needs-validation"
+      method="post"
+      asp-page-handler="Edit"
+      data-ajax="true"
+      data-ajax-success="Success_Edit">
+
+    <input asp-for="ProductoSucursal.CtProd_SafeId" type="hidden" />
+
+    <div class="modal fade" id="@idModal" data-bs-backdrop="static" data-bs-keyboard="false" data-bs-focus="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">@title</h4>
+                    <button type="button" class="btn-close btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col text-start">
+                            <h5 class="mv-text-enf3">
+                                <i class="mdi mdi-pencil-outline me-2"></i>Editar
+                            </h5>
+                        </div>
+                        <div class="col text-end">
+                            <label class="form-label text-danger">&#9679; Valores requeridos</label>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+
+                        <div class="col-md-12">
+                            <label class="form-label">Sucursal</label>
+                            <output class="form-control mv-output-control">
+                                @Model.ProductoSucursal.CtSuc_Nombre
+                            </output>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label class="form-label">Producto</label>
+                            <output class="form-control mv-output-control">
+                                @Model.ProductoSucursal.CtProd_NombreCompleto
+                            </output>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="ProductoSucursal.StockMinimoUBIFld" class="form-label mv-form-label-required"></label>
+                            <div class="input-group">
+                                <input asp-for="ProductoSucursal.StockMinimoUBIFld" class="form-control" type="number" />
+                                <span class="input-group-text p-0 ps-2 pe-2">
+                                    @Model.ProductoSucursal.CtUnidBaseInve_Abreviatura
+                                </span>
+                            </div>
+                            <span asp-validation-for="ProductoSucursal.StockMinimoUBIFld"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="ProductoSucursal.StockMaximoUBIFld" class="form-label mv-form-label-required"></label>
+                            <div class="input-group">
+                                <input asp-for="ProductoSucursal.StockMaximoUBIFld" class="form-control" type="number" />
+                                <span class="input-group-text p-0 ps-2 pe-2">
+                                    @Model.ProductoSucursal.CtUnidBaseInve_Abreviatura
+                                </span>
+                            </div>
+                            <span asp-validation-for="ProductoSucursal.StockMaximoUBIFld"></span>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label class="form-label">Regularizado</label>
+                            <output class="form-control mv-output-control">
+                                @(Model.ProductoSucursal.Regularizado ? "SÍ" : "NO")
+                            </output>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label asp-for="ProductoSucursal.UbicacionFld" class="form-label"></label>
+                            <textarea asp-for="ProductoSucursal.UbicacionFld" class="form-control"></textarea>
+                            <span asp-validation-for="ProductoSucursal.UbicacionFld"></span>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn mv-btn-primary">
+                        <i class="mdi mdi-content-save me-2"></i>Guardar
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</form>
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+<script>
+      window.inventarioEditConfig = {
+        idModal: '@idModal',
+        idForm: '@idForm',
+        title: '@Html.Raw(title)'
+    };
+
+</script>
+
+<script src="~/js/modules/Inventarios/Inventario/Edit.js"></script>

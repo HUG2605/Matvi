@@ -1,0 +1,252 @@
+@page
+@using Matvi.Back.Application.Common.Enums
+@using Matvi.Front.UI.Extensions
+@model Matvi.Front.UI.Areas.Ventas.Pages.Pedido.SupplyModel
+@{
+    Layout = null;
+    var title = "Surtir pedido";
+    var idModal = "mdlSupplyPedido";
+    var idForm = "frmSupplyPedido";
+}
+
+<link href="~/css/matvi.stepper.css" rel="stylesheet" />
+<form id="@idForm"
+      class="needs-validation"
+      method="post"
+      asp-page-handler="Supply"
+      data-ajax="true"
+      autocomplete="off"
+      data-ajax-success="Success_Supply">
+
+    <div class="modal fade" id="@idModal" data-bs-backdrop="true" data-bs-keyboard="false"
+         data-bs-focus="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">@title</h4>
+                    <button type="button" class="btn-close btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="mv-steps-vertical">
+
+                        @* ====================== PASO 1 ====================== *@
+                        <div class="mv-step-vertical active">
+                            <div class="mv-step-vertical-icon">1</div>
+                            <div class="mv-step-vertical-content">
+                                <div class="mv-step-vertical-title">Generales</div>
+                                <div id="collapseSupplyGenerales" class="mv-step-vertical-body collapse show">
+                                    <div class="row g-3">
+                                        <div class="col-md-4">
+                                            <label class="form-label">Sucursal</label>
+                                            <output class="form-control mv-output-control">@Model.Pedido!.CtSucu_Nombre</output>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Folio</label>
+                                            <output class="form-control mv-output-control">@Model.Pedido.Folio</output>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Fecha</label>
+                                            <output class="form-control mv-output-control">@Model.Pedido.Fecha.ToString("dd/MM/yyyy HH:mm:ss")</output>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Cliente</label>
+                                            <output class="form-control mv-output-control">
+                                                @(Model.Pedido.CtClie_Nombre ?? Model.Pedido.NombreClienteMostrador)
+                                            </output>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Estatus</label>
+                                            <output class="form-control mv-output-control">@Model.Pedido.CtEstatus_Nombre</output>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Canal de captura</label>
+                                            <output class="form-control mv-output-control">@Model.Pedido.CtCanaCapt_Nombre</output>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Entrega a domicilio</label>
+                                            <output class="form-control mv-output-control">
+                                                @(Model.Pedido.EntregaDomicilio ? "SÍ" : "NO")
+                                            </output>
+                                        </div>
+                                        @if (Model.Pedido.EntregaDomicilio)
+                                        {
+                                            <div class="col-md-12">
+                                                <label class="form-label">Dirección de entrega</label>
+                                                <output class="form-control mv-output-control">@Model.Pedido.DireccionEntrega</output>
+                                            </div>
+                                        }
+                                        <div class="col-md-12">
+                                            <label class="form-label">Notas</label>
+                                            <output class="form-control mv-output-control">@Model.Pedido.Notas</output>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @* ====================== PASO 2 ====================== *@
+                        <div class="mv-step-vertical">
+                            <div class="mv-step-vertical-icon">2</div>
+                            <div class="mv-step-vertical-content">
+                                <div class="mv-step-vertical-title">Productos a surtir</div>
+                                <div id="collapseSupplyProductos" class="mv-step-vertical-body collapse">
+                                    <div class="alert alert-info py-2 mt-2 mb-2">
+                                        <i class="mdi mdi-information-outline me-1"></i>
+                                        Indica la cantidad a surtir de cada producto para este viaje o entrega.
+                                        Puedes surtir cantidades parciales.
+                                    </div>
+                                    <div class="table-responsive mt-2">
+                                        <table class="table table-sm table-hover mb-0 mv-table-static" id="tblSupplyProductos">
+                                            <thead>
+                                                <tr>
+                                                    <th>Producto</th>
+                                                    <th>Presentación</th>
+                                                    <th class="text-center">Solicitado</th>
+                                                    <th class="text-center">Ya surtido</th>
+                                                    <th class="text-center">Pendiente</th>
+                                                    <th class="text-center" style="min-width:140px">A surtir</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (Model.Pedido.Productos != null && Model.Pedido.Productos.Any())
+                                                {
+                                                    foreach (var item in Model.Pedido.Productos)
+                                                    {
+                                                        var pendienteSurtir = item.CantidadPendienteSurtir;
+                                                        var habilitado = pendienteSurtir > 0;
+                                                        <tr>
+                                                            <td>@item.CtProd_NombreCompleto</td>
+                                                            <td>@item.CtPresProd_Nombre (@item.CtUnidBaseInve_Abreviatura)</td>
+                                                            <td class="text-center fw-bold">@item.Cantidad.ToCustomDecimalFormat()</td>
+                                                            <td class="text-center">@item.CantidadSurtida.ToCustomDecimalFormat()</td>
+                                                            <td class="text-center">@pendienteSurtir.ToCustomDecimalFormat()</td>
+                                                            <td class="text-center">
+                                                                <input type="number"
+                                                                       class="form-control form-control-sm text-end txt-surtir"
+                                                                       min="0"
+                                                                       max="@pendienteSurtir"
+                                                                       step="0.00001"
+                                                                       data-id="@item.Id"
+                                                                       data-pendiente="@pendienteSurtir"
+                                                                       value="@(habilitado ? pendienteSurtir.ToCustomDecimalFormat() : "0")"
+                                                                       @(habilitado ? "" : "disabled")
+                                                                       placeholder="0" />
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td colspan="6" class="text-center text-muted py-3">
+                                                            <i class="mdi mdi-information-outline me-1"></i>Sin productos en este pedido.
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @* ====================== PASO 3 ====================== *@
+                        <div class="mv-step-vertical">
+                            <div class="mv-step-vertical-icon">3</div>
+                            <div class="mv-step-vertical-content">
+                                <div class="mv-step-vertical-title">Modalidad de entrega</div>
+                                <div id="collapseSupplyModalidad" class="mv-step-vertical-body collapse">
+                                    <div class="row g-3">
+
+                                        @* Hidden con Id del pedido (lo necesitaremos al enviar) *@
+                                        <input type="hidden" id="hdnIdPedido" value="@Model.Pedido.Id" />
+
+                                        <div class="col-md-12">
+                                            <label class="form-label mv-form-label-required">¿Cómo se va a entregar?</label>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio"
+                                                       name="TipoSurtidoRadio" id="rbRepartidor"
+                                                       value="@((byte)TipoSurtidoEnm.REPARTIDOR)" />
+                                                <label class="form-check-label" for="rbRepartidor">
+                                                    Asignar a un repartidor
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio"
+                                                       name="TipoSurtidoRadio" id="rbDirecto"
+                                                       value="@((byte)TipoSurtidoEnm.DIRECTO)" />
+                                                <label class="form-check-label" for="rbDirecto">
+                                                    Entregar directamente al cliente
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        @* Bloque A: Asignar a repartidor *@
+                                        <div class="col-md-12 d-none" id="bloqueRepartidor">
+                                            <label for="slcRepartidor" class="form-label mv-form-label-required">Repartidor</label>
+                                            <select id="slcRepartidor" name="IdCtUsuarioRepartidor" class="form-select">
+                                                <option value="">SELECCIONAR</option>
+                                            </select>
+                                            <span id="slcRepartidor-error" class="text-danger small"></span>
+                                        </div>
+
+                                        @* Bloque B: Entrega directa *@
+                                        <div class="col-md-12 d-none" id="bloqueDirecto">
+                                            <div class="alert alert-warning py-2 mb-2">
+                                                <i class="mdi mdi-alert-outline me-1"></i>
+                                                Confirma que vas a hacer la entrega directamente desde el almacén
+                                                a la unidad del cliente. Esta acción no se puede deshacer.
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input"
+                                                       type="checkbox"
+                                                       id="chkConfirmacionDirecto"
+                                                       name="chkConfirmacionDirecto" />
+                                                <label class="form-check-label" for="chkConfirmacionDirecto">
+                                                    Confirmo que el pedido se entrega directamente al cliente
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="btnAnterior" class="btn mv-btn-secondary">
+                        <i class="mdi mdi-arrow-left me-2"></i>Anterior
+                    </button>
+                    <button type="button" id="btnSiguiente" class="btn mv-btn-secondary">
+                        <i class="mdi mdi-arrow-right me-2"></i>Siguiente
+                    </button>
+                    <button type="button" id="btnSurtir" class="btn mv-btn-primary d-none">
+                        <i class="mdi mdi-package-variant-closed me-2"></i>Surtir
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
+
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    await Html.RenderPartialAsync("_Select2ScriptsPartial");
+}
+<script>
+    window.supplyConfig = {
+        idModal: '@idModal',
+        idForm: '@idForm',
+        confirmTitle: '@Html.Raw(title)',
+        entregaDomicilio: @(Model.Pedido!.EntregaDomicilio ? "true" : "false")
+    };
+</script>
+<script src="~/js/matvi.stepper.js"></script>
+<script src="~/js/modules/ventas/pedido/supply.js"></script>

@@ -1,0 +1,148 @@
+@page
+@using Matvi.Front.UI.Security.Services
+@using Matvi.Front.UI.Extensions
+@inject IUsuarioActualService UsuarioActualService
+@model Matvi.Front.UI.Areas.Finanzas.Pages.Pago.DetailsModel
+@{
+    ViewData["Title"] = "Pagos";
+    ViewData["Modulo"] = "Finanzas";
+    ViewData["UrlAnterior"] = Url.Page("Index");
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="row align-items-start gy-2">
+    <div class="col-auto">
+        <div class="align-items-center justify-content-center mv-perfil-circle">
+            @Model.GetProfileLetters(Model.Pago!.CtProv_Nombre)
+        </div>
+    </div>
+    <div class="col">
+        <h4 class="mb-0">@Model.Pago.CtProv_Nombre</h4>
+        <span class="text-muted">@Model.Pago.Folio</span>
+        <div class="d-block d-md-none mt-2">
+            @await Html.PartialAsync("_DetailsActions", Model.Pago)
+        </div>
+    </div>
+    <div class="col-auto d-none d-md-flex justify-content-end align-items-center">
+        @await Html.PartialAsync("_DetailsActions", Model.Pago)
+    </div>
+</div>
+
+<div>
+    <ul class="nav nav-tabs nav-bordered">
+        <li class="nav-item">
+            <a href="#tab-general" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
+                <span class="d-inline-block d-sm-none"><i class="mdi mdi-home-variant"></i></span>
+                <span class="d-none d-sm-inline-block">General</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#tab-compras" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
+                <span class="d-inline-block d-sm-none"><i class="mdi mdi-truck"></i></span>
+                <span class="d-none d-sm-inline-block">Compras</span>
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+
+        <div class="tab-pane show active" id="tab-general">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Sucursal</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Pago.CtSucu_Nombre
+                    </output>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Folio</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Pago.Folio
+                    </output>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Fecha</label>
+                    <div class="input-group">
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            <i class="mdi mdi-calendar"></i>
+                        </span>
+                        <output class="form-control mv-output-control">
+                            @Model.Pago.Fecha.ToString("dd/MM/yyyy HH:mm:ss ")
+                        </output>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <label class="form-label">Proveedor</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Pago.CtProv_Nombre
+                    </output>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Monto total</label>
+                    <div class="input-group">
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            <i class="mdi mdi-currency-usd"></i>
+                        </span>
+                        <output class="form-control mv-output-control">
+                            @Model.Pago.MontoTotal.ToString("N2")
+                        </output>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Medio de pago</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Pago.CtMedioPago_Nombre
+                    </output>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Usuario</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Pago.CtUsuarioPaga_Nombre
+                    </output>
+                </div>
+                @if (!string.IsNullOrWhiteSpace(Model.Pago.Notas))
+                {
+                    <div class="col-md-12">
+                        <label class="form-label">Notas</label>
+                        <output class="form-control mv-output-control">
+                            @Model.Pago.Notas
+                        </output>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="tab-pane" id="tab-compras">
+            <div class="table-responsive mt-2">
+                <table class="table table-sm table-hover mb-0 mv-table-static">
+                    <thead>
+                        <tr>
+                            <th>Folio compra</th>
+                            <th>Fecha</th>
+                            <th class="text-end">Total compra</th>
+                            <th class="text-end">Total pagado</th>
+                            <th class="text-end">Monto aplicado</th>
+                            <th class="text-end">Saldo pendiente</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Pago.Compras)
+                        {
+                            <tr>
+                                <td>@item.Folio</td>
+                                <td>@item.FechaCompra.ToString("dd/MM/yyyy")</td>
+                                <td class="text-end">@item.TotalCompra.ToTruncateMoney()</td>
+                                <td class="text-end">@item.TotalPagado.ToTruncateMoney()</td>
+                                <td class="text-end">@item.MontoAplicado.ToTruncateMoney()</td>
+                                <td class="text-end">@item.SaldoPendiente.ToTruncateMoney()</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="ContainerModal"></div>

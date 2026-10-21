@@ -1,0 +1,795 @@
+@page
+@using Matvi.Front.UI.Security.Services
+@inject IUsuarioActualService UsuarioActualService
+@model Matvi.Front.UI.Areas.Finanzas.Pages.Gasto.DetailsModel
+@{
+    ViewData["Title"] = "Gastos";
+    ViewData["Modulo"] = "Gastos";
+    ViewData["UrlAnterior"] = Url.Page("Index");
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="row align-items-start gy-2">
+
+    <div class="col">
+        <!-- Botones visibles en pantallas pequeñas -->
+        <div class="d-block d-md-none mt-2">
+            @await Html.PartialAsync("_DetailsActions", Model.Gasto.SafeId)
+        </div>
+    </div>
+    <!-- Botones alineados a la derecha en pantallas grandes -->
+    <div class="col-auto d-none d-md-flex justify-content-end align-items-center">
+        @await Html.PartialAsync("_DetailsActions", Model.Gasto.SafeId)
+    </div>
+</div>
+
+<div>
+    <ul class="nav nav-tabs nav-bordered">
+        <li class="nav-item">
+            <a href="#home-b1" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
+                <span class="d-inline-block d-sm-none"><i class="mdi mdi-home-variant"></i></span>
+                <span class="d-none d-sm-inline-block">General</span>
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane show active" id="home-b1">
+            <div class="row g-3">
+
+                <div class="col-md-4">
+                    <label class="form-label">Folio</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Gasto.Folio
+                    </output>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Fecha</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Gasto.FechaPago.ToString("dd/MM/yyyy")
+                    </output>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Tipo de gasto</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Gasto.CtTipoGast_Nombre
+                    </output>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Proveedor</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Gasto.Proveedor
+                    </output>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Concepto</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Gasto.Concepto
+                    </output>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Importe</label>
+                    <div class="input-group">
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            <i class="mdi mdi-currency-usd"></i>
+                        </span>
+                        <output class="form-control mv-output-control">
+                            @Model.Gasto.Importe.ToString("N2")
+                        </output>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Medio de pago</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Gasto.CtMedioPago_Nombre
+                    </output>
+                </div>
+
+                <div class="col-md-12">
+                    <label class="form-label">Notas</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Gasto.Notas
+                    </output>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Usuario</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Gasto.CtUsua_Nombre
+                    </output>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div id="ContainerModal">
+</div>
+
+@section Scripts {
+    <script>
+        window.gastoDeleteConfig = {
+            title: '@Html.Raw(ViewData["Title"])',
+            safeId: '@Model.Gasto.SafeId',
+            urlAnterior: '@ViewData["UrlAnterior"]',
+            urlBase: '/Finanzas/Gasto'
+        };
+    </script>
+    <script src="~/js/modules/Finanzas/Gasto/Delete.js"></script>
+}                                                                                                             
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

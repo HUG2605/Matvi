@@ -1,0 +1,35 @@
+﻿@page
+@model Matvi.Front.UI.Areas.Finanzas.Pages.Pago.IndexModel
+
+@{
+    ViewData["Title"] = "Pagos";
+    ViewData["Modulo"] = "Finanzas";
+    ViewData["RequiereSucursal"] = true;
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+@await Html.PartialAsync("_DataTablesStylesPartial")
+
+<table id="pago-datatable"
+       class="table table-sm table-hover activate-select dt-responsive nowrap w-100">
+
+    <thead>
+        <tr>
+            <th class="text-start">Folio</th>
+            <th class="text-start">Fecha</th>
+            <th class="text-start">Proveedor</th>
+            <th class="text-start">Medio de pago</th>
+            <th class="text-end">Monto total</th>
+            <th class="text-center">Acciones</th>
+        </tr>
+    </thead>
+
+    <tbody></tbody>
+</table>
+
+<div id="ContainerModal">
+</div>
+@section Scripts {
+    @await Html.PartialAsync("_DataTablesScriptsPartial")
+    <script src="~/js/modules/Finanzas/Pago/Index.js"></script>
+}

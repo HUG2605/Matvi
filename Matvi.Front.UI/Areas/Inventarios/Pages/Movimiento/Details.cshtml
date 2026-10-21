@@ -1,0 +1,142 @@
+@page
+@using Matvi.Front.UI.Extensions
+@using Matvi.Front.UI.Security.Permission
+@using Matvi.Front.UI.Security.Services
+@inject IUsuarioActualService UsuarioActualService
+@model Matvi.Front.UI.Areas.Inventarios.Pages.Movimiento.DetailsModel
+@{
+    ViewData["Title"] = "Movimientos";
+    ViewData["Modulo"] = "Inventarios";
+    ViewData["UrlAnterior"] = Url.Page("Index");
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="row align-items-start gy-2">
+    <div class="col-auto">
+        <div class="align-items-center justify-content-center mv-perfil-circle">
+            @Model.GetProfileLetters(Model.Movimiento!.CtProd_NombreCompleto!)
+        </div>
+    </div>
+
+    <!-- Nombre y subtítulo -->
+    <div class="col">
+        <h4 class="mb-0">@Model.Movimiento.CtProd_NombreCompleto</h4>
+        <span class="text-muted">@Model.Movimiento.CtTipoMovimiento_Nombre</span>
+
+        <!-- Botones visibles en pantallas pequeñas -->
+        <div class="d-block d-md-none mt-2">
+            @await Html.PartialAsync("_DetailsActions", Model.Movimiento)
+        </div>
+    </div>
+
+    <!-- Botones alineados a la derecha en pantallas grandes -->
+    <div class="col-auto d-none d-md-flex justify-content-end align-items-center">
+        @await Html.PartialAsync("_DetailsActions", Model.Movimiento)
+    </div>
+</div>
+
+<div>
+    <ul class="nav nav-tabs nav-bordered">
+        <li class="nav-item">
+            <a href="#home-b1" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
+                <span class="d-inline-block d-sm-none"><i class="mdi mdi-home-variant"></i></span>
+                <span class="d-none d-sm-inline-block">General</span>
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane show active" id="home-b1">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Sucursal</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Movimiento.CtSucu_Nombre
+                    </output>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Folio</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Movimiento.Folio
+                    </output>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Fecha</label>
+                    <div class="input-group">
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            <i class="mdi mdi-calendar"></i>
+                        </span>
+                        <output class="form-control mv-output-control">
+                            @Model.Movimiento.Fecha.ToDateTimeFormat()
+                        </output>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Usuario</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Movimiento.CtUsuario_Nombre
+                    </output>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Tipo de Movimiento</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Movimiento.CtTipoMovimiento_Nombre
+                    </output>
+                </div>
+                <div class="col-md-12">
+                    <label class="form-label">Producto</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Movimiento.CtProd_NombreCompleto
+                    </output>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Presentación</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Movimiento.CtPresProd_Nombre
+                    </output>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Factor UBI</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Movimiento.CtPresProd_FactorUBI.ToCustomDecimalFormat()
+                    </output>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Cantidad</label>
+                    <div class="input-group">
+                        <output class="form-control mv-output-control">
+                            @Model.Movimiento.CantidadUBI.ToCustomDecimalFormat()
+                        </output>
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            @Model.Movimiento.CtUnidBaseInve_Abreviatura
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Costo Unitario</label>
+                    <div class="input-group">
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            <i class="mdi mdi-currency-usd"></i>
+                        </span>
+                        <output class="form-control mv-output-control">
+                            @Model.Movimiento.CostoUBI?.ToCustomDecimalFormat()
+                        </output>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Costo Total</label>
+                    <div class="input-group">
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            <i class="mdi mdi-currency-usd"></i>
+                        </span>
+                        <output class="form-control mv-output-control">
+                            @Model.Movimiento.CostoTotal?.ToCustomDecimalFormat()
+                        </output>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ContainerModal">
+</div>

@@ -1,0 +1,237 @@
+@page
+@using Matvi.Front.UI.Security.Services
+@using Matvi.Front.UI.Extensions
+@inject IUsuarioActualService UsuarioActualService
+@model Matvi.Front.UI.Areas.Compras.Pages.Compra.DetailsModel
+@{
+    ViewData["Title"] = "Compras";
+    ViewData["Modulo"] = "Compras";
+    ViewData["UrlAnterior"] = Url.Page("Index");
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="row align-items-start gy-2">
+    <div class="col-auto">
+        <div class="align-items-center justify-content-center mv-perfil-circle">
+            @Model.GetProfileLetters(Model.Compra!.CtProv_Nombre)
+        </div>
+    </div>
+    <div class="col">
+        <h4 class="mb-0">@Model.Compra.CtProv_Nombre</h4>
+        <span class="text-muted">@Model.Compra.Folio</span>
+        <div class="d-block d-md-none mt-2">
+            @await Html.PartialAsync("_DetailsActions", Model.Compra)
+        </div>
+    </div>
+    <div class="col-auto d-none d-md-flex justify-content-end align-items-center">
+        @await Html.PartialAsync("_DetailsActions", Model.Compra)
+    </div>
+</div>
+
+<div>
+    <ul class="nav nav-tabs nav-bordered">
+        <li class="nav-item">
+            <a href="#tab-general" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
+                <span class="d-inline-block d-sm-none"><i class="mdi mdi-home-variant"></i></span>
+                <span class="d-none d-sm-inline-block">General</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#tab-productos" data-bs-toggle="tab" class="nav-link">
+                <span class="d-inline-block d-sm-none"><i class="mdi mdi-package-variant"></i></span>
+                <span class="d-none d-sm-inline-block">Productos</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#tab-lotes" data-bs-toggle="tab" class="nav-link">
+                <span class="d-inline-block d-sm-none"><i class="mdi mdi-layers"></i></span>
+                <span class="d-none d-sm-inline-block">Lotes</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#tab-pagos" data-bs-toggle="tab" class="nav-link">
+                <span class="d-inline-block d-sm-none"><i class="mdi mdi-cash"></i></span>
+                <span class="d-none d-sm-inline-block">Pagos</span>
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+
+        <div class="tab-pane show active" id="tab-general">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Sucursal</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Compra.CtSucu_Nombre
+                    </output>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Folio</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Compra.Folio
+                    </output>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Fecha</label>
+                    <div class="input-group">
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            <i class="mdi mdi-calendar"></i>
+                        </span>
+                        <output class="form-control mv-output-control">
+                            @Model.Compra.Fecha.ToDateTimeFormat()
+                        </output>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <label class="form-label">Proveedor</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Compra.CtProv_Nombre
+                    </output>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Total</label>
+                    <div class="input-group">
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            <i class="mdi mdi-currency-usd"></i>
+                        </span>
+                        <output class="form-control mv-output-control">
+                            @Model.Compra.Total.ToString("N2")
+                        </output>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Total Pagado</label>
+                    <div class="input-group">
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            <i class="mdi mdi-currency-usd"></i>
+                        </span>
+                        <output class="form-control mv-output-control">
+                            @Model.Compra.TotalPagado.ToString("N2")
+                        </output>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Estatus de pago</label>
+                    <output class="form-control mv-output-control">
+                        @if (Model.Compra.TotalPagado >= Model.Compra.Total)
+                        {
+                            <span>PAGADA</span>
+                        }
+                        else
+                        {
+                            <span>PENDIENTE — Saldo: @Model.Compra.SaldoPendiente.ToTruncateMoney()</span>
+                        }
+                    </output>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane" id="tab-productos">
+            <div class="table-responsive mt-2">
+                <table class="table table-sm table-hover mb-0 mv-table-static">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Presentación</th>
+                            <th class="text-center">Factor UBI</th>
+                            <th class="text-center">Cantidad</th>
+                            <th class="text-end">Costo UP</th>
+                            <th class="text-end">Costo UBI</th>
+                            <th class="text-end">Importe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Compra.Productos)
+                        {
+                            <tr>
+                                <td>@item.CtProd_NombreCompleto</td>
+                                <td>@item.CtPresProd_Nombre</td>
+                                <td class="text-center">
+                                    @item.CtPresProd_FactorUBI.ToCustomDecimalFormat() @item.CtUnidBaseInve_Abreviatura
+                                </td>
+                                <td class="text-center">@item.Cantidad.ToCustomDecimalFormat()</td>
+                                <td class="text-end">@item.CostoUP.ToTruncateMoney()</td>
+                                <td class="text-end">@item.CostoUBI.ToTruncateMoney()</td>
+                                <td class="text-end">@item.Importe.ToTruncateMoney()</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="tab-pane" id="tab-lotes">
+            <div class="table-responsive mt-2">
+                <table class="table table-sm table-hover mb-0 mv-table-static">
+                    <thead>
+                        <tr>
+                            <th>Folio</th>
+                            <th>Tipo</th>
+                            <th>Producto</th>
+                            <th>Presentación</th>
+                            <th class="text-center">Factor UBI</th>
+                            <th class="text-center">Cantidad inicial</th>
+                            <th class="text-center">Cantidad disponible</th>
+                            <th class="text-end">Costo UP</th>
+                            <th class="text-end">Costo UBI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Compra.Lotes)
+                        {
+                            <tr>
+                                <td>@item.Folio</td>
+                                <td>@item.CtTipoLote_Nombre</td>
+                                <td>@item.CtProd_NombreCompleto</td>
+                                <td>@item.CtPresProd_Nombre</td>
+                                <td class="text-center">
+                                    @item.CtPresProd_FactorUBI.ToCustomDecimalFormat() @item.CtUnidBaseInve_Abreviatura
+                                </td>
+                                <td class="text-center">@item.CantidadInicialUBI.ToCustomDecimalFormat()</td>
+                                <td class="text-center">@item.CantidadDisponibleUBI.ToCustomDecimalFormat()</td>
+                                <td class="text-end">@item.CostoUP.ToTruncateMoney()</td>
+                                <td class="text-end">@item.CostoUBI.ToTruncateMoney()</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="tab-pane" id="tab-pagos">
+            <div class="table-responsive mt-2">
+                <table class="table table-sm table-hover mb-0 mv-table-static">
+                    <thead>
+                        <tr>
+                            <th>Folio</th>
+                            <th>Fecha</th>
+                            <th>Medio de Pago</th>
+                            <th>Usuario pagó</th>
+                            <th class="text-end">Saldo inicial</th>
+                            <th class="text-end">Monto aplicado</th>
+                            <th class="text-end">Saldo final</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Compra.Pagos)
+                        {
+                            <tr>
+                                <td>@item.Folio</td>
+                                <td>@item.Fecha.ToDateTimeFormat()</td>
+                                <td>@item.CtMediPago_Nombre</td>
+                                <td>@item.CtUsuaPaga_Nombre</td>
+                                <td class="text-end">@item.SaldoInicial.ToTruncateMoney()</td>
+                                <td class="text-end">@item.MontoAplicado.ToTruncateMoney()</td>
+                                <td class="text-end">@item.SaldoFinal.ToTruncateMoney()</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="ContainerModal"></div>

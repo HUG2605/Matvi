@@ -1,0 +1,47 @@
+@page
+@using Matvi.Front.UI.Security.Permission
+@using Matvi.Front.UI.Security.Services
+@inject IUsuarioActualService UsuarioActualService
+@model Matvi.Front.UI.Areas.Compras.Pages.Compras.IndexModel
+@{
+    ViewData["Title"] = "Compras";
+    ViewData["Modulo"] = "Compras";
+    ViewData["RequiereSucursal"] = true;
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+@await Html.PartialAsync("_DataTablesStylesPartial")
+
+<div id="contenedorBotonNuevo" style="display:none;">
+    @if (UsuarioActualService.TienePermiso(Funcion.Compras_Compras, Accion.Crear))
+    {
+        <a id="btnNuevo" class="btn mv-btn-primary me-2 mb-1"
+           asp-page="/Compra/Create"
+           data-ajax="true"
+           data-ajax-update="#ContainerModal"
+           data-ajax-method="GET"
+           data-ajax-mode="replace"
+           title="Crear" aria-label="Crear">
+            <i class="mdi mdi-plus-circle-outline"></i> Nuevo
+        </a>
+    }
+</div>
+<table id="compra-datatable" class="table table-sm table-hover activate-select dt-responsive nowrap w-100">
+    <thead>
+        <tr>
+            <th class="text-start">Folio</th>
+            <th class="text-start">Fecha</th>
+            <th class="text-start">Proveedor</th>
+            <th class="text-center">Estatus</th>
+            <th class="text-end">Total</th>
+            <th class="text-center">Acciones</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+<div id="ContainerModal">
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_DataTablesScriptsPartial")
+    <script src="~/js/Modules/Compras/Compra/Index.js" asp-append-version="true"></script>
+}

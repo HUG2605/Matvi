@@ -1,0 +1,20 @@
+{
+  "name": "Matvi - Materiales Villanueva",
+  "short_name": "Matvi",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#51443B",
+  "icons": [
+    {
+      "src": "/assets/images/logo-sm.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/images/logo-sm.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

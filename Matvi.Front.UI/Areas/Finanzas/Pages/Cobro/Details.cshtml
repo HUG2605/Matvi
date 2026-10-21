@@ -1,0 +1,155 @@
+@page
+@using Matvi.Front.UI.Security.Services
+@using Matvi.Front.UI.Extensions
+@inject IUsuarioActualService UsuarioActualService
+@model Matvi.Front.UI.Areas.Finanzas.Pages.Cobro.DetailsModel
+@{
+    ViewData["Title"] = "Cobro";
+    ViewData["Modulo"] = "Finanzas";
+    ViewData["UrlAnterior"] = Url.Page("Index");
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="row align-items-start gy-2">
+    <div class="col-auto">
+        <div class="align-items-center justify-content-center mv-perfil-circle">
+            @Model.GetProfileLetters(Model.Cobro!.CtClie_Nombre)
+        </div>
+    </div>
+    <div class="col">
+        <h4 class="mb-0">@Model.Cobro.CtClie_Nombre</h4>
+        <span class="text-muted">@Model.Cobro.Folio</span>
+    </div>
+</div>
+
+<div>
+    <ul class="nav nav-tabs nav-bordered">
+        <li class="nav-item">
+            <a href="#tab-general" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
+                <span class="d-inline-block d-sm-none"><i class="mdi mdi-home-variant"></i></span>
+                <span class="d-none d-sm-inline-block">General</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#tab-pedidos" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
+                <span class="d-inline-block d-sm-none"><i class="mdi mdi-cart-outline"></i></span>
+                <span class="d-none d-sm-inline-block">Pedidos</span>
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+
+        <div class="tab-pane show active" id="tab-general">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Folio</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Cobro.Folio
+                    </output>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Sucursal</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Cobro.CtSucu_Nombre
+                    </output>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Fecha</label>
+                    <div class="input-group">
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            <i class="mdi mdi-calendar"></i>
+                        </span>
+                        <output class="form-control mv-output-control">
+                            @Model.Cobro.Fecha.ToString("dd/MM/yyyy HH:mm:ss")
+                        </output>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <label class="form-label">Cliente</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Cobro.CtClie_Nombre
+                    </output>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Monto total</label>
+                    <div class="input-group">
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            <i class="mdi mdi-currency-usd"></i>
+                        </span>
+                        <output class="form-control mv-output-control">
+                            @Model.Cobro.MontoTotal.ToString("N2")
+                        </output>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Medio de pago</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Cobro.CtMedioPago_Nombre
+                    </output>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Usuario cobró</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Cobro.CtUsuarioRecibe_Nombre
+                    </output>
+                </div>
+                @if (!string.IsNullOrWhiteSpace(Model.Cobro.Notas))
+                {
+                    <div class="col-md-12">
+                        <label class="form-label">Notas</label>
+                        <output class="form-control mv-output-control">
+                            @Model.Cobro.Notas
+                        </output>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="tab-pane" id="tab-pedidos">
+            <div class="table-responsive mt-2">
+                <table class="table table-sm table-hover mb-0 mv-table-static">
+                    <thead>
+                        <tr>
+                            <th>Folio pedido</th>
+                            <th>Fecha</th>
+                            <th class="text-end">Total pedido</th>
+                            <th class="text-end">Total pagado</th>
+                            <th class="text-end">Monto aplicado</th>
+                            <th class="text-end">Saldo pendiente</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Cobro.Pedidos)
+                        {
+                            <tr>
+                                <td>@item.Folio</td>
+                                <td>@item.FechaPedido.ToString("dd/MM/yyyy")</td>
+                                <td class="text-end">@item.TotalPedido.ToTruncateMoney()</td>
+                                <td class="text-end">@item.TotalPagado.ToTruncateMoney()</td>
+                                <td class="text-end">
+                                    @item.MontoAplicado.ToTruncateMoney()
+                                </td>
+                                <td class="text-end">
+                                    @item.SaldoPendiente.ToTruncateMoney()
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4" class="text-end fw-bold">Total aplicado</td>
+                            <td class="text-end fw-bold">
+                                @Model.Cobro.Pedidos.Sum(p => p.MontoAplicado).ToTruncateMoney()
+                            </td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="ContainerModal"></div>

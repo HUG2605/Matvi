@@ -1,0 +1,160 @@
+@using Matvi.Back.Application.Modules.Productos.PresentacionProducto.Dtos
+@using Matvi.Front.UI.Areas.Productos.Pages.PresentacionProducto.ViewModels
+@using Matvi.Front.UI.Extensions
+@using Matvi.Front.UI.Security.Permission
+@using Matvi.Front.UI.Security.Services
+@inject IUsuarioActualService UsuarioActualService
+@model ListarPresentacionProductoVm
+
+<div class="table-responsive">
+    <table class="table table-sm table-hover activate-select dt-responsive nowrap w-100 dataTable no-footer dtr-inline">
+        <thead>
+            <tr>
+                <th>
+                    Presentación
+                </th>
+                <th class="text-center">
+                    Para compra
+                </th>
+                <th class="text-center">
+                    Para venta
+                </th>
+                <th class="text-end">
+                    Precio de venta
+                </th>
+                <th class="text-end">
+                    Precio de mayoreo
+                </th>
+                <th class="text-end">
+                    Unidades de mayoreo
+                </th>
+                @if (UsuarioActualService.TienePermiso(Funcion.Productos_Productos, Accion.Editar_PresentacionProducto))
+                {
+                    <th class="text-center">
+                        Editar
+                    </th>
+                }
+                @if (UsuarioActualService.TienePermiso(Funcion.Productos_Productos, Accion.Eliminar_PresentacionProducto))
+                {
+                    <th class="text-center">
+                        Quitar
+                    </th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pp in Model.PresentacionesProducto!)
+            {
+                <tr>
+                    <td>
+                        @pp.CtPresProd_Descripcion
+                    </td>
+                    <td class="text-center">
+                        <input class="form-check-input" type="checkbox" checked="@(pp.EsParaCompra)" disabled />
+                    </td>
+                    <td class="text-center">
+                        <input class="form-check-input" type="checkbox" checked="@(pp.EsParaVenta)" disabled />
+                    </td>
+                    <td class="text-end">
+                        @pp.PrecioVenta.ToTruncateMoney()
+                    </td>
+                    <td class="text-end">
+                        @(pp.PrecioMayoreo == null ? "N/A" : pp.PrecioMayoreo.ToTruncateMoney())
+                    </td>
+                    <td class="text-end">
+                        @(pp.UnidadesMayoreo == null ? "N/A" : pp.UnidadesMayoreo)
+                    </td>
+                    @if (UsuarioActualService.TienePermiso(Funcion.Productos_Productos, Accion.Editar_PresentacionProducto))
+                    {
+                        <td class="text-center">
+                            <a asp-page="/PresentacionProducto/Edit"
+                                   asp-route-id="@pp.SafeId"
+                                   class="mv-btn-secondary"
+                                   data-ajax="true"
+                                   data-ajax-update="#ContainerModal"
+                                   data-ajax-method="GET"
+                                   data-ajax-mode="replace"
+                                   title="Editar" aria-label="Editar">
+                                <i class="mdi mdi-square-edit-outline"></i>
+                            </a>
+                        </td>
+                    }
+                    @if (UsuarioActualService.TienePermiso(Funcion.Productos_Productos, Accion.Eliminar_PresentacionProducto))
+                    {
+                        <td class="text-center">
+                            @if (pp.EsPresentacionBase == false)
+                            {
+                                <a href="javascript:void(0);"
+                                       class="mv-btn-primary"
+                                       title="Eliminar"
+                                       aria-label="Eliminar"
+                                       onclick="onDeletePresentacionProductoClick('@pp.SafeId')">
+                                    <i class="mdi mdi-trash-can"></i>
+                                </a>
+                            }
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+        @if (UsuarioActualService.TienePermiso(Funcion.Productos_Productos, Accion.Crear_PresentacionProducto))
+        {
+            var colSpan = 5;
+
+            if (UsuarioActualService.TienePermiso(Funcion.Productos_Productos, Accion.Editar_PresentacionProducto))
+            {
+                colSpan++;
+            }
+            if (UsuarioActualService.TienePermiso(Funcion.Productos_Productos, Accion.Eliminar_PresentacionProducto))
+            {
+                colSpan++;
+            }
+
+            <tfoot>
+                <tr>
+                    <td colspan="@colSpan">
+                    </td>
+                    <td class="text-center">
+                        <a asp-page="/PresentacionProducto/Create"
+                               asp-route-productoId="@Model.CtProd_SafeId"
+                               class="mv-btn-primary"
+                               data-ajax="true"
+                               data-ajax-update="#ContainerModal"
+                               data-ajax-method="GET"
+                               data-ajax-mode="replace"
+                               title="Crear" aria-label="Crear">
+                            <i class="mdi mdi-plus-circle"></i>
+                        </a>
+                    </td>
+                </tr>
+            </tfoot>
+        }
+    </table>
+</div>
+
+<script>
+
+    //#region DELETE
+
+    function onDeletePresentacionProductoClick(presentacionProductoId) {
+        Matvi.confirm('Presentaciones del producto', "¿Confirma que desea eliminar la información de la presentación del producto?", function (resp) {
+            if (resp == true) {
+                let urlBase = "/Productos/PresentacionProducto";
+                $.ajax({
+                    url: `${urlBase}?handler=Delete`,
+                    data: {
+                        'id': presentacionProductoId
+                    },
+                    type: "GET"
+                }).done(function (response) {
+                    Matvi.alert(response.messageType, "Presentaciones del producto", response.message, function () {
+                        $("#home-b3").load("/Productos/PresentacionProducto?handler=List&productoId=" + '@Model.CtProd_SafeId');
+                    });
+                });
+            }
+        });
+     }
+
+     //#endregion
+
+</script>

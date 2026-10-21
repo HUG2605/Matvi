@@ -1,0 +1,29 @@
+﻿@using Matvi.Front.UI.Security.Permission
+@using Matvi.Front.UI.Security.Services
+@inject IUsuarioActualService UsuarioActualService
+@model string // SafeId
+@{
+    var funcion = Funcion.Configuracion_Sucursales;
+}
+
+@if (UsuarioActualService.TienePermiso(funcion, Accion.Editar))
+{
+    <a class="btn btn-sm rounded-circle me-2 mv-btn-icon-secondary"
+       asp-page="/Sucursal/Edit"
+       asp-route-Id="@Model"
+       data-ajax="true"
+       data-ajax-update="#ContainerModal"
+       data-ajax-method="GET"
+       data-ajax-mode="replace"
+       title="Editar" aria-label="Editar">
+        <i class="mdi mdi-square-edit-outline fs-5"></i>
+    </a>
+}
+
+@if (UsuarioActualService.TienePermiso(funcion, Accion.Eliminar))
+{
+    <button type="button" name="btnDelete" class="btn btn-sm rounded-circle me-2 mv-btn-icon-primary"
+            title="Eliminar" aria-label="Eliminar">
+        <i class="mdi mdi-trash-can-outline fs-5"></i>
+    </button>
+}

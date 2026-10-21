@@ -1,0 +1,189 @@
+@using Matvi.Front.UI.Extensions
+@using Matvi.Back.Application.Modules.Ventas.Pedido.Dtos
+@model List<DetallarPedidoEstatusDto>
+
+@{
+    string GetStatusIcon(byte? idEstatus) => idEstatus switch
+    {
+        1 => "mdi-plus-circle-outline",        // CREADO
+        2 => "mdi-bookmark-outline",            // APARTADO
+        3 => "mdi-progress-clock",              // EN_PROCESO
+        4 => "mdi-check-circle-outline",        // ENTREGADO
+        5 => "mdi-truck-check-outline",         // ENTREGADO_PARCIAL
+        6 => "mdi-close-circle-outline",        // RECHAZADO
+        7 => "mdi-cancel",                      // CANCELADO
+        _ => "mdi-record-circle-outline"
+    };
+
+    string GetSubEventIcon(byte? idTipoEvento) => idTipoEvento switch
+    {
+        1 => "mdi-bookmark-outline text-info",
+        2 => "mdi-package-variant-closed text-warning",
+        3 => "mdi-truck-delivery-outline text-success",
+        4 => "mdi-close-circle-outline text-danger",
+        5 => "mdi-cancel text-secondary",
+        _ => "mdi-circle-small"
+    };
+
+    string ConstruirResumenSubEventos(List<DetallarPedidoEstatusDto> subs)
+    {
+        var partes = new List<string>();
+        var surtidos = subs.Count(s => s.IdCtTipoEventoPedidoDetalle == 2);
+        var entregas = subs.Count(s => s.IdCtTipoEventoPedidoDetalle == 3);
+        var rechazos = subs.Count(s => s.IdCtTipoEventoPedidoDetalle == 4);
+        var cancelados = subs.Count(s => s.IdCtTipoEventoPedidoDetalle == 5);
+
+        if (surtidos > 0) partes.Add($"{surtidos} surtido{(surtidos > 1 ? "s" : "")}");
+        if (entregas > 0) partes.Add($"{entregas} entrega{(entregas > 1 ? "s" : "")}");
+        if (rechazos > 0) partes.Add($"{rechazos} rechazo{(rechazos > 1 ? "s" : "")}");
+        if (cancelados > 0) partes.Add($"{cancelados} cancelaci{(cancelados > 1 ? "ones" : "ón")}");
+
+        return partes.Count > 0 ? string.Join(" · ", partes) : $"{subs.Count} eventos";
+    }
+
+    var tieneSubEventos = Model != null && Model.Any(m => m.SubEventos != null && m.SubEventos.Any());
+}
+
+<div class="mv-timeline-card p-0">
+    <div class="card-body px-0 pt-0">
+        <div class="mv-timeline-header d-flex justify-content-between align-items-center">
+            <div>
+                <i class="mdi mdi-timeline-clock-outline me-1"></i> Línea del Pedido
+            </div>
+            @if (tieneSubEventos)
+            {
+                <button type="button" class="btn btn-sm btn-link text-decoration-none p-0 font-11 text-muted" onclick="toggleAllSubEventos()">
+                    <span id="txtToggleSubEventos">Expandir eventos</span>
+                </button>
+            }
+        </div>
+
+        @if (Model != null && Model.Any())
+        {
+            <div class="mv-timeline">
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    var item = Model[i];
+                    var statusClass = $"status-{item.IdCtEstatusPedido}";
+                    var statusTitle = item.CtEstatus_Nombre;
+                    var iconClass = GetStatusIcon(item.IdCtEstatusPedido);
+                    var haySubs = item.SubEventos != null && item.SubEventos.Any();
+                    var collapseId = $"collapse-subevents-{item.Id}-{i}";
+
+                    <div class="mv-timeline-item">
+                        <div class="mv-timeline-date">
+                            @item.Fecha.ToString("dd/MM/yyyy")
+                            <span class="mv-timeline-time">@item.Fecha.ToString("HH:mm:ss")</span>
+                        </div>
+                        <div class="mv-timeline-point @statusClass"></div>
+                        <div class="mv-timeline-content">
+                            <div class="mv-timeline-status @statusClass">
+                                <i class="mdi @iconClass font-15"></i>
+                                <span>@statusTitle</span>
+                            </div>
+
+                            <div class="mv-timeline-user">
+                                <i class="mdi mdi-account-outline font-12 me-1"></i>@item.CtUsuario_Nombre
+                            </div>
+
+                            @if (!string.IsNullOrWhiteSpace(item.Notas))
+                            {
+                                <div class="mv-timeline-notes">
+                                    <i class="mdi mdi-comment-text-outline me-1"></i>@item.Notas
+                                </div>
+                            }
+
+                            @if (haySubs)
+                            {
+                                var resumen = ConstruirResumenSubEventos(item.SubEventos!);
+                                <div class="mt-2">
+                                    <a class="btn btn-xs btn-outline-secondary d-inline-flex align-items-center gap-1 font-11 py-0 px-2 rounded-pill mv-btn-subeventos"
+                                       data-bs-toggle="collapse"
+                                       href="#@collapseId"
+                                       role="button"
+                                       aria-expanded="false"
+                                       aria-controls="@collapseId">
+                                        <i class="mdi mdi-layers-outline"></i>
+                                        <span>@resumen</span>
+                                        <i class="mdi mdi-chevron-down font-12 ms-1 transition-icon"></i>
+                                    </a>
+
+                                    <div class="collapse mv-subeventos-collapse mt-2" id="@collapseId">
+                                        <div class="mv-subtimeline p-2 rounded">
+                                            @foreach (var sub in item.SubEventos!)
+                                            {
+                                                var subIcon = GetSubEventIcon(sub.IdCtTipoEventoPedidoDetalle);
+
+                                                <div class="mv-subtimeline-item mb-2 pb-2 border-bottom border-light-subtle last-no-border">
+                                                    <div class="d-flex justify-content-between align-items-center font-11 mb-1">
+                                                        <span class="fw-semibold d-flex align-items-center gap-1">
+                                                            <i class="mdi @subIcon font-13"></i>
+                                                            @sub.CtTipoEvento_Nombre
+                                                        </span>
+                                                        <span class="text-muted font-10">
+                                                            @sub.Fecha.ToString("HH:mm:ss")
+                                                            @if (!string.IsNullOrEmpty(sub.CtUsuario_Nombre))
+                                                            {
+                                                                <text>· @sub.CtUsuario_Nombre</text>
+                                                            }
+                                                        </span>
+                                                    </div>
+
+                                                    @if (sub.Productos != null && sub.Productos.Any())
+                                                    {
+                                                        <div class="mv-timeline-products">
+                                                            @foreach (var prod in sub.Productos)
+                                                            {
+                                                                <div class="mv-timeline-prod-item" title="@prod.ProductoNombre - @prod.PresentacionNombre">
+                                                                    <span class="mv-timeline-prod-qty">@prod.Cantidad.ToCustomDecimalFormat()</span>
+                                                                    <span class="mv-timeline-prod-name">@prod.ProductoNombre <small class="text-muted">(@prod.PresentacionNombre)</small></span>
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                    }
+
+                                                    @if (!string.IsNullOrWhiteSpace(sub.Notas) && sub.Notas != item.Notas)
+                                                    {
+                                                        <div class="font-11 text-muted fst-italic mt-1 ps-2 border-start border-2">
+                                                            @sub.Notas
+                                                        </div>
+                                                    }
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="text-center text-muted py-4">
+                <i class="mdi mdi-information-outline display-6 d-block mb-2"></i>
+                Sin historial registrado
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    function toggleAllSubEventos() {
+        var collapses = document.querySelectorAll('.mv-subeventos-collapse');
+        var isAnyOpen = Array.from(collapses).some(function(c) { return c.classList.contains('show'); });
+        collapses.forEach(function(c) {
+            var bsCollapse = bootstrap.Collapse.getInstance(c) || new bootstrap.Collapse(c, { toggle: false });
+            if (isAnyOpen) {
+                bsCollapse.hide();
+            } else {
+                bsCollapse.show();
+            }
+        });
+        var txt = document.getElementById('txtToggleSubEventos');
+        if (txt) {
+            txt.textContent = isAnyOpen ? 'Expandir eventos' : 'Colapsar eventos';
+        }
+    }
+</script>

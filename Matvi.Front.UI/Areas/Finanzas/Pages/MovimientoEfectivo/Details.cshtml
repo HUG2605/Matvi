@@ -1,0 +1,136 @@
+@page
+@model Matvi.Front.UI.Areas.Finanzas.Pages.MovimientoEfectivo.DetailsModel
+@{
+    ViewData["Title"] = "Movimientos de Efectivo";
+    ViewData["Modulo"] = "Finanzas";
+    ViewData["UrlAnterior"] = Url.Page("Index");
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+    var mov = Model.Movimiento;
+}
+
+<div class="row align-items-start gy-2">
+    <div class="col-auto">
+        <div class="align-items-center justify-content-center mv-perfil-circle">
+            @Model.GetProfileLetters(mov.OrigenFolio ?? mov.OrigenTipo)
+        </div>
+    </div>
+    <div class="col">
+        <h4 class="mb-0">@mov.OrigenFolio</h4>
+        <span class="text-muted">@mov.OrigenConcepto | Cajero: @mov.Usuario</span>
+        <div class="d-block d-md-none mt-2">
+            @await Html.PartialAsync("_DetailsActions", mov)
+        </div>
+    </div>
+    <div class="col-auto d-none d-md-flex justify-content-end align-items-center">
+        @await Html.PartialAsync("_DetailsActions", mov)
+    </div>
+</div>
+
+<div>
+    <ul class="nav nav-tabs nav-bordered">
+        <li class="nav-item">
+            <a href="#tab-general" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
+                <span class="d-inline-block d-sm-none"><i class="mdi mdi-home-variant"></i></span>
+                <span class="d-none d-sm-inline-block">General</span>
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane show active" id="tab-general">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Folio</label>
+                    <output class="form-control mv-output-control">
+                        @mov.OrigenFolio
+                    </output>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Fecha</label>
+                    <div class="input-group">
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            <i class="mdi mdi-calendar"></i>
+                        </span>
+                        <output class="form-control mv-output-control">
+                            @mov.Fecha.ToString("dd/MM/yyyy HH:mm:ss")
+                        </output>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Monto</label>
+                    <div class="input-group">
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            <i class="mdi mdi-currency-usd"></i>
+                        </span>
+                        <output class="form-control mv-output-control @(mov.Tipo == 1 ? "text-success fw-bold" : "text-danger fw-bold")">
+                            @(mov.Tipo == 1 ? "+" : "-") @mov.Monto.ToTruncateMoney()
+                        </output>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Tipo de movimiento</label>
+                    <output class="form-control mv-output-control">
+                        @mov.TipoDescripcion
+                    </output>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Operación origen</label>
+                    <output class="form-control mv-output-control">
+                        @mov.OrigenTipo
+                    </output>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Tercero / Beneficiario</label>
+                    <output class="form-control mv-output-control">
+                        @(mov.OrigenTercero ?? "N/A")
+                    </output>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Cajero / Usuario</label>
+                    <output class="form-control mv-output-control">
+                        @mov.Usuario
+                    </output>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Sucursal</label>
+                    <output class="form-control mv-output-control">
+                        @mov.SucursalClave - @mov.SucursalNombre
+                    </output>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Corte de caja</label>
+                    <output class="form-control mv-output-control">
+                        @if (mov.IdOpCorteCaja.HasValue && !string.IsNullOrEmpty(mov.CorteCajaUrl))
+                        {
+                            <a href="@mov.CorteCajaUrl">@mov.CorteCajaFolio (@(mov.CorteCajaEstado ?? "Registrado"))</a>
+                        }
+                        else
+                        {
+                            <span class="text-muted">Sin corte de caja</span>
+                        }
+                    </output>
+                </div>
+
+                @if (!string.IsNullOrWhiteSpace(mov.Notas))
+                {
+                    <div class="col-md-12">
+                        <label class="form-label">Notas</label>
+                        <output class="form-control mv-output-control">
+                            @mov.Notas
+                        </output>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ContainerModal"></div>

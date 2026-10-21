@@ -1,0 +1,384 @@
+@page
+@using Matvi.Front.UI.Security.Permission
+@using Matvi.Front.UI.Security.Services
+@using Matvi.Front.UI.Extensions
+@using Matvi.Back.Application.Common.Enums
+@inject IUsuarioActualService UsuarioActualService
+@model Matvi.Front.UI.Areas.Ventas.Pages.Pedido.DetailsModel
+@{
+    ViewData["Title"] = "Pedido";
+    ViewData["Modulo"] = "Ventas";
+    ViewData["UrlAnterior"] = Url.Page("Index");
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+    var verSensibles = UsuarioActualService.PuedeVerSensibles(Funcion.Ventas_Pedidos);
+    var estatus = Model.Pedido?.IdCtEstatusPedido ?? 0;
+    var esCancelado = estatus == (byte)EstatusPedidoEnm.CANCELADO;
+    var esEntregado = estatus == (byte)EstatusPedidoEnm.ENTREGADO || estatus == (byte)EstatusPedidoEnm.ENTREGADO_PARCIAL || esCancelado;
+    var esEnProceso = estatus == (byte)EstatusPedidoEnm.EN_PROCESO;
+    var tienePendientePorSurtir = Model.Pedido?.Productos?.Any(p => p.CantidadPendienteSurtir > 0) == true;
+    var tieneCustodiaPendiente = Model.Pedido?.Productos?.Any(p => p.Custodia > 0) == true;
+    var esSurtible = (estatus == (byte)EstatusPedidoEnm.CREADO || estatus == (byte)EstatusPedidoEnm.APARTADO || esEnProceso) && tienePendientePorSurtir;
+    var esEntregable = esEnProceso && tieneCustodiaPendiente;
+    var esCancelable = (estatus == (byte)EstatusPedidoEnm.CREADO || estatus == (byte)EstatusPedidoEnm.APARTADO || esEnProceso) && tienePendientePorSurtir;
+}
+
+<div class="row align-items-start gy-2 mb-3">
+    <div class="col-auto">
+        <div class="align-items-center justify-content-center mv-perfil-circle">
+            @Model.GetProfileLetters(Model.Pedido.Folio)
+        </div>
+    </div>
+    <div class="col">
+        <h4 class="mb-0">@Model.Pedido!.Folio</h4>
+        <span class="d-block text-muted">@Model.Pedido.CtEstatus_Nombre</span>
+        <span class="text-muted">@Model.Pedido.CtClie_Nombre</span>
+
+        <div class="d-block d-md-none mt-2">
+            @await Html.PartialAsync("_DetailsActions", Model.Pedido.SafeId, new ViewDataDictionary(ViewData) { ["EsSurtible"] = esSurtible, ["EsEntregable"] = esEntregable, ["EsEntregado"] = esEntregado, ["EsEnProceso"] = esEnProceso, ["EsCancelable"] = esCancelable, ["TieneSaldoPendiente"] = Model.Pedido.SaldoPendiente > 0 && !esCancelado, ["IdCliente"] = Model.Pedido.IdCtCliente })
+        </div>
+    </div>
+
+    <div class="col-auto d-none d-md-flex justify-content-end align-items-center">
+        @await Html.PartialAsync("_DetailsActions", Model.Pedido.SafeId, new ViewDataDictionary(ViewData) { ["EsSurtible"] = esSurtible, ["EsEntregable"] = esEntregable, ["EsEntregado"] = esEntregado, ["EsEnProceso"] = esEnProceso, ["EsCancelable"] = esCancelable, ["TieneSaldoPendiente"] = Model.Pedido.SaldoPendiente > 0 && !esCancelado, ["IdCliente"] = Model.Pedido.IdCtCliente })
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-lg-5 col-xl-4">
+        @await Html.PartialAsync("_TimelinePartial", Model.Pedido.HistorialEstatus)
+    </div>
+
+    <div class="col-lg-7 col-xl-8">
+        <ul class="nav nav-tabs nav-bordered">
+            <li class="nav-item">
+                <a href="#home-b1" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
+                    <span class="d-inline-block d-sm-none"><i class="mdi mdi-home-variant"></i></span>
+                    <span class="d-none d-sm-inline-block">General</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#tab-productos" data-bs-toggle="tab" class="nav-link">
+                    <span class="d-inline-block d-sm-none"><i class="mdi mdi-package-variant"></i></span>
+                    <span class="d-none d-sm-inline-block">Productos</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#tab-cobros" data-bs-toggle="tab" class="nav-link">
+                    <span class="d-inline-block d-sm-none"><i class="mdi mdi-cash-register"></i></span>
+                    <span class="d-none d-sm-inline-block">Cobros</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#tab-lotes" data-bs-toggle="tab" class="nav-link">
+                    <span class="d-inline-block d-sm-none"><i class="mdi mdi-layers-outline"></i></span>
+                    <span class="d-none d-sm-inline-block">Lotes</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div class="tab-pane show active" id="home-b1">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Sucursal</label>
+                        <output class="form-control mv-output-control">@Model.Pedido.CtSucu_Nombre</output>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Folio</label>
+                        <output class="form-control mv-output-control">@Model.Pedido.Folio</output>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Fecha</label>
+                        <output class="form-control mv-output-control">@Model.Pedido.Fecha.ToString("dd/MM/yyyy HH:mm:ss")</output>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Cliente</label>
+                        <output class="form-control mv-output-control">
+                            @(Model.Pedido.CtClie_Nombre ?? Model.Pedido.NombreClienteMostrador)
+                        </output>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Estatus</label>
+                        <output class="form-control mv-output-control">@Model.Pedido.CtEstatus_Nombre</output>
+                    </div>
+
+                    @if (Model.Pedido.CtClie_Nombre == "MOSTRADOR" &&
+                         !string.IsNullOrEmpty(Model.Pedido.NombreClienteMostrador))
+                    {
+                        <div class="col-md-6">
+                            <label class="form-label">Nombre mostrador</label>
+                            <output class="form-control mv-output-control">
+                                @Model.Pedido.NombreClienteMostrador
+                            </output>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Teléfono mostrador</label>
+                            <div class="input-group">
+                                <span class="input-group-text p-0 ps-2 pe-2">
+                                    <i class="mdi mdi-phone"></i>
+                                </span>
+                                <output class="form-control mv-output-control">
+                                    @Model.Pedido.TelefonoClienteMostrador
+                                </output>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="col-md-6">
+                        <label class="form-label">Canal de captura</label>
+                        <output class="form-control mv-output-control">
+                            @Model.Pedido.CtCanaCapt_Nombre
+                        </output>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Entrega a domicilio</label>
+                        <output class="form-control mv-output-control">
+                            @(Model.Pedido.EntregaDomicilio ? "SÍ" : "NO")
+                        </output>
+                    </div>
+
+                    @if (Model.Pedido.EntregaDomicilio)
+                    {
+                        <div class="col-md-12">
+                            <label class="form-label">Dirección de entrega</label>
+                            <output class="form-control mv-output-control">@Model.Pedido.DireccionEntrega</output>
+                        </div>
+                    }
+
+                    <div class="col-md-12">
+                        <label class="form-label">Notas</label>
+                        <output class="form-control mv-output-control">@Model.Pedido.Notas</output>
+                    </div>
+
+                    @if (verSensibles)
+                    {
+                        <div class="col-md-4">
+                            <label class="form-label">Total</label>
+                            <div class="input-group">
+                                <span class="input-group-text p-0 ps-2 pe-2">
+                                    <i class="mdi mdi-currency-usd"></i>
+                                </span>
+                                <output class="form-control mv-output-control">
+                                    @Model.Pedido.Total.ToString("N2")
+                                </output>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Total pagado</label>
+                            <div class="input-group">
+                                <span class="input-group-text p-0 ps-2 pe-2">
+                                    <i class="mdi mdi-currency-usd"></i>
+                                </span>
+                                <output class="form-control mv-output-control">
+                                    @Model.Pedido.TotalPagado.ToString("N2")
+                                </output>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Saldo pendiente</label>
+                            <div class="input-group">
+                                <span class="input-group-text p-0 ps-2 pe-2">
+                                    <i class="mdi mdi-currency-usd"></i>
+                                </span>
+                                <output class="form-control mv-output-control @(Model.Pedido.SaldoPendiente > 0 ? "text-danger" : "text-success")">
+                                    @Model.Pedido.SaldoPendiente.ToString("N2")
+                                </output>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-12">
+                            <div class="alert alert-warning py-2 mb-0">
+                                <i class="mdi mdi-eye-off-outline me-1"></i>
+                                No tienes permiso para ver los montos de este pedido.
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="tab-pane" id="tab-productos">
+                <div class="table-responsive mt-2">
+                    <table class="table table-sm table-hover mb-0 mv-table-static">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Presentación</th>
+                                <th class="text-center">Solicitado</th>
+                                <th class="text-center">Surtido</th>
+                                <th class="text-center">Entregado</th>
+                                <th class="text-center">Rechazado</th>
+                                <th class="text-center">Por resolver</th>
+                                <th class="text-center">Estatus</th>
+                                @if (verSensibles)
+                                {
+                                    <th class="text-end">Precio</th>
+                                    <th class="text-end">Importe</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Pedido.Productos != null)
+                            {
+                                foreach (var item in Model.Pedido.Productos)
+                                {
+                                    var badgeClass = item.IdCtEstatusPedidoDetalle switch
+                                    {
+                                        (int)EstatusPedidoDetalleEnm.PENDIENTE => "bg-secondary",
+                                        (int)EstatusPedidoDetalleEnm.EN_PROCESO => "bg-primary",
+                                        (int)EstatusPedidoDetalleEnm.CERRADO => "bg-success",
+                                        (int)EstatusPedidoDetalleEnm.CANCELADO => "bg-danger",
+                                        _ => "bg-light text-dark"
+                                    };
+                                    <tr>
+                                        <td>
+                                            <span class="d-block fw-semibold">@item.CtProd_NombreCompleto</span>
+                                            @if (item.Custodia > 0)
+                                            {
+                                                <small class="badge bg-info text-white mt-1">
+                                                    <i class="mdi mdi-truck-fast-outline me-1"></i>En reparto: @item.Custodia.ToCustomDecimalFormat()
+                                                </small>
+                                            }
+                                        </td>
+                                        <td>@item.CtPresProd_Nombre (@item.CtUnidBaseInve_Abreviatura)</td>
+                                        <td class="text-center fw-bold">@item.Cantidad.ToCustomDecimalFormat()</td>
+                                        <td class="text-center">@item.CantidadSurtida.ToCustomDecimalFormat()</td>
+                                        <td class="text-center">@item.CantidadEntregada.ToCustomDecimalFormat()</td>
+                                        <td class="text-center">@item.CantidadRechazada.ToCustomDecimalFormat()</td>
+                                        <td class="text-center">@item.CantidadPorResolver.ToCustomDecimalFormat()</td>
+                                        <td class="text-center">
+                                            <span class="badge @badgeClass">@item.CtEstatus_Nombre</span>
+                                        </td>
+                                        @if (verSensibles)
+                                        {
+                                            <td class="text-end">@item.Precio.ToTruncateMoney()</td>
+                                            <td class="text-end fw-bold">@item.Importe.ToTruncateMoney()</td>
+                                        }
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="tab-pane" id="tab-cobros">
+                <div class="table-responsive mt-2">
+                    @if (verSensibles)
+                    {
+                        <table class="table table-sm table-hover mb-0 mv-table-static">
+                            <thead>
+                                <tr>
+                                    <th>Folio</th>
+                                    <th>Fecha</th>
+                                    <th>Medio de cobro</th>
+                                    <th>Usuario cobró</th>
+                                    <th class="text-end">Saldo inicial</th>
+                                    <th class="text-end">Monto aplicado</th>
+                                    <th class="text-end">Saldo final</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Pedido.Cobros != null)
+                                {
+                                    foreach (var item in Model.Pedido.Cobros)
+                                    {
+                                        <tr>
+                                            <td>@item.Folio</td>
+                                            <td>@item.Fecha.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                                            <td>@item.CtMediPago_Nombre</td>
+                                            <td>@item.CtUsuaCobra_Nombre</td>
+                                            <td class="text-end">@item.SaldoInicial.ToTruncateMoney()</td>
+                                            <td class="text-end">@item.MontoAplicado.ToTruncateMoney()</td>
+                                            <td class="text-end">@item.SaldoFinal.ToTruncateMoney()</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5" class="text-end fw-bold">Total cobrado</td>
+                                    <td class="text-end fw-bold">
+                                        @((Model.Pedido?.Cobros != null ? Model.Pedido.Cobros.Sum(c => c.MontoAplicado) : 0m).ToTruncateMoney())
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning py-2 mt-2 mb-0">
+                            <i class="mdi mdi-eye-off-outline me-1"></i>
+                            No tienes permiso para ver los cobros de este pedido.
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="tab-pane" id="tab-lotes">
+                <div class="table-responsive mt-2">
+                    @if (verSensibles)
+                    {
+                        <table class="table table-sm table-hover mb-0 mv-table-static">
+                            <thead>
+                                <tr>
+                                    <th>Folio</th>
+                                    <th>Producto</th>
+                                    <th>Presentación</th>
+                                    <th class="text-center">Cant. inicial</th>
+                                    <th class="text-center">Cant. disponible</th>
+                                    <th class="text-end">Costo UP</th>
+                                    <th class="text-end">Costo UBI</th>
+                                    <th>Fecha</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Pedido.Lotes != null && Model.Pedido.Lotes.Any())
+                                {
+                                    foreach (var item in Model.Pedido.Lotes)
+                                    {
+                                        <tr>
+                                            <td>@item.Folio</td>
+                                            <td>@item.CtProd_NombreCompleto</td>
+                                            <td>@item.CtPresProd_Nombre (@item.CtUnidBaseInve_Abreviatura)</td>
+                                            <td class="text-center">@item.CantidadInicialUBI.ToCustomDecimalFormat()</td>
+                                            <td class="text-center">@item.CantidadDisponibleUBI.ToCustomDecimalFormat()</td>
+                                            <td class="text-end">@item.CostoUP.ToTruncateMoney()</td>
+                                            <td class="text-end">@item.CostoUBI.ToTruncateMoney()</td>
+                                            <td>@item.Fecha.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="8" class="text-center text-muted py-3">
+                                            <i class="mdi mdi-information-outline me-1"></i>
+                                            Los lotes serán asignados cuando el almacenista surta el pedido.
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning py-2 mt-2 mb-0">
+                            <i class="mdi mdi-eye-off-outline me-1"></i>
+                            No tienes permiso para ver los lotes de este pedido.
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ContainerModal"></div>

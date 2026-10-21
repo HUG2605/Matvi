@@ -1,0 +1,192 @@
+@using Matvi.Back.Application.Modules.Ventas.Pedido.Dtos
+@using Matvi.Front.UI.Extensions
+@model List<AgregarProductoPedidoDto>
+@* nowrap *@
+@{
+    // Antes la columna se ocultaba cuando ningún producto podía entregarse en
+    // mostrador. Ahora SIEMPRE se muestra: para los productos que no aplican
+    // (CtProd_EntregaMostrador = false) se renderiza "N/A" en lugar del
+    // checkbox, manteniendo la estructura de la tabla.
+}
+<table id="tblProductos" class="table table-sm table-hover activate-select dt-responsive  w-100">
+    @if(Model.Count > 0)
+    {
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Presentación</th>
+                <th class="text-center">Cantidad</th>
+                <th class="text-end">Precio</th>
+                <th class="text-end">Importe</th>
+                <th class="text-center">Entr. en mostrador</th>
+                <th class="text-center">Quitar</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var prodAgre in Model)
+            {
+                <tr>
+                    <td>
+                        <span class="d-block">@prodAgre.CtProd_Nombre</span>
+                        <small class="text-muted">
+                            @if (!string.IsNullOrEmpty(prodAgre.CtProd_EspecificacionTecnica))
+                            {
+                                <span>(@prodAgre.CtProd_EspecificacionTecnica)</span>
+                            }
+                            @if (!string.IsNullOrEmpty(prodAgre.CtProd_Marca))
+                            {
+                                <span>[@prodAgre.CtProd_Marca]</span>
+                            }
+                        </small>
+                        @if (!prodAgre.RlProdSucu_Regularizado)
+                        {
+                            <span class="badge bg-warning text-dark ms-1" title="Producto sin regularizar">Sin regularizar</span>
+                        }
+                        @if (prodAgre.CtProd_BajoPedido)
+                        {
+                            <span class="badge bg-info ms-1" title="Producto bajo pedido (sin stock)">BajoPedido</span>
+                        }
+                    </td>
+                    <td>
+                        @prodAgre.CtPresProd_Nombre @prodAgre.CtPresProd_FactorUBI.ToCustomDecimalFormat() @prodAgre.CtUnidBaseInve_Abreviatura
+                    </td>
+                    <td class="text-center">
+                        @prodAgre.CantidadFld.ToCustomDecimalFormat()
+                    </td>
+                    <td class="text-end">
+                        @if (prodAgre.AplicoMayoreo)
+                        {
+                            <span class="d-block">@prodAgre.Precio.ToTruncateMoney()</span>
+                            <small class="text-muted text-decoration-line-through" title="Precio normal">
+                                @prodAgre.PrecioNormal.ToTruncateMoney()
+                            </small>
+                            <span class="badge bg-success ms-1" title="@($"Aplica mayoreo a partir de {prodAgre.UnidadesMayoreo} unidades")">
+                                Mayoreo
+                            </span>
+                        }
+                        else if (prodAgre.PrecioMayoreo.HasValue && prodAgre.UnidadesMayoreo.HasValue)
+                        {
+                            <span class="d-block">@prodAgre.Precio.ToTruncateMoney()</span>
+                            <small class="text-muted" title="@($"Precio de mayoreo disponible desde {prodAgre.UnidadesMayoreo} unidades: {prodAgre.PrecioMayoreo.ToTruncateMoney()}")">
+                                Mayoreo desde @prodAgre.UnidadesMayoreo: @prodAgre.PrecioMayoreo.ToTruncateMoney()
+                            </small>
+                        }
+                        else
+                        {
+                            @prodAgre.Precio.ToTruncateMoney()
+                        }
+                    </td>
+                    <td class="text-end">
+                        @prodAgre.Importe.ToTruncateMoney()
+                    </td>
+                    <td class="text-center">
+                        @{
+                            var puedeEntregar = prodAgre.CtProd_EntregaMostrador;
+                        }
+                        @if (puedeEntregar)
+                        {
+                            <input type="checkbox"
+                                   class="form-check-input chkEntregadoMostrador"
+                                   data-id="@prodAgre.CtPresProd_IdFld"
+                                   data-puede-entregar="@puedeEntregar.ToString().ToLower()"
+                            @(prodAgre.EntregadoMostrador ? "checked" : "") />
+                        }
+                        else
+                        {
+                            <span class="text-muted" title="Este producto no aplica para entrega en mostrador">N/A</span>
+                        }
+                    </td>
+                    <td class="text-center">
+                        <a href="javascript:void(0);" onclick="onDeletePresentacionProductoClick('@prodAgre.CtPresProd_IdFld')" title="Eliminar">
+                            <i class="mdi mdi-trash-can"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    }
+</table>
+
+<div class="mt-3 text-end">
+    <h5>Total: @Model.Sum(i => i.Importe).ToTruncateMoney()</h5>
+    <input type="hidden" id="hdnTotalPedido" value="@Model.Sum(i => i.Importe)" />
+</div>
+
+<script>
+
+    function onDeletePresentacionProductoClick(idPresentacionProducto) {
+        $.ajax({
+            url: '/Ventas/Pedido/Create?handler=EliminarProductoPedido',
+            type: 'POST',
+            data: { idPresentacionProducto },
+            headers: {
+                'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+            },
+            beforeSend: function () {
+                if ($.fn.DataTable.isDataTable('#tblProductos')) {
+                    $('#tblProductos').DataTable().destroy();
+                }
+            },
+            success: function (response) {
+                $("#ContainerProductos").html(response);
+
+                // Calcular el total para el cobro
+                let total = parseFloat($("#hdnTotalPedido").val());
+                $("#txtTotal").val(Matvi.formatMiles(total));
+
+                // Si es mostrador o apartado, sincronizar pago con el nuevo total.
+                if ($("#chkMostrador").is(":checked")) {
+                    aplicarPagoMostrador(true);
+                } else if ($("#Pedido_EsApartadoFld").is(":checked")) {
+                    // Re-aplicar N/A sobre los checkboxes restantes.
+                    $(".chkEntregadoMostrador").each(function () {
+                        $(this).prop("checked", false).prop("disabled", true)
+                            .after('<span class="badge bg-secondary lblNA">N/A</span>')
+                            .hide();
+                    });
+                }
+            },
+            complete: function () {
+                inicializarTablaProductos();
+            }
+        });
+    }
+
+    $(document).on("change", ".chkEntregadoMostrador", function () {
+        let idPresentacionProducto = $(this).data("id");
+        let entregadoMostrador = $(this).is(":checked");
+
+        // Validar si puede entregar (si está deshabilitado, no hacer nada)
+        if ($(this).is(":disabled")) {
+            return;
+        }
+
+        // Si intenta marcar como entregado, validar que haya stock
+        if (entregadoMostrador && window.currentProductFlags) {
+            // Solo validar si está regularizado (si no está regularizado, siempre puede entregar)
+            if (window.currentProductFlags.regularizado) {
+                // Si no hay BajoPedido y no hay stock, no permitir
+                if (!window.currentProductFlags.bajoPedido && window.currentProductFlags.existencias <= 0) {
+                    Matvi.alert("danger", "Stock insuficiente",
+                        "No hay existencias suficientes para entregar este producto en mostrador. " +
+                        "El producto será atendido por un almacenista.",
+                        function() {
+                            // Desmarcar el checkbox
+                            $(this).prop("checked", false);
+                        }.bind(this));
+                    return;
+                }
+            }
+        }
+
+        $.ajax({
+            url: '/Ventas/Pedido/Create?handler=CambiarEntregadoMostrador',
+            type: 'POST',
+            data: { idPresentacionProducto, entregadoMostrador },
+            headers: {
+                'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+            }
+        });
+    });
+
+</script>

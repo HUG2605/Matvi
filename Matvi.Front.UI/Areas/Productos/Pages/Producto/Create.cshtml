@@ -1,0 +1,257 @@
+@page
+@using Matvi.Back.Application.Common.Enums
+@model Matvi.Front.UI.Areas.Productos.Pages.Producto.CreateModel
+@{
+    Layout = null;
+    var title = "Datos del producto";
+    var idModal = "mdlCreateProducto";
+    var idForm = "frmCreateProducto";
+}
+<link href="~/css/matvi.stepper.css" rel="stylesheet" />
+<form id="@idForm"
+      enctype="multipart/form-data"
+      class="needs-validation"
+      method="post"
+      asp-page-handler="Create"
+      data-ajax="true"
+      autocomplete="off"
+      data-ajax-success="Success_Create">
+
+    <div class="modal fade" id="@idModal" data-bs-backdrop="static" data-bs-keyboard="false" data-bs-focus="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">@title</h4>
+                    <button type="button" class="btn-close btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col text-start">
+                            <h5 class="mv-text-enf3">
+                                <i class="mdi mdi-plus-circle-outline me-2"></i> Nuevo
+                            </h5>
+                        </div>
+                        <div class="col text-end">
+                            <label class="form-label text-danger">&#9679; Valores requeridos</label>
+                        </div>
+                    </div>
+
+                    <div class="mv-steps-vertical">
+                        <div class="mv-step-vertical active">
+                            <div class="mv-step-vertical-icon">1</div>
+                            <div class="mv-step-vertical-content">
+                                <div class="mv-step-vertical-title">
+                                    Generales
+                                </div>
+                                <div id="collapseGenerales" class="mv-step-vertical-body collapse">
+                                    <div class="row g-3">
+
+                                         <div class="col-md-12">
+                                            <label asp-for="Producto.NombreFld" class="form-label mv-form-label-required"></label>
+                                            <div class="input-group">
+                                                <span class="input-group-text p-0 ps-2 pe-2"><i class="mdi mdi-package-variant-closed"></i></span>
+                                                <input asp-for="Producto.NombreFld" class="form-control" />
+                                            </div>
+                                            <span asp-validation-for="Producto.NombreFld"></span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label asp-for="Producto.EspecificacionTecnicaFld" class="form-label"></label>
+                                            <div class="input-group">
+                                                <span class="input-group-text p-0 ps-2 pe-2"><i class="mdi mdi-text-box-outline"></i></span>
+                                                <input asp-for="Producto.EspecificacionTecnicaFld" class="form-control" />
+                                            </div>
+                                            <span asp-validation-for="Producto.EspecificacionTecnicaFld"></span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label asp-for="Producto.MarcaFld" class="form-label"></label>
+                                            <div class="input-group">
+                                                <span class="input-group-text p-0 ps-2 pe-2"><i class="mdi mdi-tag-text-outline"></i></span>
+                                                <input asp-for="Producto.MarcaFld" class="form-control" />
+                                            </div>
+                                            <span asp-validation-for="Producto.MarcaFld"></span>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label asp-for="Producto.CtSecc_IdFld" class="form-label mv-form-label-required"></label>
+                                            <div class="input-group">
+                                                <span class="input-group-text p-0 ps-2 pe-2"><i class="mdi mdi-shape"></i></span>
+                                                <select asp-for="Producto.CtSecc_IdFld" class="form-select" asp-items="Model.SeccionSelectList">
+                                                    <option value="">SELECCIONAR</option>
+                                                </select>
+                                            </div>
+                                            <span asp-validation-for="Producto.CtSecc_IdFld"></span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label asp-for="Producto.CtGrup_IdFld" class="form-label mv-form-label-required"></label>
+                                            <div class="input-group">
+                                                <span class="input-group-text p-0 ps-2 pe-2"><i class="mdi mdi-buffer"></i></span>
+                                                <select asp-for="Producto.CtGrup_IdFld" class="form-select" asp-items="Model.GrupoSelectList">
+                                                    <option value="">SELECCIONAR</option>
+                                                </select>
+                                            </div>
+                                            <span asp-validation-for="Producto.CtGrup_IdFld"></span>
+                                        </div>
+
+                                        <div class="col-md-12" id="colDescripcionGrupo">
+                                            <label class="form-label">Descripción del grupo</label>
+                                            <output class="form-control mv-output-control">
+                                            </output>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label asp-for="Producto.CtUnidBaseInve_IdFld" class="form-label mv-form-label-required"></label>
+                                            <a tabindex="0"
+                                                   class="text-secondary"
+                                                   role="button"
+                                                   data-bs-toggle="popover"
+                                                   data-bs-trigger="focus"
+                                                   data-bs-container="body"
+                                                   title="Información"
+                                                   data-bs-content="Unidad de medida en la que se contabilizará el inventario.">
+                                                <i class="mdi mdi-help-circle" style="cursor: pointer;"></i>
+                                            </a>
+                                            <div class="input-group">
+                                                <span class="input-group-text p-0 ps-2 pe-2"><i class="mdi mdi-ruler-square"></i></span>
+                                                <select asp-for="Producto.CtUnidBaseInve_IdFld" class="form-select" asp-items="Model.UnidadBaseInventarioSelectList">
+                                                    <option value="">SELECCIONAR</option>
+                                                </select>
+                                            </div>
+                                            <span asp-validation-for="Producto.CtUnidBaseInve_IdFld"></span>
+                                        </div>
+
+                                        <!-- BajoPedido -->
+                                        <div class="col-md-6">
+                                            <label asp-for="Producto.BajoPedidoFld" class="form-label"></label>
+                                            <a tabindex="0"
+                                                   class="text-secondary"
+                                                   role="button"
+                                                   data-bs-toggle="popover"
+                                                   data-bs-trigger="focus"
+                                                   data-bs-container="body"
+                                                   title="Información"
+                                                   data-bs-content="Permite pedir el producto aunque no haya existencia en inventario.">
+                                                <i class="mdi mdi-help-circle" style="cursor: pointer;"></i>
+                                            </a>
+                                            <div class="form-control border-0">
+                                                <div class="form-check form-switch">
+                                                    <input asp-for="Producto.BajoPedidoFld" type="checkbox" class="form-check-input" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- EntregaMostrador -->
+                                        <div class="col-md-6">
+                                            <label asp-for="Producto.EntregaMostradorFld" class="form-label"></label>
+                                            <a tabindex="0"
+                                                   class="text-secondary"
+                                                   role="button"
+                                                   data-bs-toggle="popover"
+                                                   data-bs-trigger="focus"
+                                                   data-bs-container="body"
+                                                   title="Información"
+                                                   data-bs-content="El vendedor puede entregar el producto directamente en mostrador.">
+                                                <i class="mdi mdi-help-circle" style="cursor: pointer;"></i>
+                                            </a>
+                                            <div class="form-control border-0">
+                                                <div class="form-check form-switch">
+                                                    <input asp-for="Producto.EntregaMostradorFld" type="checkbox" class="form-check-input" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label asp-for="ImagenFld" class="form-label"></label>
+                                            <div class="input-group">
+                                                <span class="input-group-text p-0 ps-2 pe-2">
+                                                    <i class="mdi mdi-image"></i>
+                                                </span>
+                                                <input asp-for="ImagenFld" class="form-control" type="file" accept=".jpg,.jpeg,.png" data-val="false" />
+                                            </div>
+                                            <span asp-validation-for="ImagenFld"></span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label asp-for="Producto.CodigoBarrasFld" class="form-label"></label>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-text">
+                                                    <div class="form-check">
+                                                        <input asp-for="Producto.CodigoBarrasInternoFld" class="form-check-input" type="checkbox">
+                                                        <label class="form-check-label" for="Producto_CodigoBarrasInternoFld">
+                                                            Interno
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <input asp-for="Producto.CodigoBarrasFld" class="form-control" />
+                                            </div>
+                                            <span asp-validation-for="Producto.CodigoBarrasFld"></span>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label asp-for="Producto.ActivoFld" class="form-label"></label>
+                                            <div class="form-control border-0">
+                                                <div class="form-check form-switch">
+                                                    <input asp-for="Producto.ActivoFld" type="checkbox" checked="checked" class="form-check-input" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mv-step-vertical">
+                            <div class="mv-step-vertical-icon">2</div>
+                            <div class="mv-step-vertical-content">
+                                <div class="mv-step-vertical-title">
+                                    Proveedores
+                                </div>
+                                <div id="collapseProveedores" class="mv-step-vertical-body collapse">
+                                    <div class="row row-cols-1 row-cols-md-2 justify-content-start">
+                                        @for (int i = 0; i < Model.Producto.Proveedores!.Count; i++)
+                                        {
+                                            <div class="col">
+                                                <div class="form-check">
+                                                    <input type="hidden" asp-for="Producto.Proveedores[i].CtProv_Id" />
+                                                    <input type="checkbox"
+                                                           asp-for="Producto.Proveedores[i].EstaRelacionado"
+                                                           class="form-check-input" />
+                                                    <label class="form-check-label" for="@($"Producto_Proveedores_{i}__EstaRelacionado")">
+                                                        @Model.Producto.Proveedores[i].Nombre
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnAnterior" class="btn mv-btn-secondary">
+                        <i class="mdi mdi-arrow-left me-2"></i>Anterior
+                    </button>
+                    <button type="button" id="btnSiguiente" class="btn mv-btn-secondary">
+                        <i class="mdi mdi-arrow-right me-2"></i>Siguiente
+                    </button>
+                    <button type="button" id="btnGuardar" class="btn mv-btn-primary d-none">
+                        <i class="mdi mdi-content-save me-2"></i>Guardar
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</form>
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+<script>
+    window.productoCreateConfig = {
+        idModal: '@idModal',
+        idForm: '@idForm',
+        title: '@Html.Raw(title)'
+    };
+</script>
+<script src="~/js/matvi.stepper.js"></script>
+<script src="~/js/modules/Productos/Producto/Create.js"></script>

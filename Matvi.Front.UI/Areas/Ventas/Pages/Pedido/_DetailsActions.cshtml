@@ -1,0 +1,78 @@
+@using Matvi.Front.UI.Security.Permission
+@using Matvi.Front.UI.Security.Services
+@using Matvi.Back.Application.Common.Enums
+@inject IUsuarioActualService UsuarioActualService
+@model string // SafeId
+@{
+    var funcionPedidos = Funcion.Ventas_Pedidos;
+    var funcionCobros = Funcion.Finanzas_Cobros;
+    var esSurtible = ViewData["EsSurtible"] as bool? ?? (!(ViewData["EsEntregado"] is true));
+    var esEntregable = ViewData["EsEntregable"] as bool? ?? (ViewData["EsEnProceso"] is true);
+    var tieneSaldoPendiente = ViewData["TieneSaldoPendiente"] is true;
+    var idCliente = ViewData["IdCliente"] as int?;
+    var rolId = UsuarioActualService.UsuarioSesion?.RolId;
+    var esAlmacenista = rolId == (byte)RolEnm.ALMACENISTA || rolId == (byte)RolEnm.ADMINISTRADOR || rolId == (byte)RolEnm.SYSTEM;
+    var esRepartidor = rolId == (byte)RolEnm.REPARTIDOR || rolId == (byte)RolEnm.ADMINISTRADOR || rolId == (byte)RolEnm.SYSTEM;
+
+    var puedeEntregar = UsuarioActualService.TienePermiso(funcionPedidos, Accion.Entregar) && esRepartidor;
+    var puedeSurtir = UsuarioActualService.TienePermiso(funcionPedidos, Accion.Surtir) && esAlmacenista;
+    var puedeCancelar = UsuarioActualService.TienePermiso(funcionPedidos, Accion.Cancelar) && esAlmacenista;
+    var puedeCobrar = UsuarioActualService.TienePermiso(funcionCobros, Accion.Crear);
+    var esCancelable = ViewData["EsCancelable"] is true;
+}
+@if (puedeSurtir && esSurtible)
+{
+    <a class="btn btn-sm rounded-circle me-2 mv-btn-icon-secondary"
+       asp-page="/Pedido/Supply"
+       asp-route-Id="@Model"
+       data-ajax="true"
+       data-ajax-update="#ContainerModal"
+       data-ajax-method="GET"
+       data-ajax-mode="replace"
+       title="Surtir pedido" aria-label="Surtir pedido">
+        <i class="mdi mdi-package-variant-closed fs-5"></i>
+    </a>
+}
+
+@if (puedeEntregar && esEntregable)
+{
+    <a class="btn btn-sm rounded-circle me-2 mv-btn-icon-secondary"
+       asp-page="/Pedido/Entregar"
+       asp-route-Id="@Model"
+       data-ajax="true"
+       data-ajax-update="#ContainerModal"
+       data-ajax-method="GET"
+       data-ajax-mode="replace"
+       title="Registrar entrega" aria-label="Registrar entrega">
+        <i class="mdi mdi-truck-delivery-outline fs-5"></i>
+    </a>
+}
+
+@if (puedeCancelar && esCancelable)
+{
+    <a class="btn btn-sm rounded-circle me-2 mv-btn-icon-secondary"
+       asp-page="/Pedido/Cancelar"
+       asp-route-Id="@Model"
+       data-ajax="true"
+       data-ajax-update="#ContainerModal"
+       data-ajax-method="GET"
+       data-ajax-mode="replace"
+       title="Cancelar pedido" aria-label="Cancelar pedido">
+        <i class="mdi mdi-close-octagon fs-5"></i>
+    </a>
+}
+
+@if (puedeCobrar && tieneSaldoPendiente)
+{
+    <a class="btn btn-sm rounded-circle me-2 mv-btn-icon-secondary"
+       asp-area="Finanzas"
+       asp-page="/CorteCaja/CrearCobro"
+       asp-route-idCliente="@idCliente"
+       data-ajax="true"
+       data-ajax-update="#ContainerModal"
+       data-ajax-method="GET"
+       data-ajax-mode="replace"
+       title="Registrar cobro" aria-label="Registrar cobro">
+        <i class="mdi mdi-cash-plus fs-5"></i>
+    </a>
+}

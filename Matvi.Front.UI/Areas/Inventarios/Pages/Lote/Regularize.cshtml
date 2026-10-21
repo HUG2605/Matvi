@@ -1,0 +1,146 @@
+﻿@page
+@model Matvi.Front.UI.Areas.Inventarios.Pages.Lote.RegularizeModel
+@{
+    Layout = null;
+    var title = "Regularizar Lote";
+    var idModal = "mdlRegularizar";
+    var idForm = "frmRegularizar";
+}
+
+<form id="@idForm"
+      class="needs-validation"
+      method="post"
+      asp-page-handler="Regularize"
+      data-ajax="true"
+      data-ajax-success="Success_Regularize">
+
+    <input name="Lote.SafeId" type="hidden" value="@Model.Lote.SafeId" />
+
+    <div class="modal fade show" id="@idModal" data-bs-backdrop="static" data-bs-keyboard="false" data-bs-focus="true" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">@title</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col text-start">
+                            <h5 class="mv-text-enf3">
+                                <i class="mdi mdi-check-circle-outline me-2"></i>Regularizar
+                            </h5>
+                        </div>
+                        <div class="col text-end">
+                            <label class="form-label text-danger">&#9679; Valores requeridos</label>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="Lote.CtSucu_Nombre" class="form-label"></label>
+                            <div class="form-control-plaintext border ps-2">@Model.Lote.CtSucu_Nombre</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Lote.CtTipoLote_Nombre" class="form-label"></label>
+                            <div class="form-control-plaintext border ps-2">@Model.Lote.CtTipoLote_Nombre</div>
+                        </div>
+                        <div class="col-md-12">
+                            <label asp-for="Lote.CtProd_NombreCompleto" class="form-label"></label>
+                            <div class="form-control-plaintext border ps-2">@Model.Lote.CtProd_NombreCompleto</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Lote.CtPresProd_Nombre" class="form-label"></label>
+                            <div class="form-control-plaintext border ps-2">@Model.Lote.CtPresProd_Nombre</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Lote.CtPresProd_FactorUBI" class="form-label"></label>
+                            <div class="form-control-plaintext border ps-2">@Model.Lote.CtPresProd_FactorUBI</div>
+                        </div>
+                        <div class="col-md-12">
+                            <label asp-for="Lote.Fecha" class="form-label"></label>
+                            <div class="input-group">
+                                <span class="input-group-text p-0 ps-2 pe-2">
+                                    <i class="mdi mdi-calendar"></i>
+                                </span>
+                                <div class="form-control">@Model.Lote.Fecha</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Lote.ExistenciaActualFld" class="form-label mv-form-label-required"></label>
+                            <div class="input-group">
+                                <input asp-for="Lote.ExistenciaActualFld" class="form-control" type="number" step="any" />
+                                <span class="input-group-text  p-0 ps-2 pe-2">
+                                    @Model.Lote.CtUnidBaseInve_Abreviatura
+                                </span>
+                            </div>
+                            <span asp-validation-for="Lote.ExistenciaActualFld" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Lote.CostoUnitarioFld" class="form-label mv-form-label-required"></label>
+                            <div class="input-group">
+                                <span class="input-group-text p-0 ps-2 pe-2">
+                                    <i class="mdi mdi-currency-usd"></i>
+                                </span>
+                                <input asp-for="Lote.CostoUnitarioFld" class="form-control" type="number" step="any" />
+                            </div>
+                            <span asp-validation-for="Lote.CostoUnitarioFld" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn mv-btn-primary">
+                        <i class="mdi mdi-check me-2"></i>Regularizar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+
+<script>
+
+    //#region MODAL
+
+    var modalElement = document.getElementById('@idModal');
+    var modal = new bootstrap.Modal(modalElement);
+    modal.show();
+
+    $(modalElement).one('hidden.bs.modal', function() {
+        $("#ContainerModal").html("");
+        modal.dispose();
+        modal = null;
+    });
+
+    //#endregion
+
+    //#region REGULARIZAR
+
+    $("#@idForm .mv-btn-primary").on("click", function() {
+        if ($("#@idForm").valid()) {
+
+            Matvi.confirm('@Html.Raw(title)', "¿Confirma que desea regularizar este lote?", function(resp) {
+                if (resp == true) {
+                    $("#@idForm").submit();
+                }
+            });
+        }
+    });
+  
+    //#endregion
+
+    //#region EXITO Y RECARGA
+
+    function Success_Regularize(response) {
+        Matvi.alert(response.messageType, '@title', response.message, function() {
+            window.location.reload();
+        });
+    }
+
+    //#endregion
+
+</script>

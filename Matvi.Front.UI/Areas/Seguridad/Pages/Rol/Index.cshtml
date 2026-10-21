@@ -1,0 +1,42 @@
+﻿@page
+@using Matvi.Front.UI.Security.Permission
+@using Matvi.Front.UI.Security.Services
+@inject IUsuarioActualService UsuarioActualService
+@model Matvi.Front.UI.Areas.Seguridad.Pages.Rol.IndexModel
+@{
+    ViewData["Title"] = "Roles";
+    ViewData["Modulo"] = "Seguridad";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 justify-content-around">
+
+    @foreach (var rol in Model.Roles!)
+    {
+        <div class="col">
+            <div class="card mb-4 rounded-3 shadow-2">
+                <a class="text-center" 
+                   asp-page="/Rol/Edit"
+                   asp-route-Id="@rol.SafeId"
+                   data-ajax="true"
+                   data-ajax-update="#ContainerModal"
+                   data-ajax-method="GET"
+                   data-ajax-mode="replace">
+                    <div class="card-body p-0 pt-3 mx-auto mt-2 d-flex justify-content-center align-items-center" style="height: 100px;">
+                        <span class="mdi mdi-account-group" style="font-size: 4rem;"></span>
+                    </div>
+                    <div class="card-footer pt-0 pb-0 text-center border-0 fw-bold d-flex justify-content-center align-items-center" style="min-height: 55px;">
+                        <span class="text-body">@rol.Nombre</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    }
+</div>
+
+<div id="ContainerModal">
+</div>
+
+@section Scripts {
+    
+}

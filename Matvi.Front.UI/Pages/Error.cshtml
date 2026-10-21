@@ -1,0 +1,14 @@
+﻿@page
+@model ErrorModel
+@{
+    var title = "Error";
+    ViewData["Title"] = title;
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="text-center">
+    <h2 class="fw-bold m-5 mv-text-enf5">Oops!</h2>
+    <h4 class="fw-bold">Ocurrió un error inesperado</h4>
+    <h5>Código de error: @Model.ErrorCode</h5>
+    <p class="m-5">Si el error persiste favor de reportarlo al área de soporte tecnico.</p>
+</div>

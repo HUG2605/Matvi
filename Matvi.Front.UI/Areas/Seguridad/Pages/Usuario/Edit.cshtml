@@ -1,0 +1,178 @@
+@page
+@model Matvi.Front.UI.Areas.Seguridad.Pages.Usuario.EditModel
+@{
+    Layout = null;
+    var title = "Datos del usuario";
+    var idModal = "mdlEditUsuario";
+    var idForm = "frmEditUsuario";
+}
+<link href="~/css/matvi.stepper.css" rel="stylesheet" />
+<form id="@idForm"
+      class="needs-validation"
+      method="post"
+      asp-page-handler="Edit"
+      data-ajax="true"
+      data-ajax-success="Success_Edit">
+
+    <input asp-for="Usuario.SafeId" type="hidden" />
+
+    <div class="modal fade" id="@idModal" data-bs-backdrop="static" data-bs-keyboard="false" data-bs-focus="true" tabindex="-1" aria-labelledby="staticBackdropLabel">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">@title</h4>
+                    <button type="button" class="btn-close btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col text-start">
+                            <h5 class="mv-text-enf3">
+                                <i class="mdi mdi-pencil-outline me-2"></i>Editar
+                            </h5>
+                        </div>
+                        <div class="col text-end">
+                            <label class="form-label text-danger">&#9679; Valores requeridos</label>
+                        </div>
+                    </div>
+                    <div class="mv-steps-vertical">
+                        <div class="mv-step-vertical active">
+                            <div class="mv-step-vertical-icon">1</div>
+                            <div class="mv-step-vertical-content">
+                                <div class="mv-step-vertical-title">
+                                    Generales
+                                </div>
+                                <div id="collapse1" class="mv-step-vertical-body collapse">
+                                    <div class="row g-3">
+                                         <div class="col-md-4">
+                                            <label asp-for="Usuario.RolIdFld" class="form-label mv-form-label-required"></label>
+                                            <div class="input-group">
+                                                <span class="input-group-text p-0 ps-2 pe-2"><i class="mdi mdi-shield-account"></i></span>
+                                                <select asp-for="Usuario.RolIdFld" class="form-select" asp-items="Model.RolesSelectList">
+                                                    <option value="">SELECCIONAR</option>
+                                                </select>
+                                            </div>
+                                            <span asp-validation-for="Usuario.RolIdFld"></span>
+                                        </div>
+                                        <div class="w-100 m-0"></div>
+
+                                        <div class="col-md-4">
+                                            <label asp-for="Usuario.NombreFld" class="form-label mv-form-label-required"></label>
+                                            <div class="input-group">
+                                                <span class="input-group-text p-0 ps-2 pe-2"><i class="mdi mdi-account"></i></span>
+                                                <input asp-for="Usuario.NombreFld" class="form-control" />
+                                            </div>
+                                            <span asp-validation-for="Usuario.NombreFld"></span>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label asp-for="Usuario.PrimerApellidoFld" class="form-label mv-form-label-required"></label>
+                                            <div class="input-group">
+                                                <span class="input-group-text p-0 ps-2 pe-2"><i class="mdi mdi-account-outline"></i></span>
+                                                <input asp-for="Usuario.PrimerApellidoFld" class="form-control" />
+                                            </div>
+                                            <span asp-validation-for="Usuario.PrimerApellidoFld"></span>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label asp-for="Usuario.SegundoApellidoFld" class="form-label mv-form-label-required"></label>
+                                            <div class="input-group">
+                                                <span class="input-group-text p-0 ps-2 pe-2"><i class="mdi mdi-account-outline"></i></span>
+                                                <input asp-for="Usuario.SegundoApellidoFld" class="form-control" />
+                                            </div>
+                                            <span asp-validation-for="Usuario.SegundoApellidoFld"></span>
+                                        </div>
+
+                                        <div class="col-md-8">
+                                            <label asp-for="Usuario.DireccionFld" class="form-label mv-form-label-required"></label>
+                                            <div class="input-group">
+                                                <span class="input-group-text p-0 ps-2 pe-2"><i class="mdi mdi-map-marker"></i></span>
+                                                <input asp-for="Usuario.DireccionFld" class="form-control" />
+                                            </div>
+                                            <span asp-validation-for="Usuario.DireccionFld"></span>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label asp-for="Usuario.TelefonoFld" class="form-label mv-form-label-required"></label>
+                                            <div class="input-group">
+                                                <span class="input-group-text p-0 ps-2 pe-2"><i class="mdi mdi-phone"></i></span>
+                                                <input asp-for="Usuario.TelefonoFld" class="form-control" />
+                                            </div>
+                                            <span asp-validation-for="Usuario.TelefonoFld"></span>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label asp-for="Usuario.ActivoFld" class="form-label"></label>
+                                            <div class="form-check form-switch">
+                                                <input asp-for="Usuario.ActivoFld" type="checkbox" class="form-check-input">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label asp-for="Usuario.ReiniciarContraseniaFld" class="form-label"></label>
+                                            <div class="form-check form-switch">
+                                                <input asp-for="Usuario.ReiniciarContraseniaFld" type="checkbox" class="form-check-input">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mv-step-vertical">
+                            <div class="mv-step-vertical-icon">2</div>
+                            <div class="mv-step-vertical-content">
+                                <div class="mv-step-vertical-title">
+                                    Sucursales
+                                </div>
+                                <div id="collapse2" class="mv-step-vertical-body collapse">
+                                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 justify-content-start">
+                                        @for (int i = 0; i < Model.Usuario.Sucursales!.Count; i++)
+                                        {
+                                            <div class="col">
+                                                <div class="form-check">
+                                                    <input type="hidden" asp-for="Usuario.Sucursales[i].Id" />
+                                                    <input type="checkbox"
+                                                           asp-for="Usuario.Sucursales[i].EstaRelacionada"
+                                                           class="form-check-input" />
+                                                    <label class="form-check-label" for="@($"Usuario_Sucursales_{i}__EstaRelacionada")">
+                                                        @Model.Usuario.Sucursales[i].Nombre
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnAnterior" class="btn mv-btn-secondary">
+                        <i class="mdi mdi-arrow-left me-2"></i>Anterior
+                    </button>
+                    <button type="button" id="btnSiguiente" class="btn mv-btn-secondary">
+                        <i class="mdi mdi-arrow-right me-2"></i>Siguiente
+                    </button>
+                    <button type="button" id="btnGuardar" class="btn mv-btn-primary d-none">
+                        <i class="mdi mdi-content-save me-2"></i>Guardar
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    await Html.RenderPartialAsync("_Select2ScriptsPartial");
+
+}
+
+<script>
+
+    window.usuarioConfig = {
+    idModal: '@idModal',
+    idForm: '@idForm',
+    title: '@Html.Raw(title)'
+    };
+
+</script>
+
+<script src="~/js/matvi.stepper.js"></script>
+<script src="~/js/modules/seguridad/usuario/edit.js"></script>

@@ -1,0 +1,162 @@
+﻿@page
+@model Matvi.Front.UI.Areas.Seguridad.Pages.Usuario.DetailsModel
+@{
+    ViewData["Title"] = "Usuario";
+    ViewData["Modulo"] = "Seguridad";
+    ViewData["UrlAnterior"] = Url.Page("Index");
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="row align-items-start gy-2">
+    <div class="col-auto">
+        <div class="align-items-center justify-content-center mv-perfil-circle">
+            @Model.GetProfileLetters($"{Model.Usuario!.Nombre} {Model.Usuario.PrimerApellido} {Model.Usuario.SegundoApellido}")
+        </div>
+    </div>
+
+    <div class="col">
+        <h4 class="mb-0">@($"{Model.Usuario.Nombre} {Model.Usuario.PrimerApellido} {Model.Usuario.SegundoApellido}")</h4>
+        <span class="text-muted">Rol: @Model.Usuario.CtRol_Nombre</span>
+
+        <!-- Botones visibles en pantallas pequeñas -->
+        <div class="d-block d-md-none mt-2">
+            @await Html.PartialAsync("_DetailsActions", Model.Usuario.SafeId)
+        </div>
+    </div>
+
+    <!-- Botones alineados a la derecha en pantallas grandes -->
+    <div class="col-auto d-none d-md-flex justify-content-end align-items-center">
+        @await Html.PartialAsync("_DetailsActions", Model.Usuario.SafeId)
+    </div>
+</div>
+<div>
+    <ul class="nav nav-tabs nav-bordered">
+        <li class="nav-item">
+            <a href="#home-b1" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
+                <span class="d-inline-block d-sm-none"><i class="mdi mdi-home-variant"></i></span>
+                <span class="d-none d-sm-inline-block">General</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#home-b2" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
+                <span class="d-inline-block d-sm-none"><i class="mdi mdi-store"></i></span>
+                <span class="d-none d-sm-inline-block">Sucursales</span>
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane show active" id="home-b1">
+
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Rol</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Usuario.CtRol_Nombre
+                    </output>
+                </div>
+                <div class="w-100 m-0"></div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Nombre</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Usuario.Nombre
+                    </output>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Primer apellido</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Usuario.PrimerApellido
+                    </output>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Segundo apellido</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Usuario.SegundoApellido
+                    </output>
+                </div>
+
+                <div class="col-md-8">
+                    <label class="form-label">Dirección</label>
+                    <div class="input-group">
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            <i class="mdi mdi-map-marker"></i>
+                        </span>
+                        <output class="form-control mv-output-control">
+                            @Model.Usuario.Direccion
+                        </output>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Telefonó</label>
+                    <div class="input-group">
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            <i class="mdi mdi-phone"></i>
+                        </span>
+                        <output class="form-control mv-output-control">
+                            @Model.Usuario.Telefono
+                        </output>
+                    </div>
+                </div>
+                <div class="w-100 m-0"></div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Usuario</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Usuario.Usuario
+                    </output>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Activo</label>
+                    <output class="form-control mv-output-control">
+                        @(Model.Usuario.Activo ? "SI" : "NO")
+                    </output>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane show" id="home-b2">
+
+            <table class="table table-sm table-hover activate-select dt-responsive nowrap w-100 dataTable no-footer dtr-inline">
+                <thead>
+                    <tr>
+                        <th>
+                            Sucursal
+                        </th>
+                        <th class="text-center">
+                            Con acceso
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var suc in Model.Usuario.Sucursales!)
+                    {
+                        <tr>
+                            <td>
+                                <span class="d-block">@suc.Nombre</span>
+                                <small class="text-muted">
+                                    <span>@suc.Direccion</span>
+                                </small>
+                            </td>
+                            <td class="text-center">
+                                <input class="form-check-input" type="checkbox" checked="@(suc.EstaRelacionada)" disabled />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="ContainerModal">
+</div>
+
+@section Scripts {
+    <script>
+        window.usuarioDeleteConfig = {
+            title: '@Html.Raw(ViewData["Title"])',
+            safeId: '@Model.Usuario.SafeId',
+            urlAnterior: '@ViewData["UrlAnterior"]',
+            urlBase: '/Seguridad/Usuario'
+        };
+    </script>
+    <script src="~/js/modules/Seguridad/Usuario/Delete.js"></script>
+}

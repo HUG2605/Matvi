@@ -1,0 +1,10 @@
+{
+  "version": "3.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "select2-bootstrap-5-theme@1.3.0",
+      "destination": "lib/select2/css/"
+    }
+  ]
+}

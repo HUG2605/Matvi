@@ -1,0 +1,23 @@
+﻿@using Matvi.Back.Application.Common.Enums
+@using Matvi.Back.Application.Modules.Inventarios.Lote.Dtos
+@using Matvi.Front.UI.Security.Permission
+@using Matvi.Front.UI.Security.Services
+@inject IUsuarioActualService UsuarioActualService
+@model DetallarLoteDto
+
+@if (UsuarioActualService.TienePermiso(Funcion.Inventarios_Lotes, Accion.Regularizar))
+{
+    if (Model.CtTipoLote_Id == (byte)TipoLoteEnm.INICIAL)
+    {
+        <a class="btn btn-sm rounded-circle me-2 mv-btn-icon-secondary"
+               asp-page="/Lote/Regularize"
+               asp-route-Id="@Model.SafeId"
+               data-ajax="true"
+               data-ajax-update="#ContainerModal"
+               data-ajax-method="GET"
+               data-ajax-mode="replace"
+               title="Regularizar Lote" aria-label="Regularizar Lote">
+            <i class="mdi mdi-check-circle fs-5"></i>
+        </a>
+    }
+}

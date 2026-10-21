@@ -1,0 +1,220 @@
+﻿@page
+@using Matvi.Front.UI.Extensions
+@using Matvi.Front.UI.Security.Permission
+@using Matvi.Front.UI.Security.Services
+@inject IUsuarioActualService UsuarioActualService
+@model Matvi.Front.UI.Areas.Productos.Pages.Producto.DetailsModel
+@{
+    ViewData["Title"] = "Productos";
+    ViewData["Modulo"] = "Productos";
+    ViewData["UrlAnterior"] = Url.Page("Index");
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="row align-items-start gy-2">
+    <div class="col-auto">
+        @if (string.IsNullOrEmpty(Model.Producto!.Imagen))
+        {
+            <div class="align-items-center justify-content-center mv-perfil-circle">
+                @Model.GetProfileLetters(Model.Producto.CtGrup_Nombre!)
+            </div>
+        }
+        else
+        {
+            var imagenData = Model.Producto.Imagen!;
+            var imagenSrc = (string?)null;
+            var base64Pattern = new System.Text.RegularExpressions.Regex(@"^[A-Za-z0-9+/]+={0,2}$");
+
+            if (imagenData.StartsWith("data:image"))
+            {
+                var commaIdx = imagenData.IndexOf(',');
+                if (commaIdx > 0 && commaIdx + 1 < imagenData.Length)
+                {
+                    var payload = imagenData[(commaIdx + 1)..];
+                    if (payload.Length > 0 && base64Pattern.IsMatch(payload.Replace("\n", "").Replace("\r", "").Replace(" ", "")))
+                    {
+                        imagenSrc = imagenData;
+                    }
+                }
+            }
+            else if (imagenData.Length > 100 && base64Pattern.IsMatch(imagenData.Replace("\n", "").Replace("\r", "").Replace(" ", "")))
+            {
+                imagenSrc = $"data:image/{(imagenData.StartsWith("iVBOR") ? "png" : "jpeg")};base64,{imagenData}";
+            }
+
+            if (imagenSrc != null)
+            {
+                <img src="@imagenSrc" alt="Imagen"
+                     class="object-fit-cover mv-perfil-circle" />
+            }
+            else
+            {
+                <div class="align-items-center justify-content-center mv-perfil-circle">
+                    @Model.GetProfileLetters(Model.Producto.CtGrup_Nombre!)
+                </div>
+            }
+        }
+
+    </div>
+
+    <div class="col">
+        <h4 class="mb-0">@Model.Producto.CtProd_NombreCompleto</h4>
+        <span class="text-muted">Sección: @Model.Producto.CtSecc_Nombre</span><br />
+        <span class="text-muted">Grupo: @Model.Producto.CtGrup_Nombre</span>
+
+        <!-- Botones visibles en pantallas pequeñas -->
+        <div class="d-block d-md-none mt-2">
+            @await Html.PartialAsync("_DetailsActions", Model.Producto.SafeId)
+        </div>
+    </div>
+
+    <!-- Botones alineados a la derecha en pantallas grandes -->
+    <div class="col-auto d-none d-md-flex justify-content-end align-items-center">
+        @await Html.PartialAsync("_DetailsActions", Model.Producto.SafeId)
+    </div>
+</div>
+
+<div>
+    <ul class="nav nav-tabs nav-bordered">
+        <li class="nav-item">
+            <a href="#home-b1" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
+                <span class="d-inline-block d-sm-none"><i class="mdi mdi-home-variant"></i></span>
+                <span class="d-none d-sm-inline-block">General</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#home-b2" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
+                <span class="d-inline-block d-sm-none"><i class="mdi mdi-truck"></i></span>
+                <span class="d-none d-sm-inline-block">Proveedores</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#home-b3" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
+                <span class="d-inline-block d-sm-none"><i class="mdi mdi-package-variant"></i></span>
+                <span class="d-none d-sm-inline-block">Presentaciones</span>
+            </a>
+        </li>
+        @if (UsuarioActualService.EstaSucursalEnSesionYRelacionada)
+        {
+            <li class="nav-item">
+                <a href="#home-b4" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
+                    <span class="d-inline-block d-sm-none"><i class="mdi mdi-office-building"></i></span>
+                    <span class="d-none d-sm-inline-block">En sucursal</span>
+                </a>
+            </li>
+        }
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane show active" id="home-b1">
+            <div class="row g-3">
+
+                <div class="col-md-4">
+                    <label class="form-label">Nombre</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Producto.CtProd_Nombre
+                    </output>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Especificación técnica</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Producto.CtProd_EspecificacionTecnica
+                    </output>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Marca</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Producto.CtProd_Marca
+                    </output>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Seccion</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Producto.CtSecc_Nombre
+                    </output>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Grupo</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Producto.CtGrup_Nombre
+                    </output>
+                </div>
+
+                <div class="col-md-12">
+                    <label class="form-label">Descripción del grupo</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Producto.CtGrup_Descripcion
+                    </output>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Unidad base de inventario </label>
+                    <output class="form-control mv-output-control">
+                        @Model.Producto.CtUnidBaseInve_Nombre
+                    </output>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Bajo pedido</label>
+                    <output class="form-control mv-output-control">
+                        @(Model.Producto.BajoPedido ? "SI" : "NO")
+                    </output>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Entrega mostrador</label>
+                    <output class="form-control mv-output-control">
+                        @(Model.Producto.EntregaMostrador ? "SI" : "NO")
+                    </output>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Codigo de barras</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Producto.CodigoBarras
+                    </output>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Activo</label>
+                    <output class="form-control mv-output-control">
+                        @(Model.Producto.Activo ? "SI" : "NO")
+                    </output>
+                </div>
+
+            </div>
+        </div>
+        <div class="tab-pane show" id="home-b2">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 justify-content-start">
+                @foreach (var proveedor in Model.Producto.Proveedores!.Where(predicate => predicate.EstaRelacionado == true).ToList())
+                {
+                    <div class="col">
+                        <ul class="mb-0">
+                            <li>@proveedor.Nombre</li>
+                        </ul>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="tab-pane show" id="home-b3">
+        </div>
+        @if (UsuarioActualService.EstaSucursalEnSesionYRelacionada)
+        {
+            <div class="tab-pane show" id="home-b4">
+            </div>
+        }
+    </div>
+</div>
+
+<div id="ContainerModal">
+</div>
+@section Scripts {
+    <script>
+        window.productoDeleteConfig = {
+            title: '@Html.Raw(ViewData["Title"])',
+            safeId: '@Model.Producto.SafeId',
+            urlAnterior: '@ViewData["UrlAnterior"]',
+            urlBase: '/Productos/Producto'
+        };
+    </script>
+    <script src="~/js/modules/Productos/Producto/Delete.js"></script>
+}

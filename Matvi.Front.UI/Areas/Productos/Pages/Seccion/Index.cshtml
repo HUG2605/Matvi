@@ -1,0 +1,45 @@
+@page
+@using Matvi.Front.UI.Security.Permission
+@using Matvi.Front.UI.Security.Services
+@inject IUsuarioActualService UsuarioActualService
+@model Matvi.Front.UI.Areas.Productos.Pages.Seccion.IndexModel
+@{
+    ViewData["Title"] = "Secciones";
+    ViewData["Modulo"] = "Productos";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+@await Html.PartialAsync("_DataTablesStylesPartial")
+
+<div id="contenedorBotonNuevo" style="display:none;">
+    @if (UsuarioActualService.TienePermiso(Funcion.Productos_Secciones, Accion.Crear))
+    {
+        <a id="btnNuevo" class="btn mv-btn-primary me-2 mb-1"
+           asp-page="/Seccion/Create"
+           data-ajax="true"
+           data-ajax-update="#ContainerModal"
+           data-ajax-method="GET"
+           data-ajax-mode="replace"
+           title="Crear" aria-label="Crear">
+            <i class="mdi mdi-plus-circle-outline"></i> Nuevo
+        </a>
+    }
+</div>
+
+<table id="seccion-datatable" class="table table-sm table-hover activate-select dt-responsive nowrap w-100">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th class="text-center">Acciones</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<div id="ContainerModal">
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_DataTablesScriptsPartial")
+    <script src="~/js/modules/Productos/Seccion/Index.js" asp-append-version="true"></script>
+}

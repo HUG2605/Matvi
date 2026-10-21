@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.3.11304.161
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Matvi.Front.UI", "Matvi.Front.UI\Matvi.Front.UI.csproj", "{C8900855-A389-4CC6-9E8C-06E4283D6345}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		1 Generar-Tbl.ps1 = 1 Generar-Tbl.ps1
+		2 Generar-Cfg.ps1 = 2 Generar-Cfg.ps1
+		Caddyfile = Caddyfile
+		CRG_Matvi.sql = CRG_Matvi.sql
+		Deploy_Matvi.txt = Deploy_Matvi.txt
+		Dockerfile = Dockerfile
+		EST_Matvi.sql = EST_Matvi.sql
+		matvi.env = matvi.env
+		matvi_compose.yml = matvi_compose.yml
+		sql.env = sql.env
+		sql_compose.yml = sql_compose.yml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matvi.Back.Infrastructure", "Matvi.Back.Infrastructure\Matvi.Back.Infrastructure.csproj", "{F4224E07-F918-4633-BB68-90CF4B0122B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matvi.Back.Application", "Matvi.Back.Application\Matvi.Back.Application.csproj", "{48905AB7-5566-4BF4-A929-5A1AB1CB2899}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matvi.Transversal", "Matvi.Transversal\Matvi.Transversal.csproj", "{AB154651-E070-4AD0-8F70-94B72CA17DCE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C8900855-A389-4CC6-9E8C-06E4283D6345}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8900855-A389-4CC6-9E8C-06E4283D6345}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8900855-A389-4CC6-9E8C-06E4283D6345}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8900855-A389-4CC6-9E8C-06E4283D6345}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4224E07-F918-4633-BB68-90CF4B0122B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4224E07-F918-4633-BB68-90CF4B0122B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4224E07-F918-4633-BB68-90CF4B0122B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4224E07-F918-4633-BB68-90CF4B0122B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48905AB7-5566-4BF4-A929-5A1AB1CB2899}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48905AB7-5566-4BF4-A929-5A1AB1CB2899}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48905AB7-5566-4BF4-A929-5A1AB1CB2899}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48905AB7-5566-4BF4-A929-5A1AB1CB2899}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB154651-E070-4AD0-8F70-94B72CA17DCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB154651-E070-4AD0-8F70-94B72CA17DCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB154651-E070-4AD0-8F70-94B72CA17DCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB154651-E070-4AD0-8F70-94B72CA17DCE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5F81C755-FBED-4C06-BCFA-9D52C099A66C}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,85 @@
+﻿@page
+@using Matvi.Front.UI.Extensions
+@using Matvi.Front.UI.Security.Permission
+@using Matvi.Front.UI.Security.Services
+@inject IUsuarioActualService UsuarioActualService
+@model Matvi.Front.UI.Areas.Productos.Pages.Grupo.DetailsModel
+@{
+    ViewData["Title"] = "Grupos";
+    ViewData["Modulo"] = "Productos";
+    ViewData["UrlAnterior"] = Url.Page("Index");
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="row align-items-start gy-2">
+    <div class="col-auto">
+        <div class="align-items-center justify-content-center mv-perfil-circle">
+            @Model.GetProfileLetters(Model.Grupo!.Nombre!)
+        </div>
+    </div>
+
+    <div class="col">
+        <h4 class="mb-0">@Model.Grupo.Nombre</h4>
+
+        <!-- Botones visibles en pantallas pequeñas -->
+        <div class="d-block d-md-none mt-2">
+            @await Html.PartialAsync("_DetailsActions", Model.Grupo.SafeId)
+        </div>
+    </div>
+
+    <!-- Botones alineados a la derecha en pantallas grandes -->
+    <div class="col-auto d-none d-md-flex justify-content-end align-items-center">
+        @await Html.PartialAsync("_DetailsActions", Model.Grupo.SafeId)
+    </div>
+</div>
+
+<div>
+    <ul class="nav nav-tabs nav-bordered">
+        <li class="nav-item">
+            <a href="#home-b1" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
+                <span class="d-inline-block d-sm-none"><i class="mdi mdi-home-variant"></i></span>
+                <span class="d-none d-sm-inline-block">General</span>
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane show active" id="home-b1">
+            <div class="row g-3">
+
+                <div class="col-md-6">
+                    <label class="form-label">Nombre</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Grupo.Nombre
+                    </output>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Seccion</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Grupo.CtSecc_Nombre
+                    </output>
+                </div>
+
+                <div class="col-md-12">
+                    <label class="form-label">Descripción</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Grupo.Descripcion
+                    </output>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ContainerModal">
+</div>
+
+@section Scripts {
+    <script>
+        window.grupoDeleteConfig = {
+            title: '@Html.Raw(ViewData["Title"])',
+            safeId: '@Model.Grupo.SafeId',
+            urlAnterior: '@ViewData["UrlAnterior"]',
+            urlBase: '/Productos/Grupo'
+        };
+    </script>
+    <script src="~/js/modules/Productos/Grupo/Delete.js"></script>
+}

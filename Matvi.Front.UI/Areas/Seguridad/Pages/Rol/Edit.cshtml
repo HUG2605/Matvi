@@ -1,0 +1,155 @@
+﻿@page
+@model Matvi.Front.UI.Areas.Seguridad.Pages.Rol.EditModel
+@{
+    Layout = null;
+    var title = $"Funciones y acciones";
+    var idModal = "mdlEditRol";
+    var idForm = "frmEditRol";
+}
+<form id="@idForm"
+      class="needs-validation"
+      method="post"
+      asp-page-handler="Edit"
+      data-ajax="true"
+      data-ajax-success="Success_Edit">
+
+    <input asp-for="Rol.SafeId" type="hidden" />
+
+    <div class="modal fade show" id="@idModal" data-bs-backdrop="static" data-bs-keyboard="false" data-bs-focus="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">@title</h4>
+                    <button type="button" class="btn-close btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col text-start">
+                            <h5 class="mv-text-enf3">
+                                <i class="mdi mdi-pencil-outline me-2"></i>Editar
+                            </h5>
+                        </div>
+                        <div class="col text-end">
+                            <label class="form-label text-danger">&#9679; Valores requeridos</label>
+                        </div>
+                    </div>
+                    <h4 class="mb-3">
+                        @Model.Rol.NombreFld
+                    </h4>
+                    @{
+                        var funcionesPorModulo = Model.Rol.Funciones!
+                        .GroupBy(f => new { f.ModuloId, f.ModuloNombre })
+                        .ToList();
+                    }
+                    <div class="accordion" id="accordionExample">
+                        @for (int i = 0; i < funcionesPorModulo.Count; i++)
+                        {
+                            var modulo = funcionesPorModulo[i];
+                            var collapseId = $"collapse{i}";
+                            var funciones = modulo.ToList();
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading@i">
+                                    <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#@collapseId"
+                                            aria-expanded="false"
+                                            aria-controls="@collapseId">
+                                        @modulo.Key.ModuloNombre
+                                    </button>
+                                </h2>
+                                <div id="@collapseId" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        @for (int j = 0; j < funciones.Count; j++)
+                                        {
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <div class="row g-3">
+                                                        @{
+                                                            var funcion = funciones[j];
+                                                            var index = Model.Rol.Funciones!.IndexOf(funcion);
+                                                        }
+                                                        <div class="col-sm-12 col-md-6">
+                                                            <h4 class="mb-0">@Model.Rol.Funciones[@index].FuncionNombre</h4>
+                                                        </div>
+                                                        <div class="col-6 col-md-3">
+                                                            <input type="hidden" asp-for="Rol.Funciones[@index].Id" />
+                                                            <div class="form-check form-switch">
+                                                                <input type="checkbox"
+                                                                       asp-for="Rol.Funciones[@index].Consultar"
+                                                                       class="form-check-input" />
+                                                                <label class="form-check-label" asp-for="Rol.Funciones[@index].Consultar">
+                                                                    Consultar
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6 col-md-3">
+                                                            <div class="form-check form-switch">
+                                                                <input type="checkbox"
+                                                                       asp-for="Rol.Funciones[@index].VerSensibles"
+                                                                       class="form-check-input" />
+                                                                <label class="form-check-label" asp-for="Rol.Funciones[@index].VerSensibles">
+                                                                    Ver sensibles
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 justify-content-start">
+                                                        @for (int a = 0; a < (Model.Rol.Funciones[@index].Acciones?.Count ?? 0); a++)
+                                                        {
+                                                            var accion = Model.Rol.Funciones[@index].Acciones![a];
+                                                            if (accion != null)
+                                                            {
+                                                                <div class="col mb-2">
+                                                                    <div class="form-check form-switch">
+                                                                        <input type="hidden" asp-for="Rol.Funciones[@index].Acciones[a].Id" />
+                                                                        <input type="checkbox"
+                                                                               asp-for="Rol.Funciones[@index].Acciones[a].TieneAcceso"
+                                                                               class="form-check-input" />
+                                                                        <label class="form-check-label" asp-for="Rol.Funciones[@index].Acciones[a].TieneAcceso">
+                                                                            @accion.AccionNombre
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn mv-btn-primary">
+                        <i class="mdi mdi-content-save me-2"></i>Guardar
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</form>
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+
+<script>
+
+window.rolConfig ={
+idModal:'@idModal',
+idForm:'@idForm',
+title:'@Html.Raw(title)'
+};
+
+</script>
+<script src="~/js/modules/seguridad/rol/edit.js"></script>

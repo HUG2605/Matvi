@@ -1,0 +1,134 @@
+﻿@page
+@using Matvi.Front.UI.Extensions
+@using Matvi.Front.UI.Security.Permission
+@using Matvi.Front.UI.Security.Services
+@inject IUsuarioActualService UsuarioActualService
+@model Matvi.Front.UI.Areas.Compras.Pages.Proveedor.DetailsModel
+@{
+    ViewData["Title"] = "Proveedor";
+    ViewData["Modulo"] = "Compras";
+    ViewData["UrlAnterior"] = Url.Page("Index");
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+@await Html.PartialAsync("_DataTablesStylesPartial")
+
+<div class="row align-items-start gy-2">
+<div class="col-auto">
+    <div class="align-items-center justify-content-center mv-perfil-circle">
+        @Model.GetProfileLetters(Model.Proveedor!.Nombre!)
+    </div>
+</div>
+
+<div class="col">
+    <h4 class="mb-0">@Model.Proveedor.Nombre</h4>
+    <span class="text-muted">Tel: @Model.Proveedor.Telefono!.ToPhoneFormat()</span>
+
+    <!-- Botones visibles en pantallas pequeñas -->
+    <div class="d-block d-md-none mt-2">
+        @await Html.PartialAsync("_DetailsActions", Model.Proveedor.SafeId)
+    </div>
+</div>
+
+<!-- Botones alineados a la derecha en pantallas grandes -->
+<div class="col-auto d-none d-md-flex justify-content-end align-items-center">
+    @await Html.PartialAsync("_DetailsActions", Model.Proveedor.SafeId)
+</div>
+</div>
+
+<div>
+    <ul class="nav nav-tabs nav-bordered">
+        <li class="nav-item">
+            <a href="#home-b1" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
+                <span class="d-inline-block d-sm-none"><i class="mdi mdi-home-variant"></i></span>
+                <span class="d-none d-sm-inline-block">General</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#home-b2" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
+                <span class="d-inline-block d-sm-none"><i class="mdi mdi-cube-outline"></i></span>
+                <span class="d-none d-sm-inline-block">Productos</span>
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane show active" id="home-b1">
+            <div class="row g-3">
+
+                <div class="col-md-4">
+                    <label class="form-label">Nombre</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Proveedor.Nombre
+                    </output>
+                </div>
+                <div class="col-md-8">
+                    <label class="form-label">Dirección</label>
+                    <div class="input-group">
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            <i class="mdi mdi-map-marker"></i>
+                        </span>
+                        <output class="form-control mv-output-control">
+                            @Model.Proveedor.Direccion
+                        </output>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Teléfono</label>
+                    <div class="input-group">
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            <i class="mdi mdi-phone"></i>
+                        </span>
+                        <output class="form-control mv-output-control">
+                            @Model.Proveedor.Telefono!.ToPhoneFormat()
+                        </output>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Nombre Contacto</label>
+                    <output class="form-control mv-output-control">
+                        @Model.Proveedor.NombreContacto
+                    </output>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Teléfono Contacto</label>
+                    <div class="input-group">
+                        <span class="input-group-text p-0 ps-2 pe-2">
+                            <i class="mdi mdi-phone"></i>
+                        </span>
+                        <output class="form-control mv-output-control">
+                            @Model.Proveedor.TelefonoContacto!.ToPhoneFormat()
+                        </output>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane show" id="home-b2">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 justify-content-start">
+                @foreach (var producto in Model.Proveedor.Productos!)
+                {
+                    <div class="col">
+                        <ul class="mb-0">
+                            <li>@producto</li>
+                        </ul>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ContainerModal">
+</div>
+@section Scripts {
+    @await Html.PartialAsync("_DataTablesScriptsPartial")
+    <script>
+        window.proveedorDeleteConfig = {
+            title: '@Html.Raw(ViewData["Title"])',
+            safeId: '@Model.Proveedor.SafeId',
+            urlAnterior: '@ViewData["UrlAnterior"]',
+            urlBase: '/Compras/Proveedor'
+        };
+    </script>
+    <script src="~/js/modules/Compras/Proveedor/Delete.js"></script>
+}

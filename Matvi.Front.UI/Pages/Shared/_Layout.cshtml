@@ -1,0 +1,335 @@
+@using Matvi.Back.Application.Common.Extensions
+@using Matvi.Front.UI.Security.Services
+@inject IConfiguration Configuration
+@inject IUsuarioActualService UsuarioActualService
+@{
+    var usuarioSesion = UsuarioActualService.UsuarioSesion;
+}
+<!DOCTYPE html>
+<html lang="es-mx" data-bs-theme="light" data-menu-color="brand" data-topbar-color="light">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Matvi - @ViewData["Title"]</title>
+
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="~/assets/images/favicon.ico" />
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="~/manifest.json" />
+
+    <!-- App css -->
+    <link href="~/assets/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <!-- Libs -->
+    <link href="~/lib/jquery-confirm/jquery-confirm.min.css" rel="stylesheet" />
+
+    <!-- Matvi CSS -->
+    <link href="~/css/site.css" rel="stylesheet" />
+
+    <meta name="theme-color" content="#51443B" />
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+</head>
+<body>
+
+    <!-- Begin wrapper -->
+    <div class="layout-wrapper">
+
+        <!-- ========== Left Sidebar ========== -->
+        <div class="main-menu">
+            <!-- Brand Logo -->
+            <div class="logo-box">
+                <!-- Brand Logo Light -->
+                <a href="/Index" class="logo-light">
+                    <img src="~/assets/images/logo-light.png" alt="logo" class="logo-lg" height="28">
+                    <img src="~/assets/images/logo-sm.png" alt="small logo" class="logo-sm" height="28">
+                </a>
+
+                <!-- Brand Logo Dark -->
+                <a href="/Index" class="logo-dark">
+                    <img src="~/assets/images/logo-dark.png" alt="dark logo" class="logo-lg" height="28">
+                    <img src="~/assets/images/logo-sm.png" alt="small logo" class="logo-sm" height="28">
+                </a>
+            </div>
+
+            <!--- Menu -->
+            <div data-simplebar>
+                <ul class="app-menu">
+
+                    <li class="menu-item">
+                        <a href="/Index" class="menu-link waves-effect waves-light">
+                            <span class="menu-icon"><i class="bx bx-home-smile"></i></span>
+                            <span class="menu-text"> Dashboards </span>
+                            <span class="badge bg-primary ms-auto rounded">01</span>
+                        </a>
+                    </li>
+
+                    @{
+                        var modulos = (from f in usuarioSesion!.Funciones
+                                       select new
+                                       {
+                                           Id = f.CtModu_Id,
+                                           Nombre = f.CtModu_Nombre,
+                                           IconName = f.CtModu_IconName
+                                       }).Distinct().ToList();
+                    }
+
+                    @foreach (var mod in modulos)
+                    {
+                        var hrefMenu = "#menu" + mod.Id;
+                        var idMenu = "menu" + mod.Id;
+
+                        <li class="menu-item">
+                            <a href="@hrefMenu" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
+                                <span class="menu-icon"><i class="@mod.IconName"></i></span>
+                                <span class="menu-text"> @mod.Nombre.ToCapitalize() </span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <div class="collapse" id="@idMenu">
+                                <ul class="sub-menu">
+                                    @{
+                                        var funcionesModulo = (
+                                            from f in usuarioSesion!.Funciones
+                                            where f.CtModu_Id == mod.Id
+                                            select f).OrderBy(f => f.Id).ToList();
+                                    }
+                                    @foreach (var fm in funcionesModulo)
+                                    {
+                                        <li class="menu-item">
+                                            <a href="@($"/{fm.CtModu_Area}{fm.Ruta}")" class="menu-link">
+                                                <span class="menu-text">@fm.Nombre</span>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </li>
+                    }
+
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+        <div class="page-content">
+
+            <!-- ========== Topbar Start ========== -->
+            <div class="navbar-custom">
+                <div class="topbar">
+                    <div class="topbar-menu d-flex align-items-center gap-lg-2 gap-1">
+
+                        <!-- Brand Logo -->
+                        <div class="logo-box">
+                            <!-- Brand Logo Light -->
+                            <a href="/Index" class="logo-light">
+                                <img src="~/assets/images/logo-light.png" alt="logo" class="logo-lg" height="22" />
+                                <img src="~/assets/images/logo-sm.png" alt="small logo" class="logo-sm" height="22" />
+                            </a>
+
+                            <!-- Brand Logo Dark -->
+                            <a href="/Index" class="logo-dark">
+                                <img src="~/assets/images/logo-dark.png" alt="dark logo" class="logo-lg" height="22" />
+                                <img src="~/assets/images/logo-sm.png" alt="small logo" class="logo-sm" height="22" />
+                            </a>
+                        </div>
+
+                        <!-- Sidebar Menu Toggle Button -->
+                        <button class="button-toggle-menu">
+                            <i class="mdi mdi-menu"></i>
+                        </button>
+                    </div>
+
+                    <ul class="topbar-menu d-flex align-items-center gap-4">
+
+                        <li class="d-none d-md-inline-block">
+                            <a class="nav-link" href="" data-bs-toggle="fullscreen">
+                                <i class="mdi mdi-fullscreen font-size-24"></i>
+                            </a>
+                        </li>
+
+                        <li class="nav-link" id="theme-mode">
+                            <i class="bx bx-moon font-size-24"></i>
+                        </li>
+           
+                        @if (ViewData["RequiereSucursal"] as bool? == true)
+                        {
+                            if (UsuarioActualService.EstaSucursalEnSesionYRelacionada == true)
+                            {
+                                <li class="dropdown">
+                                    <a class="nav-link dropdown-toggle nav-user waves-effect waves-light me-0" data-bs-toggle="modal" data-bs-target="#mdlSeleccionarSucursalSesion" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                        <div style="width: 32px; height: 32px" class="rounded-circle border border-1 fs-4 d-flex align-items-center justify-content-center fw-bold">
+                                            <i class="mdi mdi-store"></i>
+                                        </div>
+                                        <span class="d-md-none ms-1">
+                                            @usuarioSesion.SucursalSesion!.Nombre.Substring(0, Math.Min(9, usuarioSesion.SucursalSesion!.Nombre.Length))
+                                        </span>
+                                        <span class="d-none d-md-inline ms-1">
+                                            @usuarioSesion.SucursalSesion!.Nombre
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                        }
+
+                        <li class="dropdown">
+                            <a class="nav-link dropdown-toggle nav-user waves-effect waves-light me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                <div style="width: 32px; height: 32px" class="rounded-circle border border-1 fs-5 d-flex align-items-center justify-content-center ">
+                                    @($"{usuarioSesion.Nombre![0]}{usuarioSesion.SegundoApellido![0]}")
+                                </div>
+                                <span class="d-none d-md-inline-block ms-1">
+                                    @usuarioSesion!.Nombre
+                                    <i class="mdi mdi-chevron-down"></i>
+                                </span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end profile-dropdown">
+                                <!-- item-->
+                                <div class="dropdown-header noti-title text-end">
+                                    <h5 class="text-overflow">@($"{usuarioSesion.Nombre.ToCapitalize()} {usuarioSesion.PrimerApellido!.ToCapitalize()} {usuarioSesion.SegundoApellido.ToCapitalize()}")</h5>
+                                    <small>@usuarioSesion.RolNombre!.ToCapitalize()</small>
+                                </div>
+                                <div class="dropdown-divider"></div>
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                    <i class="fe-user"></i>
+                                    <span>Mi cuenta</span>
+                                </a>
+
+                                <div class="dropdown-divider"></div>
+
+                                <!-- item-->
+                                <a asp-area="" asp-page="/Security/Logout" class="dropdown-item notify-item">
+                                    <i class="fe-log-out"></i>
+                                    <span>Salir</span>
+                                </a>
+
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+            <!-- ========== Topbar End ========== -->
+
+            <div class="px-3">
+
+                <!-- Start Content-->
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="py-lg-4 py-3">
+
+                        <div class="row">
+                            <div class="col-lg-6 d-flex align-items-center gap-2">
+                                @if (@ViewData["UrlAnterior"] is not null)
+                                {
+                                    <a id="aRegresar"
+                                           href="@ViewData["UrlAnterior"]"
+                                           class="btn btn-sm rounded-circle btn-regresar"
+                                           title="Regresar"
+                                           aria-label="Regresar">
+                                        <i class="mdi mdi-arrow-left"></i>
+                                    </a>
+                                }
+                                @if (@ViewData["Title"] is not null)
+                                {
+                                    <h4 class="page-title mb-0">
+                                        @ViewData["Title"]
+                                    </h4>
+                                }
+                            </div>
+                            <div class="col-lg-6">
+
+                                <div class="d-none d-lg-block">
+                                    <ol class="breadcrumb m-0 float-end">
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">@ViewData["Modulo"]</a></li>
+                                        <li class="breadcrumb-item active">@ViewData["Title"]</li>
+                                    </ol>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- end page title -->
+                    @RenderBody()
+
+                </div>
+                <!-- end content -->
+
+            </div>
+            
+            <!-- Footer Start -->
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div><script>document.write(new Date().getFullYear())</script> © Matvi</div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-none d-md-flex align-item-center justify-content-md-end gap-4">
+                                <p class="mb-0">Design & Develop by <a href="https://digintel.mx/" target="_blank">Digintel Solutions</a> </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            <!-- end Footer -->
+
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+
+    </div>
+    <!-- END wrapper -->
+    <!-- App js -->
+    <script src="~/assets/js/vendor.min.js"></script>
+    <script src="~/assets/js/app.js"></script>
+    <script src="~/assets/js/config.js"></script>
+    <script src="~/assets/libs/jquery-knob/jquery.knob.min.js"></script>
+
+    <!-- Libs -->
+    <script src="~/lib/jquery-confirm/jquery-confirm.min.js"></script>
+    <script src="~/lib/jquery.blockui/jquery.blockui.min.js"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    
+    <!-- Matvi JS -->
+    @* <script src="~/js/site.js"></script> *@
+    <script src="~/js/matvi.js"></script>
+    <script src="~/js/matvi.events.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+    @if (ViewData["RequiereSucursal"] as bool? == true)
+    {
+        <partial name="_SeleccionarSucursal" model="usuarioSesion.Sucursales" />
+    }
+    
+    <!-- Web Push -->
+    <script src="~/js/webpush.js"></script>
+    <script>
+
+        const vapidPublicKey = '@Configuration["Vapid:PublicKey"]';
+        const idUsuarioSesion = @usuarioSesion.Id;
+    
+        // Registrar Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(reg => {
+                    console.log('Service Worker registrado:', reg.scope);
+
+                    // Suscribir al usuario a Web Push
+                    if (idUsuarioSesion != null)
+                    {
+                        suscribirWebPush(idUsuarioSesion);
+                    }
+                })
+                .catch(err => console.error('Error al registrar Service Worker:', err));
+        }
+    </script>
+</body>
+</html>

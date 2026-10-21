@@ -1,0 +1,21 @@
+﻿@using Matvi.Front.UI.Security.Permission
+@using Matvi.Front.UI.Security.Services
+@inject IUsuarioActualService UsuarioActualService
+@model string // SafeId
+@{
+    var funcion = Funcion.Inventarios_Inventario;
+}
+
+@if (UsuarioActualService.TienePermiso(funcion, Accion.Editar))
+{
+    <a class="btn btn-sm rounded-circle me-2 mv-btn-icon-secondary"
+        asp-page="/Inventario/Edit"
+        asp-route-idProducto="@Model"
+        data-ajax="true"
+        data-ajax-update="#ContainerModal"
+        data-ajax-method="GET"
+        data-ajax-mode="replace"
+        title="Editar" aria-label="Editar">
+        <i class="mdi mdi-square-edit-outline fs-5"></i>
+    </a>
+}

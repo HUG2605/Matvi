@@ -1,0 +1,333 @@
+@page
+@using Matvi.Back.Application.Modules.Ventas.Pedido.Dtos
+@model Matvi.Front.UI.Areas.Ventas.Pages.Pedido.CreateModel
+@{
+    Layout = null;
+    var title = "Datos del pedido";
+    var idModal = "mdlCreatePedido";
+    var idForm = "frmCreatePedido";
+}
+
+<link href="~/css/matvi.stepper.css" rel="stylesheet" />
+<form id="@idForm"
+      class="needs-validation"
+      method="post"
+      asp-page-handler="Create"
+      data-ajax="true"
+      autocomplete="off"
+      data-ajax-success="successCreate">
+
+    @Html.AntiForgeryToken()
+
+    <div class="modal fade" id="@idModal" data-bs-backdrop="true" data-bs-keyboard="false"
+         data-bs-focus="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">@title</h4>
+                    <button type="button" class="btn-close btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col text-start">
+                            <h5 class="mv-text-enf3">
+                                <i class="mdi mdi-plus-circle-outline me-2"></i> Nuevo
+                            </h5>
+                        </div>
+                        <div class="col text-end">
+                            <label class="form-label text-danger">&#9679; Valores requeridos</label>
+                        </div>
+                    </div>
+
+                    <div class="mv-steps-vertical">
+                        <div class="mv-step-vertical active">
+                            <div class="mv-step-vertical-icon">1</div>
+                            <div class="mv-step-vertical-content">
+                                <div class="mv-step-vertical-title">
+                                    Generales
+                                </div>
+                                <div id="collapseGenerales" class="mv-step-vertical-body collapse show">
+                                    <div class="row g-3">
+                                        <div class="col-lg-9">
+                                            <label asp-for="Pedido.CtClie_IdFld" class="form-label mv-form-label-required me-2"></label>
+                                            <input id="chkMostrador" type="checkbox" class="form-check-input me-1 mt-0" />
+                                            <label for="chkMostrador" class="form-label mb-0">Mostrador</label>
+
+                                            <select asp-for="Pedido.CtClie_IdFld" class="form-select w-100"></select>
+                                            <span asp-validation-for="Pedido.CtClie_IdFld"></span>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <label asp-for="Pedido.CtCanaCapt_IdFld" class="form-label mv-form-label-required"></label>
+                                            @* Hidden clon: cuando el select está disabled (cliente mostrador),
+                                               los inputs deshabilitados NO se envían al servidor. Este hidden
+                                               mantiene el valor vinculado al select y sí viaja en el POST. *@
+                                            <input type="hidden" id="Pedido_CtCanaCapt_IdFld_Mirror" name="Pedido.CtCanaCapt_IdFld" value="" />
+                                            <select asp-for="Pedido.CtCanaCapt_IdFld" class="form-select" asp-items="Model.CanalCapturaSelectList">
+                                                <option value="">SELECCIONAR</option>
+                                            </select>
+                                            <span asp-validation-for="Pedido.CtCanaCapt_IdFld"></span>
+                                        </div>
+
+                                        <div class="col-12 d-none" id="grpCreditoCliente">
+                                            <div class="card border mb-0">
+                                                <div class="card-body p-2 rounded">
+                                                    <div class="row align-items-center g-2">
+                                                        <div class="col-auto">
+                                                            <span id="badgeEstadoCredito" class="badge bg-success p-2">
+                                                                <i class="mdi mdi-check-circle-outline me-1"></i> Apto para crédito
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-sm-6 col-md-3">
+                                                            <span class="text-muted font-12 d-block">Límite semanal</span>
+                                                            <strong id="lblLimiteCredito" class="font-14">$ 0.00</strong>
+                                                        </div>
+                                                        <div class="col-sm-6 col-md-3">
+                                                            <span class="text-muted font-12 d-block">Deuda actual</span>
+                                                            <strong id="lblDeudaActual" class="font-14 text-danger">$ 0.00</strong>
+                                                        </div>
+                                                        <div class="col-sm-6 col-md-3">
+                                                            <span class="text-muted font-12 d-block">Crédito disponible</span>
+                                                            <strong id="lblCreditoDisponible" class="font-14 text-success">$ 0.00</strong>
+                                                        </div>
+                                                        <div class="col-12 d-none" id="rowMotivoBloqueo">
+                                                            <div class="text-danger font-12">
+                                                                <i class="mdi mdi-alert-circle-outline me-1"></i>
+                                                                <span id="lblMotivoBloqueo"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-8 d-none" id="colNombreMostrador">
+                                            <label asp-for="Pedido.ClienteMostradorNombreFld" class="form-label"></label>
+                                            <input asp-for="Pedido.ClienteMostradorNombreFld" class="form-control" />
+                                            <span asp-validation-for="Pedido.ClienteMostradorNombreFld"></span>
+                                        </div>
+                                        <div class="col-md-4 d-none" id="colTelefonoMostrador">
+                                            <label asp-for="Pedido.ClienteMostradorTelefonoFld" class="form-label"></label>
+                                            <div class="input-group">
+                                                <span class="input-group-text p-0 ps-2 pe-2">
+                                                    <i class="mdi mdi-phone"></i>
+                                                </span>
+                                                <input asp-for="Pedido.ClienteMostradorTelefonoFld" class="form-control" />
+                                            </div>
+                                            <span asp-validation-for="Pedido.ClienteMostradorTelefonoFld"></span>
+                                        </div>
+
+                                        <div class="col-md-6 d-none" id="colApartado">
+                                            <label class="form-label">Modalidad</label>
+                                            <div class="form-control border-0">
+                                                <div class="form-check form-switch">
+                                                    <input asp-for="Pedido.EsApartadoFld" type="checkbox" class="form-check-input" />
+                                                    <label for="Pedido_EsApartadoFld" class="form-check-label">Apartado (pago 100%, sin entrega inmediata)</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 d-none" id="colFechaEntregaEstimada">
+                                            <label asp-for="Pedido.FechaEntregaEstimadaFld" class="form-label"></label>
+                                            <input asp-for="Pedido.FechaEntregaEstimadaFld" type="date" class="form-control" />
+                                            <span asp-validation-for="Pedido.FechaEntregaEstimadaFld"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mv-step-vertical">
+                            <div class="mv-step-vertical-icon">2</div>
+                            <div class="mv-step-vertical-content">
+                                <div class="mv-step-vertical-title">
+                                    Productos
+                                </div>
+                                <div id="collapseProductos" class="mv-step-vertical-body collapse">
+
+                                    <div id="frmAgregarProducto" class="needs-validation">
+
+                                        <div class="row g-3">
+
+                                            <div class="col-md-12">
+                                                <label class="form-label">Producto</label>
+                                                <select id="slcProducto" class="form-select"></select>
+                                            </div>
+
+                                            <div class="col-md-6 col-lg-5 col-xl-6">
+                                                <label class="form-label mv-form-label-required">Presentación</label>
+                                                <div class="input-group">
+                                                    <span id="spnRegulado"
+                                                          class="input-group-text bg-secondary-subtle text-secondary"
+                                                          data-bs-toggle="tooltip"
+                                                          title="Producto regularizado en sucursal">
+                                                        <i id="icoRegulado" class="mdi mdi-check-decagram"></i>
+                                                    </span>
+                                                    <span id="spnBajoPedido"
+                                                          class="input-group-text bg-secondary-subtle text-secondary"
+                                                          data-bs-toggle="tooltip"
+                                                          title="Producto bajo pedido (sin stock)">
+                                                        <i id="icoBajoPedido" class="mdi mdi-truck-fast-outline"></i>
+                                                    </span>
+                                                    <select id="slcPresentacionProducto" name="idPresentacionProducto" class="form-select" aria-describedby="idPresentacionProducto-error"> </select>
+                                                </div>
+                                                <span class="field-validation-valid" data-valmsg-for="idPresentacionProducto" data-valmsg-replace="true">
+                                                    <span id="idPresentacionProducto-error" class=""></span>
+                                                </span>
+                                            </div>
+                                            <div class="col-6 col-md-3 col-lg-2 col-xl-2">
+                                                <label class="form-label">Existencias</label>
+                                                <input id="txtExistencias" type="text" class="form-control" disabled readonly />
+                                            </div>
+                                            <div class="col-6 col-md-3 col-lg-2 col-xl-2">
+                                                <label class="form-label mv-form-label-required">Cantidad</label>
+                                                <input id="txtCantidad" name="cantidad" class="form-control" type="number" aria-describedby="cantidad-error" />
+                                                <span class="field-validation-valid" data-valmsg-for="cantidad" data-valmsg-replace="true">
+                                                    <span id="cantidad-error" class=""></span>
+                                                </span>
+                                            </div>
+                                            <div class="col-12 col-lg-3 col-xl-2">
+                                                <label class="form-label d-none d-md-block">&nbsp;</label>
+                                                <button type="button" id="btnAgregar" class="btn mv-btn-primary w-100">
+                                                    <i class="mdi mdi-plus-thick me-1"></i>Agregar
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div id="ContainerProductos">
+                                        @await Html.PartialAsync("_ListAgregarProducto", new List<AgregarProductoPedidoDto>())
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mv-step-vertical">
+                            <div class="mv-step-vertical-icon">3</div>
+                            <div class="mv-step-vertical-content">
+                                <div class="mv-step-vertical-title">
+                                    Entrega
+                                </div>
+                                <div id="collapseEntrega" class="mv-step-vertical-body collapse">
+                                    <div class="row g-3">
+
+                                        <div class="col-md-6" id="colEntregaDomicilio">
+                                            <label asp-for="Pedido.EntregaDomicilioFld" class="form-label"></label>
+                                            <div class="form-control border-0">
+                                                <div class="form-check form-switch">
+                                                    <input asp-for="Pedido.EntregaDomicilioFld" type="checkbox" class="form-check-input" />
+                                                </div>
+                                            </div>
+                                            <span asp-validation-for="Pedido.EntregaDomicilioFld"></span>
+                                        </div>
+                                        <div class="m-0 w-100"></div>
+
+                                        <div class="col-md-6" id="colDireccionEntrega">
+                                            <label asp-for="Pedido.DireccionEntregaFld" class="form-label"></label>
+                                            <div class="input-group">
+                                                <span class="input-group-text p-0 ps-2 pe-2">
+                                                    <i class="mdi mdi-map-marker"></i>
+                                                </span>
+                                                <textarea asp-for="Pedido.DireccionEntregaFld" class="form-control" rows="2" disabled></textarea>
+                                            </div>
+                                            <span asp-validation-for="Pedido.DireccionEntregaFld"></span>
+                                        </div>
+                                        <div class="col-md-6" id="colNotas">
+                                            <label asp-for="Pedido.NotasFld" class="form-label mv-form-label-required"></label>
+                                            <div class="input-group">
+                                                <span class="input-group-text p-0 ps-2 pe-2">
+                                                    <i class="mdi mdi-note"></i>
+                                                </span>
+                                                <textarea asp-for="Pedido.NotasFld" class="form-control" rows="2"></textarea>
+                                            </div>
+                                            <span asp-validation-for="Pedido.NotasFld"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mv-step-vertical">
+                            <div class="mv-step-vertical-icon">4</div>
+                            <div class="mv-step-vertical-content">
+                                <div class="mv-step-vertical-title">
+                                    Pago
+                                </div>
+                                <div id="collapsePago" class="mv-step-vertical-body collapse">
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label asp-for="Pedido.CtMediPago_IdFld" class="form-label mv-form-label-required"></label>
+                                            <select asp-for="Pedido.CtMediPago_IdFld" class="form-select" asp-items="Model.MedioPagoSelectList">
+                                                <option value="">SELECCIONAR</option>
+                                            </select>
+                                            <span asp-validation-for="Pedido.CtMediPago_IdFld"></span>
+                                        </div>
+
+                                        <div class="col-6 col-md-6">
+                                            <label class="form-label">Total</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text p-0 ps-2 pe-2"><i class="mdi mdi-currency-usd"></i></span>
+                                                <input id="txtTotal" type="text" class="form-control" disabled readonly />
+                                            </div>
+                                        </div>
+                                        <div class="col-6 col-md-4">
+                                            <label asp-for="Pedido.PagoFld" class="form-label mv-form-label-required"></label>
+                                            <div class="input-group">
+                                                <span class="input-group-text p-0 ps-2 pe-2"><i class="mdi mdi-currency-usd"></i></span>
+                                                <input asp-for="Pedido.PagoFld" class="form-control" type="number" min="0" step="0.01" />
+                                            </div>
+                                            <span asp-validation-for="Pedido.PagoFld"></span>
+                                            <span id="spnPagoError" class="text-danger small"></span>
+                                        </div>
+                                        <div class="col-6 col-md-4">
+                                            <label class="form-label">Cambio</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text p-0 ps-2 pe-2"><i class="mdi mdi-currency-usd"></i></span>
+                                                <input id="txtCambio" type="text" class="form-control" value="0.00" disabled readonly />
+                                            </div>
+                                        </div>
+                                        <div class="col-6 col-md-4">
+                                            <label class="form-label">Pendiente</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text p-0 ps-2 pe-2"><i class="mdi mdi-currency-usd"></i></span>
+                                                <input id="txtPendiente" type="text" value="0.00" class="form-control" disabled readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnAnterior" class="btn mv-btn-secondary">
+                        <i class="mdi mdi-arrow-left me-2"></i>Anterior
+                    </button>
+                    <button type="button" id="btnSiguiente" class="btn mv-btn-secondary">
+                        <i class="mdi mdi-arrow-right me-2"></i>Siguiente
+                    </button>
+                    <button type="button" id="btnGuardar" class="btn mv-btn-primary d-none">
+                        <i class="mdi mdi-content-save me-2"></i>Guardar
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</form>
+
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    await Html.RenderPartialAsync("_Select2ScriptsPartial");
+}
+<script>
+    // Solo variables que vienen del servidor
+    window.pedidoConfig = {
+         idModal: '@idModal',
+        idForm: '@idForm',
+        confirmTitle: '@Html.Raw(title)'
+    };
+</script>
+<script src="~/js/matvi.stepper.js"></script>
+<script src="~/js/modules/ventas/pedido/create.js"></script>

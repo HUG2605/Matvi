@@ -1,0 +1,18 @@
+﻿<!-- Select2 Styles -->
+<link rel="stylesheet" href="~/lib/select2/css/select2.min.css">
+<link rel="stylesheet" href="~/lib/select2/css/select2-bootstrap-5-theme.min.css">
+<!-- Select2 Scripts -->
+<script src="~/lib/select2/js/select2.min.js"></script>
+<script src="~/lib/select2/js/i18n/es.min.js"></script>
+<script>
+    (function () {
+        var S2 = $.fn.select2;
+        if (!S2 || !S2.amd) return;
+
+        // Cargar el módulo de idioma español
+        var es = S2.amd.require('select2/i18n/es');
+
+        // Establecerlo como idioma global
+        $.fn.select2.defaults.set('language', es);
+    })();
+</script>
