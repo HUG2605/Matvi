@@ -3,7 +3,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Productos.PresentacionProducto.Queries
 {
-    public record ListarPresentacionProductoSelectQry(
+        /// <summary>
+    /// Consulta CQRS para obtener información de listar presentacion producto select.
+    /// </summary>
+public record ListarPresentacionProductoSelectQry(
         int idProducto,
         bool paraCompra,
         bool paraVenta

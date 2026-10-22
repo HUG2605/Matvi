@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Modules.Ventas.Pedido.Dtos;
+﻿using Matvi.Back.Application.Modules.Ventas.Pedido.Dtos;
 using Matvi.Back.Application.Modules.Ventas.Pedido.Queries;
 using Matvi.Front.UI.Attributes;
 using Matvi.Front.UI.Security.Permission;
@@ -7,15 +7,22 @@ using MediatR;
 
 namespace Matvi.Front.UI.Areas.Ventas.Pages.Pedido
 {
-    [AuthorizeMatvi(Funcion.Ventas_Pedidos)]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para details.
+    /// </summary>
+[AuthorizeMatvi(Funcion.Ventas_Pedidos)]
     public class DetailsModel(
         IMediator _mediator,
         IUsuarioActualService _usuarioActualService
     ) : BaseModel
     {
-        public DetallarPedidoDto? Pedido { get; set; }
+                /// <summary>
+        /// Propiedad que representa pedido.
+        /// </summary>
+public DetallarPedidoDto? Pedido { get; set; }
 
-        public async Task OnGetAsync(
+                /// <inheritdoc/>
+public async Task OnGetAsync(
             string id,
             CancellationToken cancellationToken)
         {

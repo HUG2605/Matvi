@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Modules.Finanzas.Cobro.Dtos;
+﻿using Matvi.Back.Application.Modules.Finanzas.Cobro.Dtos;
 using Matvi.Back.Application.Modules.Finanzas.Cobro.Queries;
 using Matvi.Front.UI.Attributes;
 using Matvi.Front.UI.Security.Permission;
@@ -7,14 +7,21 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Matvi.Front.UI.Areas.Finanzas.Pages.Cobro
 {
-    [AuthorizeMatvi(Funcion.Finanzas_Cobros)]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para details.
+    /// </summary>
+[AuthorizeMatvi(Funcion.Finanzas_Cobros)]
     public class DetailsModel(
         IMediator _mediator
     ) : BaseModel
     {
-        public DetallarCobroDto? Cobro { get; set; }
+                /// <summary>
+        /// Propiedad que representa cobro.
+        /// </summary>
+public DetallarCobroDto? Cobro { get; set; }
 
-        public async Task<IActionResult> OnGet(
+                /// <inheritdoc/>
+public async Task<IActionResult> OnGet(
             string id,
             CancellationToken cancellationToken)
         {

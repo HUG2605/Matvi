@@ -1,0 +1,24 @@
+# Configuración de Netlify para el sitio de documentación DocFX
+[build]
+  # Carpeta de salida generada por DocFX
+  publish = "_site"
+  # Comando para regenerar la documentación antes de publicar
+  command = "dotnet tool restore && docfx build docfx.json"
+
+[build.environment]
+  DOTNET_VERSION = "10.0"
+
+# Redireccionamiento para SPA/sitio estático
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 404
+  force = false
+
+# Headers de seguridad
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"

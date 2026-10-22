@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Common.Results;
+﻿using Matvi.Back.Application.Common.Results;
 using Matvi.Back.Application.Modules.Productos.PresentacionProducto.Commands;
 using Matvi.Back.Application.Modules.Productos.PresentacionProducto.Queries;
 using Matvi.Front.UI.Areas.Productos.Pages.PresentacionProducto.ViewModels;
@@ -10,13 +10,22 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Matvi.Front.UI.Areas.Productos.Pages.PresentacionProducto
 {
-    [AuthorizeMatvi(Funcion.Productos_Productos)]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para index.
+    /// </summary>
+[AuthorizeMatvi(Funcion.Productos_Productos)]
     public class IndexModel(
         IMediator _mediator,
         IUsuarioActualService _usuarioActualService
         ) : BaseModel
     {
-        public async Task<ActionResult> OnGetListAsync(
+                /// <summary>
+        /// Ejecuta la operación de on get list async.
+        /// </summary>
+        /// <param name="productoId">Parámetro producto id.</param>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<ActionResult> OnGetListAsync(
             string productoId, 
             CancellationToken cancellationToken)
         {
@@ -31,7 +40,13 @@ namespace Matvi.Front.UI.Areas.Productos.Pages.PresentacionProducto
             return Partial("_List", vm);
         }
 
-        public async Task<JsonResult> OnGetDelete(
+                /// <summary>
+        /// Ejecuta la operación de on get delete.
+        /// </summary>
+        /// <param name="id">Identificador único del registro u objeto.</param>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnGetDelete(
             string id, 
             CancellationToken cancellationToken)
         {

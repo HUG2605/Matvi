@@ -3,7 +3,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Configuracion.Sucursal.Queries
 {
-    public record EditarSucursalQry(
+        /// <summary>
+    /// Consulta CQRS para obtener información de editar sucursal.
+    /// </summary>
+public record EditarSucursalQry(
         byte id
         ) : IRequest<EditarSucursalDto>;
 

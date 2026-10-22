@@ -3,17 +3,35 @@ using Matvi.Back.Application.Common.Extensions;
 
 namespace Matvi.Back.Application.Modules.Productos.Grupo.Dtos
 {
-    public class ListarGrupoDto : IIdDto<short>
+        /// <summary>
+    /// Objeto de transferencia de datos (DTO) para listar grupo.
+    /// </summary>
+public class ListarGrupoDto : IIdDto<short>
     {
         #region Implementacion de IIdDto
 
-        public short Id { get; set; }
-        public string SafeId => Id.GetSafeId();
+                /// <summary>
+        /// Identificador único de id.
+        /// </summary>
+public short Id { get; set; }
+                /// <summary>
+        /// Identificador único de safe id.
+        /// </summary>
+public string SafeId => Id.GetSafeId();
 
         #endregion
 
-        public string Nombre { get; set; } = string.Empty;
-        public string Descripcion { get; set; } = string.Empty;
-        public string CtSecc_Nombre { get; set; } = string.Empty;
+                /// <summary>
+        /// Texto descriptivo o detalle de nombre.
+        /// </summary>
+public string Nombre { get; set; } = string.Empty;
+                /// <summary>
+        /// Texto descriptivo o detalle de descripcion.
+        /// </summary>
+public string Descripcion { get; set; } = string.Empty;
+                /// <summary>
+        /// Texto descriptivo o detalle de ct secc nombre.
+        /// </summary>
+public string CtSecc_Nombre { get; set; } = string.Empty;
     }
 }

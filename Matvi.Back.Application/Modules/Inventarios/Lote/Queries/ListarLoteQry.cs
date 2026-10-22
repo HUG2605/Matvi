@@ -4,7 +4,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Inventarios.Lote.Queries
 {
-    public record ListarLoteQry(
+        /// <summary>
+    /// Consulta CQRS para obtener información de listar lote.
+    /// </summary>
+public record ListarLoteQry(
         byte idSucursal,
         FilterGrd filter
         ) : IRequest<DataGrd<ListarLoteDto>>;

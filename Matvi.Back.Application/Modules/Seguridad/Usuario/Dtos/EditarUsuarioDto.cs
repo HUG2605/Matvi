@@ -2,12 +2,21 @@
 
 namespace Matvi.Back.Application.Modules.Seguridad.Usuario.Dtos
 {
-    public class EditarUsuarioDto : CrearUsuarioDto
+        /// <summary>
+    /// Objeto de transferencia de datos (DTO) para editar usuario.
+    /// </summary>
+public class EditarUsuarioDto : CrearUsuarioDto
     {
-        [Display(Name = "Activo")]
+                /// <summary>
+        /// Propiedad que representa activo.
+        /// </summary>
+[Display(Name = "Activo")]
         public bool ActivoFld { get; set; }
 
-        [Display(Name = "Reiniciar contraseña")]
+                /// <summary>
+        /// Propiedad que representa reiniciar contrasenia.
+        /// </summary>
+[Display(Name = "Reiniciar contraseña")]
         public bool ReiniciarContraseniaFld { get; set; }
 
     }

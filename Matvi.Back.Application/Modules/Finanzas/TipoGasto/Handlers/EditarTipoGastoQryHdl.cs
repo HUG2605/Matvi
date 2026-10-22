@@ -11,7 +11,8 @@ namespace Matvi.Back.Application.Modules.Finanzas.TipoGasto.Handlers
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<EditarTipoGastoQry, EditarTipoGastoDto>
     {
-        public async Task<EditarTipoGastoDto> Handle(
+                /// <inheritdoc/>
+public async Task<EditarTipoGastoDto> Handle(
             EditarTipoGastoQry request, 
             CancellationToken cancellationToken)
         {

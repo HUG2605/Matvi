@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Modules.Seguridad.Rol.Queries;
+﻿using Matvi.Back.Application.Modules.Seguridad.Rol.Queries;
 using Matvi.Back.Application.Modules.Seguridad.Usuario.Commands;
 using Matvi.Back.Application.Modules.Seguridad.Usuario.Dtos;
 using Matvi.Back.Application.Modules.Seguridad.Usuario.Queries;
@@ -10,17 +10,27 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Matvi.Front.UI.Areas.Seguridad.Pages.Usuario
 {
-    [AuthorizeMatvi(Funcion.Seguridad_Usuarios, Accion.Editar)]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para edit.
+    /// </summary>
+[AuthorizeMatvi(Funcion.Seguridad_Usuarios, Accion.Editar)]
     public class EditModel(
         IMediator _mediator
         ) : BaseModel
     {
-        [BindProperty]
+                /// <summary>
+        /// Propiedad que representa usuario.
+        /// </summary>
+[BindProperty]
         public required EditarUsuarioDto Usuario { get; set; }
 
-        public SelectList RolesSelectList { get; set; } = default!;
+                /// <summary>
+        /// Propiedad que representa roles select list.
+        /// </summary>
+public SelectList RolesSelectList { get; set; } = default!;
 
-        public async Task OnGet(
+                /// <inheritdoc/>
+public async Task OnGet(
             string id, 
             CancellationToken cancellationToken)
         {
@@ -39,7 +49,12 @@ namespace Matvi.Front.UI.Areas.Seguridad.Pages.Usuario
             RolesSelectList = new SelectList(rolesTask.Result, "Id", "Nombre");
         }
 
-        public async Task<JsonResult> OnPostEditAsync(
+                /// <summary>
+        /// Ejecuta la operación de on post edit async.
+        /// </summary>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnPostEditAsync(
             CancellationToken cancellationToken)
         {
             Usuario.Id = ToShort(Request.Form["Usuario.SafeId"]!);

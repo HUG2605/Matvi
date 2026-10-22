@@ -1,15 +1,22 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Matvi.Front.UI.Pages
 {
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para error.
+    /// </summary>
+[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     [IgnoreAntiforgeryToken]
     public class ErrorModel : PageModel
     {
-        public string? ErrorCode { get; set; }
+                /// <summary>
+        /// Propiedad que representa error code.
+        /// </summary>
+public string? ErrorCode { get; set; }
 
-        public void OnGet(string errorCode)
+                /// <inheritdoc/>
+public void OnGet(string errorCode)
         {
             ErrorCode = errorCode;
         }

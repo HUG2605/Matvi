@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Common.Enums;
+﻿using Matvi.Back.Application.Common.Enums;
 using Matvi.Back.Application.Common.Results;
 using Matvi.Back.Application.Modules.Ventas.Pedido.Commands;
 using Matvi.Back.Application.Modules.Ventas.Pedido.Common;
@@ -33,7 +33,8 @@ namespace Matvi.Back.Application.Modules.Ventas.Pedido.Handlers
         AjustarEstatusPedidoCmdHdl _ajustarEstatusHdl
     ) : IRequestHandler<EntregarPedidoCmd, OperationResult<bool>>
     {
-        public async Task<OperationResult<bool>> Handle(
+                /// <inheritdoc/>
+public async Task<OperationResult<bool>> Handle(
             EntregarPedidoCmd request,
             CancellationToken cancellationToken)
         {

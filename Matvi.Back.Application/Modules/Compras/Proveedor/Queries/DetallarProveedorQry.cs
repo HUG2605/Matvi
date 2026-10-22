@@ -3,7 +3,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Compras.Proveedor.Queries
 {
-    public record DetallarProveedorQry(
+        /// <summary>
+    /// Consulta CQRS para obtener información de detallar proveedor.
+    /// </summary>
+public record DetallarProveedorQry(
         int id
         ) : IRequest<DetallarProveedorDto>;
 }

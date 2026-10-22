@@ -4,7 +4,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Seguridad.Login.Queries
 {
-    public record ObtenerUsuarioSesionQry(short Id)
+        /// <summary>
+    /// Consulta CQRS para obtener información de obtener usuario sesion.
+    /// </summary>
+public record ObtenerUsuarioSesionQry(short Id)
         : IRequest<UsuarioLoginDto>;
 
 }

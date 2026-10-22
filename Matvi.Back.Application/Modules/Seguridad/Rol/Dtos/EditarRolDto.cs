@@ -4,19 +4,34 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Matvi.Back.Application.Modules.Seguridad.Rol.Dtos
 {
-    public class EditarRolDto : IIdDto<short>
+        /// <summary>
+    /// Objeto de transferencia de datos (DTO) para editar rol.
+    /// </summary>
+public class EditarRolDto : IIdDto<short>
     {
         #region Implementacion de IIdDto
 
-        public short Id { get; set; }
-        public string SafeId => Id.GetSafeId();
+                /// <summary>
+        /// Identificador único de id.
+        /// </summary>
+public short Id { get; set; }
+                /// <summary>
+        /// Identificador único de safe id.
+        /// </summary>
+public string SafeId => Id.GetSafeId();
 
         #endregion
 
-        [Display(Name = "Nombre")]
+                /// <summary>
+        /// Texto descriptivo o detalle de nombre.
+        /// </summary>
+[Display(Name = "Nombre")]
         public string NombreFld { get; set; } = string.Empty;
 
-        public List<RolFuncionDto>? Funciones { get; set; }
+                /// <summary>
+        /// Colección de elementos asociados a funciones.
+        /// </summary>
+public List<RolFuncionDto>? Funciones { get; set; }
 
     }
 }

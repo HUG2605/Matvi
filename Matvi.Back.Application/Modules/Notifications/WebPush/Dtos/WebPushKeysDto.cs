@@ -4,9 +4,18 @@ using System.Text;
 
 namespace Matvi.Back.Application.Modules.Notifications.WebPush.Dtos
 {
-    public class WebPushKeysDto
+        /// <summary>
+    /// Objeto de transferencia de datos (DTO) para web push keys.
+    /// </summary>
+public class WebPushKeysDto
     {
-        public string P256dh { get; set; } = null!;
-        public string Auth { get; set; } = null!;
+                /// <summary>
+        /// Propiedad que representa p 256 dh.
+        /// </summary>
+public string P256dh { get; set; } = null!;
+                /// <summary>
+        /// Propiedad que representa auth.
+        /// </summary>
+public string Auth { get; set; } = null!;
     }
 }

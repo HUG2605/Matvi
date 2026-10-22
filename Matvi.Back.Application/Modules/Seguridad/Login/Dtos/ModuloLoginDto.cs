@@ -4,12 +4,27 @@ using System.Text;
 
 namespace Matvi.Back.Application.Modules.Seguridad.Login.Dtos
 {
-    public class ModuloLoginDto
+        /// <summary>
+    /// Objeto de transferencia de datos (DTO) para modulo login.
+    /// </summary>
+public class ModuloLoginDto
     {
-        public int Id { get; set; }
-        public string Nombre { get; set; } = string.Empty;
-        public string Area { get; set; } = string.Empty;
-        public string IconName { get; set; } = string.Empty;
+                /// <summary>
+        /// Identificador único de id.
+        /// </summary>
+public int Id { get; set; }
+                /// <summary>
+        /// Texto descriptivo o detalle de nombre.
+        /// </summary>
+public string Nombre { get; set; } = string.Empty;
+                /// <summary>
+        /// Propiedad que representa area.
+        /// </summary>
+public string Area { get; set; } = string.Empty;
+                /// <summary>
+        /// Propiedad que representa icon name.
+        /// </summary>
+public string IconName { get; set; } = string.Empty;
     }
 
 }

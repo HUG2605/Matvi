@@ -7,11 +7,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Matvi.Back.Application.Modules.Finanzas.Gasto.Handlers
 {
-    public class EditarGastoQryHdl(
+        /// <summary>
+    /// Manejador de consulta encargado de resolver los datos para editar gasto.
+    /// </summary>
+public class EditarGastoQryHdl(
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<EditarGastoQry, EditarGastoDto>
     {
-        public async Task<EditarGastoDto> Handle(
+                /// <inheritdoc/>
+public async Task<EditarGastoDto> Handle(
             EditarGastoQry request,
             CancellationToken cancellationToken)
         {

@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Common.Enums;
+﻿using Matvi.Back.Application.Common.Enums;
 using Matvi.Back.Application.Common.Results;
 using Matvi.Back.Application.Modules.Finanzas.Gasto.Commands;
 using Matvi.Back.Infrastructure.Common.Attributes;
@@ -14,7 +14,8 @@ namespace Matvi.Back.Application.Modules.Finanzas.Gasto.Handlers
         IUnitOfWork _unitOfWork
         ) : IRequestHandler<EditarGastoCmd, OperationResult<bool>>
     {
-        public async Task<OperationResult<bool>> Handle(
+                /// <inheritdoc/>
+public async Task<OperationResult<bool>> Handle(
             EditarGastoCmd request,
             CancellationToken cancellationToken)
         {

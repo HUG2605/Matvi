@@ -4,7 +4,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Compras.Proveedor.Commands
 {
-    public record EditarProveedorCmd(
+        /// <summary>
+    /// Comando CQRS para la operación de editar proveedor.
+    /// </summary>
+public record EditarProveedorCmd(
              EditarProveedorDto proveedor
         ) : IRequest<OperationResult<bool>>;
 }

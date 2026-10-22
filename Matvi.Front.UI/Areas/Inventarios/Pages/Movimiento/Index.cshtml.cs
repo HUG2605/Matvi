@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Common.Grid;
+﻿using Matvi.Back.Application.Common.Grid;
 using Matvi.Back.Application.Modules.Inventarios.Movimiento.Dtos;
 using Matvi.Back.Application.Modules.Inventarios.Movimiento.Queries;
 using Matvi.Front.UI.Attributes;
@@ -10,17 +10,32 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Matvi.Front.UI.Areas.Inventarios.Pages.Movimiento
 {
-    [AuthorizeMatvi(Funcion.Inventarios_Movimientos)]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para index.
+    /// </summary>
+[AuthorizeMatvi(Funcion.Inventarios_Movimientos)]
     public class IndexModel(
         IMediator _mediator,
         IUsuarioActualService _usuarioActualService
     ) : BaseModel
     {
-        public void OnGet()
+                /// <inheritdoc/>
+public void OnGet()
         {
         }
 
-        public async Task<JsonResult> OnGetMovimientosJsonAsync(
+                /// <summary>
+        /// Ejecuta la operación de on get movimientos json async.
+        /// </summary>
+        /// <param name="draw">Parámetro draw.</param>
+        /// <param name="start">Parámetro start.</param>
+        /// <param name="length">Parámetro length.</param>
+        /// <param name="search">Parámetro search.</param>
+        /// <param name="sortBy">Parámetro sort by.</param>
+        /// <param name="sortDesc">Parámetro sort desc.</param>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnGetMovimientosJsonAsync(
             int draw,
             int start,
             int length,

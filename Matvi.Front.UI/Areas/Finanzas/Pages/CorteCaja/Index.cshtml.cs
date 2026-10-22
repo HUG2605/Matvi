@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Common.Grid;
+﻿using Matvi.Back.Application.Common.Grid;
 using Matvi.Back.Application.Modules.Finanzas.CorteCaja.Dtos;
 using Matvi.Back.Application.Modules.Finanzas.CorteCaja.Queries;
 using Matvi.Front.UI.Attributes;
@@ -11,18 +11,28 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Matvi.Front.UI.Areas.Finanzas.Pages.CorteCaja
 {
-    [AuthorizeMatvi(Funcion.Finanzas_Cortes_de_caja)]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para index.
+    /// </summary>
+[AuthorizeMatvi(Funcion.Finanzas_Cortes_de_caja)]
     public class IndexModel(
         IMediator _mediator,
         IUsuarioActualService _usuarioActualService
     ) : PageModel
     {
-        public CajaActivaDto? Caja { get; set; }
+                /// <summary>
+        /// Propiedad que representa caja.
+        /// </summary>
+public CajaActivaDto? Caja { get; set; }
 
-        public bool TieneSucursal =>
+                /// <summary>
+        /// Propiedad que representa tiene sucursal.
+        /// </summary>
+public bool TieneSucursal =>
             _usuarioActualService.EstaSucursalEnSesionYRelacionada == true;
 
-        public async Task OnGetAsync(CancellationToken cancellationToken)
+                /// <inheritdoc/>
+public async Task OnGetAsync(CancellationToken cancellationToken)
         {
             if (TieneSucursal)
             {
@@ -32,7 +42,18 @@ namespace Matvi.Front.UI.Areas.Finanzas.Pages.CorteCaja
             }
         }
 
-        public async Task<JsonResult> OnGetCortesJsonAsync(
+                /// <summary>
+        /// Ejecuta la operación de on get cortes json async.
+        /// </summary>
+        /// <param name="draw">Parámetro draw.</param>
+        /// <param name="start">Parámetro start.</param>
+        /// <param name="length">Parámetro length.</param>
+        /// <param name="search">Parámetro search.</param>
+        /// <param name="sortBy">Parámetro sort by.</param>
+        /// <param name="sortDesc">Parámetro sort desc.</param>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnGetCortesJsonAsync(
             int draw,
             int start,
             int length,

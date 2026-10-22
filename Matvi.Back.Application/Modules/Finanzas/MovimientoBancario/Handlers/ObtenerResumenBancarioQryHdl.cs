@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,7 +15,8 @@ namespace Matvi.Back.Application.Modules.Finanzas.MovimientoBancario.Handlers
         IDbContextFactory<MatviQryDbCtx> _factory
     ) : IRequestHandler<ObtenerResumenBancarioQry, ResumenBancarioDto>
     {
-        public async Task<ResumenBancarioDto> Handle(
+                /// <inheritdoc/>
+public async Task<ResumenBancarioDto> Handle(
             ObtenerResumenBancarioQry request,
             CancellationToken cancellationToken)
         {

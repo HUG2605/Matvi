@@ -4,6 +4,9 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Finanzas.Gasto.Commands
 {
-    public record CrearGastoCmd(CrearGastoDto gasto)
+        /// <summary>
+    /// Comando CQRS para la operación de crear gasto.
+    /// </summary>
+public record CrearGastoCmd(CrearGastoDto gasto)
         : IRequest<OperationResult<bool>>;
 }

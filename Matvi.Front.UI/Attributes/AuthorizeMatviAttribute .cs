@@ -3,7 +3,10 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Matvi.Front.UI.Attributes
 {
-    public class AuthorizeMatviAttribute : Attribute, IAuthorizationFilter
+        /// <summary>
+    /// Representa la clase para authorize matvi attribute.
+    /// </summary>
+public class AuthorizeMatviAttribute : Attribute, IAuthorizationFilter
     {
         private readonly string _funcion;
         private readonly string? _accion;
@@ -19,7 +22,11 @@ namespace Matvi.Front.UI.Attributes
             _accion = accion;
         }
 
-        public void OnAuthorization(AuthorizationFilterContext context)
+                /// <summary>
+        /// Ejecuta la operación de on authorization.
+        /// </summary>
+        /// <param name="context">Parámetro context.</param>
+public void OnAuthorization(AuthorizationFilterContext context)
         {
             var user = context.HttpContext.User;
 

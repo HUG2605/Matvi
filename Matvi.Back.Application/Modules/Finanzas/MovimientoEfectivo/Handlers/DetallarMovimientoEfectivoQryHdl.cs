@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Matvi.Back.Application.Modules.Finanzas.MovimientoEfectivo.Dtos;
 using Matvi.Back.Application.Modules.Finanzas.MovimientoEfectivo.Queries;
@@ -13,7 +13,8 @@ namespace Matvi.Back.Application.Modules.Finanzas.MovimientoEfectivo.Handlers
         IDbContextFactory<MatviQryDbCtx> _factory
     ) : IRequestHandler<DetallarMovimientoEfectivoQry, DetallarMovimientoEfectivoDto?>
     {
-        public async Task<DetallarMovimientoEfectivoDto?> Handle(
+                /// <inheritdoc/>
+public async Task<DetallarMovimientoEfectivoDto?> Handle(
             DetallarMovimientoEfectivoQry request,
             CancellationToken cancellationToken)
         {

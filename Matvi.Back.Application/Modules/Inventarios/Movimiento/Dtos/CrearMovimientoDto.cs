@@ -4,7 +4,10 @@ using System.Text;
 
 namespace Matvi.Back.Application.Modules.Inventarios.Movimiento.Dtos
 {
-    public class CrearMovimientoDto
+        /// <summary>
+    /// Objeto de transferencia de datos (DTO) para crear movimiento.
+    /// </summary>
+public class CrearMovimientoDto
     {
     }
 }

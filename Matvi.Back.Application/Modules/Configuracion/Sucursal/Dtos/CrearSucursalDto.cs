@@ -5,34 +5,55 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Matvi.Back.Application.Modules.Configuracion.Sucursal.Dtos
 {
-    public class CrearSucursalDto : IIdDto<byte>
+        /// <summary>
+    /// Objeto de transferencia de datos (DTO) para crear sucursal.
+    /// </summary>
+public class CrearSucursalDto : IIdDto<byte>
     {
         #region Implementacion de IIdDto
 
-        public byte Id { get; set; }
-        public string SafeId => Id.GetSafeId();
+                /// <summary>
+        /// Identificador único de id.
+        /// </summary>
+public byte Id { get; set; }
+                /// <summary>
+        /// Identificador único de safe id.
+        /// </summary>
+public string SafeId => Id.GetSafeId();
 
         #endregion
 
         //Nombre varchar	20	no
-        [Display(Name = "Nombre")]
+                /// <summary>
+        /// Texto descriptivo o detalle de nombre.
+        /// </summary>
+[Display(Name = "Nombre")]
         [Required(ErrorMessage = "El valor para {0} es requerido.")]
         [StringLength(20, ErrorMessage = "El valor para {0} no debe exceder los {1} caracteres.")]
         public required string NombreFld { get; set; }
         
-        [Display(Name = "Clave")]
+                /// <summary>
+        /// Propiedad que representa clave.
+        /// </summary>
+[Display(Name = "Clave")]
         [Required(ErrorMessage = "El valor para {0} es requerido.")]
         [StringLength(4, MinimumLength = 4, ErrorMessage = "El valor para {0} debe ser de {1} caracteres.")]
         public required string ClaveFld { get; set; }
 
         //Calle	varchar	250	no
-        [Display(Name = "Dirección")]
+                /// <summary>
+        /// Propiedad que representa direccion.
+        /// </summary>
+[Display(Name = "Dirección")]
         [Required(ErrorMessage = "El valor para {0} es requerido.")]
         [StringLength(250, ErrorMessage = "El valor para {0} no debe exceder los {1} caracteres.")]
         public required string DireccionFld { get; set; }
 
         //Telefono	varchar	10	no
-        [Display(Name = "Teléfono")]
+                /// <summary>
+        /// Propiedad que representa telefono.
+        /// </summary>
+[Display(Name = "Teléfono")]
         [Required(ErrorMessage = "El valor para {0} es requerido.")]
         [StringLength(10, MinimumLength = 10, ErrorMessage = "El valor para {0} debe ser de {1} caracteres.")]
         [RegularExpression(RegExp.Numerico, ErrorMessage = "El valor para {0} es incorrecto.")]

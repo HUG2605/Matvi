@@ -11,7 +11,8 @@ namespace Matvi.Back.Application.Modules.Ventas.MedioPago.Handlers
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<ListarMedioPagoSelectQry, List<BaseDto<byte>>>
     {
-        public async Task<List<BaseDto<byte>>> Handle(
+                /// <inheritdoc/>
+public async Task<List<BaseDto<byte>>> Handle(
             ListarMedioPagoSelectQry request, 
             CancellationToken cancellationToken)
         {

@@ -11,7 +11,8 @@ namespace Matvi.Back.Application.Modules.Compras.Proveedor.Handlers
         IDbContextFactory<MatviQryDbCtx> factory
     ) : IRequestHandler<ListarProveedorSelectCoincidenciaQry, List<BaseDto<int>>>
     {
-        public async Task<List<BaseDto<int>>> Handle(
+                /// <inheritdoc/>
+public async Task<List<BaseDto<int>>> Handle(
             ListarProveedorSelectCoincidenciaQry request,
             CancellationToken cancellationToken)
         {

@@ -7,7 +7,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Compras.Compra.Commands
 {
-    public record CrearCompraCmd(
+        /// <summary>
+    /// Comando CQRS para la operación de crear compra.
+    /// </summary>
+public record CrearCompraCmd(
         CrearCompraDto compra
         ):IRequest<OperationResult<bool>>;
 

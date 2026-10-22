@@ -4,7 +4,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Productos.Producto.Queries
 {
-    public record ListarProductoGridQry(
+        /// <summary>
+    /// Consulta CQRS para obtener información de listar producto grid.
+    /// </summary>
+public record ListarProductoGridQry(
         FilterGrd filter
         ) : IRequest<DataGrd<ListarProductoDto>>;
 }

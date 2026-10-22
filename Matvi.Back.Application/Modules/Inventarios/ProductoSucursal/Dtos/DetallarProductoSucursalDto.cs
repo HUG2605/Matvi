@@ -3,35 +3,80 @@ using Matvi.Back.Application.Common.Extensions;
 
 namespace Matvi.Back.Application.Modules.Inventarios.ProductoSucursal.Dtos
 {
-    public class DetallarProductoSucursalDto : IProductoBaseDto
+        /// <summary>
+    /// Objeto de transferencia de datos (DTO) para detallar producto sucursal.
+    /// </summary>
+public class DetallarProductoSucursalDto : IProductoBaseDto
     {
-        public byte CtSuc_Id { get; set; }
+                /// <summary>
+        /// Identificador único de ct suc id.
+        /// </summary>
+public byte CtSuc_Id { get; set; }
 
-        public string CtSuc_Nombre { get; set; } = string.Empty;
+                /// <summary>
+        /// Texto descriptivo o detalle de ct suc nombre.
+        /// </summary>
+public string CtSuc_Nombre { get; set; } = string.Empty;
 
-        public int CtProd_Id { get; set; }
+                /// <summary>
+        /// Identificador único de ct prod id.
+        /// </summary>
+public int CtProd_Id { get; set; }
 
-        public string CtProd_SafeId => CtProd_Id.ToString()?.ToObfuscated() ?? string.Empty;
+                /// <summary>
+        /// Identificador único de ct prod safe id.
+        /// </summary>
+public string CtProd_SafeId => CtProd_Id.ToString()?.ToObfuscated() ?? string.Empty;
 
         #region implementacion de IProductoBaseDto
 
-        public string CtProd_Nombre { get; set; } = string.Empty;
-        public string? CtProd_EspecificacionTecnica { get; set; }
-        public string? CtProd_Marca { get; set; }
-        public string CtProd_NombreCompleto => this.GetNombreCompleto();
+                /// <summary>
+        /// Texto descriptivo o detalle de ct prod nombre.
+        /// </summary>
+public string CtProd_Nombre { get; set; } = string.Empty;
+                /// <summary>
+        /// Propiedad que representa ct prod especificacion tecnica.
+        /// </summary>
+public string? CtProd_EspecificacionTecnica { get; set; }
+                /// <summary>
+        /// Propiedad que representa ct prod marca.
+        /// </summary>
+public string? CtProd_Marca { get; set; }
+                /// <summary>
+        /// Texto descriptivo o detalle de ct prod nombre completo.
+        /// </summary>
+public string CtProd_NombreCompleto => this.GetNombreCompleto();
 
         #endregion
 
-        public string CtUnidBaseInve_Abreviatura { get; set; } = string.Empty;
+                /// <summary>
+        /// Propiedad que representa ct unid base inve abreviatura.
+        /// </summary>
+public string CtUnidBaseInve_Abreviatura { get; set; } = string.Empty;
 
-        public decimal StockMinimoUBI { get; set; }
+                /// <summary>
+        /// Cantidad o volumen de unidades de stock minimo ubi.
+        /// </summary>
+public decimal StockMinimoUBI { get; set; }
 
-        public decimal ExistenciasUBI { get; set; }
+                /// <summary>
+        /// Propiedad que representa existencias ubi.
+        /// </summary>
+public decimal ExistenciasUBI { get; set; }
 
-        public decimal StockMaximoUBI { get; set; }
+                /// <summary>
+        /// Cantidad o volumen de unidades de stock maximo ubi.
+        /// </summary>
+public decimal StockMaximoUBI { get; set; }
 
-        public bool Regularizado { get; set; }
+                /// <summary>
+        /// Propiedad que representa regularizado.
+        /// </summary>
+public bool Regularizado { get; set; }
 
-        public string? Ubicacion { get; set; }
+                /// <summary>
+        /// Propiedad que representa ubicacion.
+        /// </summary>
+public string? Ubicacion { get; set; }
     }
 }

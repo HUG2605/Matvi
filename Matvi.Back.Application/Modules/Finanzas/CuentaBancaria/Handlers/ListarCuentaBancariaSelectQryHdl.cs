@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,7 +15,8 @@ namespace Matvi.Back.Application.Modules.Finanzas.CuentaBancaria.Handlers
         IDbContextFactory<MatviQryDbCtx> _factory
     ) : IRequestHandler<ListarCuentaBancariaSelectQry, List<BaseDto<byte>>>
     {
-        public async Task<List<BaseDto<byte>>> Handle(
+                /// <inheritdoc/>
+public async Task<List<BaseDto<byte>>> Handle(
             ListarCuentaBancariaSelectQry request,
             CancellationToken cancellationToken)
         {

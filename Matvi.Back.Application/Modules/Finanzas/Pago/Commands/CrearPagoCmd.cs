@@ -9,7 +9,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Finanzas.Pago.Commands
 {
-    public record CrearPagoCmd(
+        /// <summary>
+    /// Comando CQRS para la operación de crear pago.
+    /// </summary>
+public record CrearPagoCmd(
         CrearPagoDto pago
     ):IRequest<OperationResult<bool>>;
 }

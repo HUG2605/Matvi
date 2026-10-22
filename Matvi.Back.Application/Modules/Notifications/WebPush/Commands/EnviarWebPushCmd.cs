@@ -3,7 +3,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Notifications.WebPush.Commands
 {
-    public record EnviarWebPushCmd(
+        /// <summary>
+    /// Comando CQRS para la operación de enviar web push.
+    /// </summary>
+public record EnviarWebPushCmd(
         string Titulo,
         string Cuerpo,
         object? Datos

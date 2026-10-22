@@ -3,6 +3,9 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Ventas.MedioPago.Queries
 {
-    public record ListarMedioPagoSelectQry(
+        /// <summary>
+    /// Consulta CQRS para obtener información de listar medio pago select.
+    /// </summary>
+public record ListarMedioPagoSelectQry(
         ) : IRequest<List<BaseDto<byte>>>;
 }

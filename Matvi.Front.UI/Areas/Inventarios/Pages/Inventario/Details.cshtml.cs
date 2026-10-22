@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Modules.Inventarios.ProductoSucursal.Dtos;
+﻿using Matvi.Back.Application.Modules.Inventarios.ProductoSucursal.Dtos;
 using Matvi.Back.Application.Modules.Inventarios.ProductoSucursal.Queries;
 using Matvi.Front.UI.Attributes;
 using Matvi.Front.UI.Security.Permission;
@@ -7,15 +7,22 @@ using MediatR;
 
 namespace Matvi.Front.UI.Areas.Inventarios.Pages.Inventario
 {
-    [AuthorizeMatvi(Funcion.Inventarios_Inventario)]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para details.
+    /// </summary>
+[AuthorizeMatvi(Funcion.Inventarios_Inventario)]
     public class DetailsModel(    
         IMediator _mediator,
         IUsuarioActualService _usuarioActualService
         ) : BaseModel
     {
-        public DetallarProductoSucursalDto? ProductoSucursal { get; set; }
+                /// <summary>
+        /// Propiedad que representa producto sucursal.
+        /// </summary>
+public DetallarProductoSucursalDto? ProductoSucursal { get; set; }
 
-        public async Task OnGet(
+                /// <inheritdoc/>
+public async Task OnGet(
             string productoId,
             CancellationToken cancellationToken
             )

@@ -4,11 +4,26 @@ using System.Text;
 
 namespace Matvi.Back.Application.Modules.Seguridad.Login.Dtos
 {
-    public class SucursalLoginDto
+        /// <summary>
+    /// Objeto de transferencia de datos (DTO) para sucursal login.
+    /// </summary>
+public class SucursalLoginDto
     {
-        public byte? Id { get; set; }
-        public string Nombre { get; set; } = string.Empty;
-        public string Clave { get; set; } = string.Empty;
-        public string Telefono { get; set; } = string.Empty;
+                /// <summary>
+        /// Identificador único de id.
+        /// </summary>
+public byte? Id { get; set; }
+                /// <summary>
+        /// Texto descriptivo o detalle de nombre.
+        /// </summary>
+public string Nombre { get; set; } = string.Empty;
+                /// <summary>
+        /// Propiedad que representa clave.
+        /// </summary>
+public string Clave { get; set; } = string.Empty;
+                /// <summary>
+        /// Propiedad que representa telefono.
+        /// </summary>
+public string Telefono { get; set; } = string.Empty;
     }
 }

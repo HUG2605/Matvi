@@ -13,7 +13,8 @@ namespace Matvi.Back.Application.Modules.Inventarios.Lote.Handlers
         IUnitOfWork _unitOfWork
         ) : IRequestHandler<RegularizarLoteCmd, OperationResult<bool>>
     {
-        public async Task<OperationResult<bool>> Handle(
+                /// <inheritdoc/>
+public async Task<OperationResult<bool>> Handle(
             RegularizarLoteCmd request,
             CancellationToken cancellationToken)
         {

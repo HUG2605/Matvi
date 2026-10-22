@@ -1,4 +1,4 @@
-﻿using Matvi.Back.Infrastructure.Persistence.Entities;
+using Matvi.Back.Infrastructure.Persistence.Entities;
 using Microsoft.Extensions.Configuration;
 using System.Net;
 using System.Text.Json;
@@ -6,8 +6,12 @@ using WebPush;
 
 namespace Matvi.Back.Infrastructure.Common.Services
 {
+    /// <summary>
+    /// Implementación de <see cref="IWebPushService"/> basada en la biblioteca WebPush y llaves VAPID configuradas.
+    /// </summary>
     public class WebPushService(IConfiguration _config) : IWebPushService
     {
+        /// <inheritdoc/>
         public async Task EnviarAsync(
             List<CtUsuarioWebPushSuscripcionEtt> suscripciones,
             string titulo,

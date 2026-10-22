@@ -14,7 +14,8 @@ namespace Matvi.Back.Application.Modules.Seguridad.Usuario.Handlers
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<ListarUsuariosQry, DataGrd<ListarUsuarioDto>>
     {
-        public async Task<DataGrd<ListarUsuarioDto>> Handle(
+                /// <inheritdoc/>
+public async Task<DataGrd<ListarUsuarioDto>> Handle(
             ListarUsuariosQry request, 
             CancellationToken cancellationToken)
         {

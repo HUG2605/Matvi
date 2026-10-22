@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Modules.Ventas.Pedido.Dtos;
+﻿using Matvi.Back.Application.Modules.Ventas.Pedido.Dtos;
 using Matvi.Back.Application.Modules.Ventas.Pedido.Queries;
 using Matvi.Back.Infrastructure.Persistence.Contexts;
 using Matvi.Back.Infrastructure.Persistence.Entities;
@@ -11,7 +11,8 @@ namespace Matvi.Back.Application.Modules.Ventas.Pedido.Handlers
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<ObtenerProductoSucursalQry, ObtenerProductoSucursalDto>
     {
-        public async Task<ObtenerProductoSucursalDto> Handle(
+                /// <inheritdoc/>
+public async Task<ObtenerProductoSucursalDto> Handle(
             ObtenerProductoSucursalQry request, 
             CancellationToken cancellationToken)
         {

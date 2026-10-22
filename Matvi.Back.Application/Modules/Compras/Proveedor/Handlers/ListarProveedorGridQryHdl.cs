@@ -13,7 +13,8 @@ namespace Matvi.Back.Application.Modules.Compras.Proveedor.Handlers
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<ListarProveedorGridQry, DataGrd<ListarProveedorDto>>
     {
-        public async Task<DataGrd<ListarProveedorDto>> Handle(
+                /// <inheritdoc/>
+public async Task<DataGrd<ListarProveedorDto>> Handle(
             ListarProveedorGridQry request, 
             CancellationToken cancellationToken)
         {

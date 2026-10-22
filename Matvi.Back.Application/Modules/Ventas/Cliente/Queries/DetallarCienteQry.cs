@@ -3,7 +3,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Ventas.Cliente.Queries
 {
-    public record DetallarCienteQry(
+        /// <summary>
+    /// Consulta CQRS para obtener información de detallar ciente.
+    /// </summary>
+public record DetallarCienteQry(
         int id
         ) : IRequest<DetallarClienteDto>;
 }

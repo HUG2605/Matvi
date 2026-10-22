@@ -8,41 +8,89 @@ using Matvi.Back.Infrastructure.Persistence.Configurations;
 
 namespace Matvi.Back.Application.Modules.Inventarios.Movimiento.Dtos
 {
-    public class ListarMovimientoDto : IIdDto<int>, IFolioDto, IProductoBaseDto, IPresentacionProductoBaseDto
+        /// <summary>
+    /// Objeto de transferencia de datos (DTO) para listar movimiento.
+    /// </summary>
+public class ListarMovimientoDto : IIdDto<int>, IFolioDto, IProductoBaseDto, IPresentacionProductoBaseDto
     {
         #region Implementacion de IIdDto
 
-        public int Id { get; set; }
-        public string SafeId => Id.GetSafeId();
+                /// <summary>
+        /// Identificador único de id.
+        /// </summary>
+public int Id { get; set; }
+                /// <summary>
+        /// Identificador único de safe id.
+        /// </summary>
+public string SafeId => Id.GetSafeId();
 
         #endregion
 
         #region Implementacion de IFolioDto
 
-        public string CtSucu_Clave { get; set; } = string.Empty;
-        public int Numero { get; set; }
-        public string Folio => this.GetFolio(TipoConsecutivoEnm.MOVIMIENTO_DE_INVENTARIO);
+                /// <summary>
+        /// Propiedad que representa ct sucu clave.
+        /// </summary>
+public string CtSucu_Clave { get; set; } = string.Empty;
+                /// <summary>
+        /// Propiedad que representa numero.
+        /// </summary>
+public int Numero { get; set; }
+                /// <summary>
+        /// Propiedad que representa folio.
+        /// </summary>
+public string Folio => this.GetFolio(TipoConsecutivoEnm.MOVIMIENTO_DE_INVENTARIO);
 
         #endregion Implemetacion de IProductoBaseDto
 
         #region Implementacion de IProductoBaseDto
-        public string CtProd_Nombre { get; set; } = string.Empty;
-        public string? CtProd_EspecificacionTecnica { get; set; }
-        public string? CtProd_Marca { get; set; }
-        public string CtProd_NombreCompleto => this.GetNombreCompleto();
+                /// <summary>
+        /// Texto descriptivo o detalle de ct prod nombre.
+        /// </summary>
+public string CtProd_Nombre { get; set; } = string.Empty;
+                /// <summary>
+        /// Propiedad que representa ct prod especificacion tecnica.
+        /// </summary>
+public string? CtProd_EspecificacionTecnica { get; set; }
+                /// <summary>
+        /// Propiedad que representa ct prod marca.
+        /// </summary>
+public string? CtProd_Marca { get; set; }
+                /// <summary>
+        /// Texto descriptivo o detalle de ct prod nombre completo.
+        /// </summary>
+public string CtProd_NombreCompleto => this.GetNombreCompleto();
 
         #endregion
 
         #region Implementacion de IPresentacionProductoBaseDto
-        public int CtPresProd_IdCtProducto { get; set; }
-        public string CtPresProd_Nombre { get; set; } = string.Empty;
-        public decimal CtPresProd_FactorUBI { get; set; }
+                /// <summary>
+        /// Propiedad que representa ct pres prod id ct producto.
+        /// </summary>
+public int CtPresProd_IdCtProducto { get; set; }
+                /// <summary>
+        /// Texto descriptivo o detalle de ct pres prod nombre.
+        /// </summary>
+public string CtPresProd_Nombre { get; set; } = string.Empty;
+                /// <summary>
+        /// Propiedad que representa ct pres prod factor ubi.
+        /// </summary>
+public decimal CtPresProd_FactorUBI { get; set; }
 
         #endregion
 
-        public string CtTipoMovimiento_Nombre { get; set; } = string.Empty;
-        public decimal Cantidad { get; set; }
-        public DateTime Fecha { get; set; }
+                /// <summary>
+        /// Texto descriptivo o detalle de ct tipo movimiento nombre.
+        /// </summary>
+public string CtTipoMovimiento_Nombre { get; set; } = string.Empty;
+                /// <summary>
+        /// Cantidad o volumen de unidades de cantidad.
+        /// </summary>
+public decimal Cantidad { get; set; }
+                /// <summary>
+        /// Fecha y hora correspondiente a fecha.
+        /// </summary>
+public DateTime Fecha { get; set; }
 
 
     }

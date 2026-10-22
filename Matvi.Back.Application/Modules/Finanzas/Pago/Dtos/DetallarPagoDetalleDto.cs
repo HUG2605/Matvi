@@ -7,23 +7,56 @@ using Matvi.Back.Application.Common.Extensions;
 
 namespace Matvi.Back.Application.Modules.Finanzas.Pago.Dtos
 {
-    public class DetallarPagoDetalleDto : IIdDto<int>, IFolioDto
+        /// <summary>
+    /// Objeto de transferencia de datos (DTO) para detallar pago detalle.
+    /// </summary>
+public class DetallarPagoDetalleDto : IIdDto<int>, IFolioDto
     {
         #region Implementacion de IIdDto
-        public int Id { get; set; }
-        public string SafeId => Id.GetSafeId();
+                /// <summary>
+        /// Identificador único de id.
+        /// </summary>
+public int Id { get; set; }
+                /// <summary>
+        /// Identificador único de safe id.
+        /// </summary>
+public string SafeId => Id.GetSafeId();
         #endregion
 
         #region Implementacion de IFolioDto
-        public string CtSucu_Clave { get; set; } = string.Empty;
-        public int Numero { get; set; }
-        public string Folio => this.GetFolio(TipoConsecutivoEnm.COMPRA);
+                /// <summary>
+        /// Propiedad que representa ct sucu clave.
+        /// </summary>
+public string CtSucu_Clave { get; set; } = string.Empty;
+                /// <summary>
+        /// Propiedad que representa numero.
+        /// </summary>
+public int Numero { get; set; }
+                /// <summary>
+        /// Propiedad que representa folio.
+        /// </summary>
+public string Folio => this.GetFolio(TipoConsecutivoEnm.COMPRA);
         #endregion
 
-        public DateTime FechaCompra { get; set; }
-        public decimal TotalCompra { get; set; }
-        public decimal TotalPagado { get; set; }
-        public decimal MontoAplicado { get; set; }
-        public decimal SaldoPendiente => TotalCompra - TotalPagado;
+                /// <summary>
+        /// Fecha y hora correspondiente a fecha compra.
+        /// </summary>
+public DateTime FechaCompra { get; set; }
+                /// <summary>
+        /// Monto económico correspondiente a total compra.
+        /// </summary>
+public decimal TotalCompra { get; set; }
+                /// <summary>
+        /// Monto económico correspondiente a total pagado.
+        /// </summary>
+public decimal TotalPagado { get; set; }
+                /// <summary>
+        /// Monto económico correspondiente a monto aplicado.
+        /// </summary>
+public decimal MontoAplicado { get; set; }
+                /// <summary>
+        /// Monto económico correspondiente a saldo pendiente.
+        /// </summary>
+public decimal SaldoPendiente => TotalCompra - TotalPagado;
     }
 }

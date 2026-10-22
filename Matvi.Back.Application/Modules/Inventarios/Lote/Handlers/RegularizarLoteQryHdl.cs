@@ -11,7 +11,8 @@ namespace Matvi.Back.Application.Modules.Inventarios.Lote.Handlers
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<RegularizarLoteQry, RegularizarLoteDto>
     {
-        public async Task<RegularizarLoteDto> Handle(
+                /// <inheritdoc/>
+public async Task<RegularizarLoteDto> Handle(
             RegularizarLoteQry request,
             CancellationToken cancellationToken)
         {

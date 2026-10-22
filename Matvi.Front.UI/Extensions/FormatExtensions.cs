@@ -1,10 +1,18 @@
-using System.Globalization;
+﻿using System.Globalization;
 
 namespace Matvi.Front.UI.Extensions
 {
-    public static class FormatExtensions
+        /// <summary>
+    /// Representa la clase para format extensions.
+    /// </summary>
+public static class FormatExtensions
     {
-        public static string ToPhoneFormat(this string input)
+                /// <summary>
+        /// Ejecuta la operación de to phone format.
+        /// </summary>
+        /// <param name="input">Parámetro input.</param>
+        /// <returns>Objeto con la información resultante de to phone format.</returns>
+public static string ToPhoneFormat(this string input)
         {
             if (string.IsNullOrWhiteSpace(input) || input.Length != 10 || !input.All(char.IsDigit))
                 return input; // O lanzar excepción si prefieres validación estricta
@@ -12,7 +20,12 @@ namespace Matvi.Front.UI.Extensions
             return $"{input.Substring(0, 3)}-{input.Substring(3, 3)}-{input.Substring(6, 4)}";
         }
 
-        public static string ToMoneyFormat(this string input)
+                /// <summary>
+        /// Ejecuta la operación de to money format.
+        /// </summary>
+        /// <param name="input">Parámetro input.</param>
+        /// <returns>Objeto con la información resultante de to money format.</returns>
+public static string ToMoneyFormat(this string input)
         {
             if (string.IsNullOrWhiteSpace(input))
                 return "";
@@ -25,7 +38,12 @@ namespace Matvi.Front.UI.Extensions
             return value.ToString("C2", new CultureInfo("es-MX"));
         }
 
-        public static string ToCustomDecimalFormat(this decimal input)
+                /// <summary>
+        /// Ejecuta la operación de to custom decimal format.
+        /// </summary>
+        /// <param name="input">Parámetro input.</param>
+        /// <returns>Objeto con la información resultante de to custom decimal format.</returns>
+public static string ToCustomDecimalFormat(this decimal input)
         {
             var culture = new CultureInfo("es-MX");
 
@@ -41,7 +59,12 @@ namespace Matvi.Front.UI.Extensions
             return input.ToString("#,0.################", culture);
         }
 
-        public static string ToDateTimeFormat(this DateTime? value)
+                /// <summary>
+        /// Ejecuta la operación de to date time format.
+        /// </summary>
+        /// <param name="value">Parámetro value.</param>
+        /// <returns>Objeto con la información resultante de to date time format.</returns>
+public static string ToDateTimeFormat(this DateTime? value)
         {
             if (!value.HasValue)
                 return string.Empty;
@@ -49,7 +72,12 @@ namespace Matvi.Front.UI.Extensions
             return value.Value.ToString("dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
         }
 
-        public static string ToDateTimeFormat(this DateTime value)
+                /// <summary>
+        /// Ejecuta la operación de to date time format.
+        /// </summary>
+        /// <param name="value">Parámetro value.</param>
+        /// <returns>Objeto con la información resultante de to date time format.</returns>
+public static string ToDateTimeFormat(this DateTime value)
         {
             return value.ToString("dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
         }

@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Common.Results;
+﻿using Matvi.Back.Application.Common.Results;
 using Matvi.Back.Application.Modules.Productos.Producto.Commands;
 using Matvi.Back.Application.Modules.Productos.Producto.Dtos;
 using Matvi.Back.Application.Modules.Productos.Producto.Queries;
@@ -10,15 +10,22 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Matvi.Front.UI.Areas.Productos.Pages.Producto
 {
-    [AuthorizeMatvi(Funcion.Productos_Productos)]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para details.
+    /// </summary>
+[AuthorizeMatvi(Funcion.Productos_Productos)]
     public class DetailsModel(
         IMediator _mediator,
         IUsuarioActualService _usuarioActualService
         ) : BaseModel
     {
-        public DetallarProductoDto? Producto { get; set; }
+                /// <summary>
+        /// Propiedad que representa producto.
+        /// </summary>
+public DetallarProductoDto? Producto { get; set; }
 
-        public async Task OnGet(
+                /// <inheritdoc/>
+public async Task OnGet(
             string id, 
             CancellationToken cancellationToken)
         {
@@ -27,7 +34,13 @@ namespace Matvi.Front.UI.Areas.Productos.Pages.Producto
                 new DetallarProductoQry(idProducto), 
                 cancellationToken);
         }
-        public async Task<JsonResult> OnGetDelete(
+                /// <summary>
+        /// Ejecuta la operación de on get delete.
+        /// </summary>
+        /// <param name="id">Identificador único del registro u objeto.</param>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnGetDelete(
             string id, 
             CancellationToken cancellationToken)
         {

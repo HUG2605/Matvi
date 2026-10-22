@@ -4,7 +4,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Productos.Seccion.Commands
 {
-    public record CrearSeccionCmd(
+        /// <summary>
+    /// Comando CQRS para la operación de crear seccion.
+    /// </summary>
+public record CrearSeccionCmd(
         CrearSeccionDto seccion
     ) : IRequest<OperationResult<bool>>;
 }

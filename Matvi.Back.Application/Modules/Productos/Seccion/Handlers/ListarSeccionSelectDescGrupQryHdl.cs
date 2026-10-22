@@ -11,7 +11,8 @@ namespace Matvi.Back.Application.Modules.Productos.Seccion.Handlers
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<ListarSeccionSelectDescGrupQry, List<BaseDto<byte>>>
     {
-        public async Task<List<BaseDto<byte>>> Handle(
+                /// <inheritdoc/>
+public async Task<List<BaseDto<byte>>> Handle(
             ListarSeccionSelectDescGrupQry request, 
             CancellationToken cancellationToken)
         {

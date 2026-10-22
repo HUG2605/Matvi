@@ -3,7 +3,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Configuracion.Sucursal.Commands
 {
-    public record EliminarSucursalCmd(
+        /// <summary>
+    /// Comando CQRS para la operación de eliminar sucursal.
+    /// </summary>
+public record EliminarSucursalCmd(
         byte id
         ) : IRequest<OperationResult<bool>>;
     

@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Common.Results;
+﻿using Matvi.Back.Application.Common.Results;
 using Matvi.Back.Application.Modules.Compras.Compra.Queries;
 using Matvi.Back.Application.Modules.Finanzas.Gasto.Commands;
 using Matvi.Back.Application.Modules.Finanzas.Gasto.Dtos;
@@ -12,14 +12,21 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Matvi.Front.UI.Areas.Finanzas.Pages.Gasto
 {
-    [AuthorizeMatvi(Funcion.Finanzas_Gastos)]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para details.
+    /// </summary>
+[AuthorizeMatvi(Funcion.Finanzas_Gastos)]
     public class DetailsModel(
         IUsuarioActualService _usuarioActualService,
         IMediator _mediator
         ) : BaseModel
     {
-        public DetallarGastoDto? Gasto { get; set; }
-        public async Task<IActionResult> OnGet(
+                /// <summary>
+        /// Propiedad que representa gasto.
+        /// </summary>
+public DetallarGastoDto? Gasto { get; set; }
+                /// <inheritdoc/>
+public async Task<IActionResult> OnGet(
             string id,
             CancellationToken cancellationToken)
         {
@@ -38,7 +45,13 @@ namespace Matvi.Front.UI.Areas.Finanzas.Pages.Gasto
 
         }
 
-        public async Task<JsonResult> OnGetDelete(
+                /// <summary>
+        /// Ejecuta la operación de on get delete.
+        /// </summary>
+        /// <param name="id">Identificador único del registro u objeto.</param>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnGetDelete(
             string id,
             CancellationToken cancellationToken)
         {

@@ -4,32 +4,56 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Matvi.Back.Application.Modules.Ventas.Pedido.Dtos
 {
-    public class CrearPedidoDto : IIdDto<int>
+        /// <summary>
+    /// Objeto de transferencia de datos (DTO) para crear pedido.
+    /// </summary>
+public class CrearPedidoDto : IIdDto<int>
     {
         #region Implementacion de IIdDto
 
-        public int Id { get; set; }
-        public string SafeId => Id.GetSafeId();
+                /// <summary>
+        /// Identificador único de id.
+        /// </summary>
+public int Id { get; set; }
+                /// <summary>
+        /// Identificador único de safe id.
+        /// </summary>
+public string SafeId => Id.GetSafeId();
 
         #endregion
 
         #region Generales
 
-        public byte CtSucu_Id { get; set; }
+                /// <summary>
+        /// Identificador único de ct sucu id.
+        /// </summary>
+public byte CtSucu_Id { get; set; }
 
-        [Display(Name = "Cliente")]
+                /// <summary>
+        /// Propiedad que representa ct clie id.
+        /// </summary>
+[Display(Name = "Cliente")]
         [Required(ErrorMessage = "El valor para {0} es requerido.")]
         public required int CtClie_IdFld { get; set; }
 
-        [Display(Name = "Nombre de cliente mostrador")]
+                /// <summary>
+        /// Texto descriptivo o detalle de cliente mostrador nombre.
+        /// </summary>
+[Display(Name = "Nombre de cliente mostrador")]
         [StringLength(50, ErrorMessage = "El valor para {0} no debe exceder los {1} caracteres.")]
         public string? ClienteMostradorNombreFld { get; set; }
 
-        [Display(Name = "Teléfono de cliente mostrador")]
+                /// <summary>
+        /// Propiedad que representa cliente mostrador telefono.
+        /// </summary>
+[Display(Name = "Teléfono de cliente mostrador")]
         [StringLength(10, MinimumLength = 10, ErrorMessage = "El valor para {0} debe ser de {1} caracteres.")]
         public string? ClienteMostradorTelefonoFld { get; set; }
 
-        [Display(Name = "Canal de captura")]
+                /// <summary>
+        /// Propiedad que representa ct cana capt id.
+        /// </summary>
+[Display(Name = "Canal de captura")]
         [Required(ErrorMessage = "El valor para {0} es requerido.")]
         public required byte CtCanaCapt_IdFld { get; set; }
 
@@ -37,20 +61,32 @@ namespace Matvi.Back.Application.Modules.Ventas.Pedido.Dtos
 
         #region Producto
 
-        public List<AgregarProductoPedidoDto>? Productos { get; set; }
+                /// <summary>
+        /// Colección de elementos asociados a productos.
+        /// </summary>
+public List<AgregarProductoPedidoDto>? Productos { get; set; }
 
         #endregion
 
         #region Entrega
 
-        [Display(Name = "Entregar a domicilio")]
+                /// <summary>
+        /// Propiedad que representa entrega domicilio.
+        /// </summary>
+[Display(Name = "Entregar a domicilio")]
         public bool EntregaDomicilioFld { get; set; }
 
-        [Display(Name = "Dirección de entrega")]
+                /// <summary>
+        /// Propiedad que representa direccion entrega.
+        /// </summary>
+[Display(Name = "Dirección de entrega")]
         [StringLength(250, ErrorMessage = "El valor para {0} no debe exceder los {1} caracteres.")]
         public string? DireccionEntregaFld { get; set; }
 
-        [Display(Name = "Notas")]
+                /// <summary>
+        /// Propiedad que representa notas.
+        /// </summary>
+[Display(Name = "Notas")]
         [Required(ErrorMessage = "El valor para {0} es requerido.")]
         [StringLength(250, ErrorMessage = "El valor para {0} no debe exceder los {1} caracteres.")]
         public required string NotasFld { get; set; }
@@ -59,16 +95,25 @@ namespace Matvi.Back.Application.Modules.Ventas.Pedido.Dtos
 
         #region Pago
 
-        [Display(Name = "Medio de pago")]
+                /// <summary>
+        /// Propiedad que representa ct medi pago id.
+        /// </summary>
+[Display(Name = "Medio de pago")]
         [Required(ErrorMessage = "El valor para {0} es requerido.")]
         public required byte CtMediPago_IdFld { get; set; }
 
-        [Display(Name = "Pago")]
+                /// <summary>
+        /// Propiedad que representa pago.
+        /// </summary>
+[Display(Name = "Pago")]
         [Required(ErrorMessage = "El valor para {0} es requerido.")]
         [Range(0, double.MaxValue, ErrorMessage = "El valor para {0} debe ser mayor o igual a {1}.")]
         public required decimal PagoFld { get; set; }
 
-        [Display(Name = "Cuenta bancaria")]
+                /// <summary>
+        /// Propiedad que representa ct cuenta bancaria id.
+        /// </summary>
+[Display(Name = "Cuenta bancaria")]
         public byte? CtCuentaBancaria_IdFld { get; set; }
 
         #endregion
@@ -94,7 +139,10 @@ namespace Matvi.Back.Application.Modules.Ventas.Pedido.Dtos
 
         #region Bitacora
 
-        public short CtUsua_Id { get; set; }
+                /// <summary>
+        /// Identificador único de ct usua id.
+        /// </summary>
+public short CtUsua_Id { get; set; }
 
         #endregion
 

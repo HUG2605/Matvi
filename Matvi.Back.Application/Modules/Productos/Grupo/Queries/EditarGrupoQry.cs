@@ -3,7 +3,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Productos.Grupo.Queries
 {
-    public record EditarGrupoQry(
+        /// <summary>
+    /// Consulta CQRS para obtener información de editar grupo.
+    /// </summary>
+public record EditarGrupoQry(
         short id
         ) : IRequest<EditarGrupoDto>;
 }

@@ -13,7 +13,8 @@ namespace Matvi.Back.Application.Modules.Seguridad.Usuario.Handlers
         IUnitOfWork _unitOfWork
         ) : IRequestHandler<CrearUsuarioCmd, OperationResult<bool>>
     {
-        public async Task<OperationResult<bool>> Handle(
+                /// <inheritdoc/>
+public async Task<OperationResult<bool>> Handle(
             CrearUsuarioCmd request, 
             CancellationToken cancellationToken)
         {

@@ -3,6 +3,9 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Seguridad.Usuario.Queries
 {
-    public record CrearUsuarioQry()
+        /// <summary>
+    /// Consulta CQRS para obtener información de crear usuario.
+    /// </summary>
+public record CrearUsuarioQry()
         : IRequest<CrearUsuarioDto>;
 }

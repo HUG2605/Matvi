@@ -7,7 +7,10 @@ using System.Text;
 
 namespace Matvi.Back.Application.Modules.Productos.PresentacionProducto.Commands
 {
-    public record EditarPresentacionProductoCmd(
+        /// <summary>
+    /// Comando CQRS para la operación de editar presentacion producto.
+    /// </summary>
+public record EditarPresentacionProductoCmd(
         EditarPresentacionProductoDto presentacionProducto
         ) : IRequest<OperationResult<bool>>
     {

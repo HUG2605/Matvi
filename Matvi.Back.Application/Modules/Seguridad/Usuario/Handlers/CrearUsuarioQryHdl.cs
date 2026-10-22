@@ -11,7 +11,8 @@ namespace Matvi.Back.Application.Modules.Seguridad.Usuario.Handlers
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<CrearUsuarioQry, CrearUsuarioDto>
     {
-        public async Task<CrearUsuarioDto> Handle(
+                /// <inheritdoc/>
+public async Task<CrearUsuarioDto> Handle(
             CrearUsuarioQry request, 
             CancellationToken cancellationToken)
         {

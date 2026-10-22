@@ -6,7 +6,10 @@ using System.Text;
 
 namespace Matvi.Back.Application.Modules.Seguridad.Usuario.Queries
 {
-    public record DetallarUsuarioQry(
+        /// <summary>
+    /// Consulta CQRS para obtener información de detallar usuario.
+    /// </summary>
+public record DetallarUsuarioQry(
         short id
         ) : IRequest<DetallarUsuarioDto>;
 }

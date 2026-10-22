@@ -4,7 +4,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Seguridad.ChangePassword.Commands
 {
-    public record CambiarContraseniaCmd(
+        /// <summary>
+    /// Comando CQRS para la operación de cambiar contrasenia.
+    /// </summary>
+public record CambiarContraseniaCmd(
         CambiarContraseniaDto usuario
         ) : IRequest<OperationResult<bool>>;
 }

@@ -10,11 +10,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Matvi.Back.Application.Modules.Finanzas.Gasto.Handlers
 {
-    public class DetallarGastoQryHdl(
+        /// <summary>
+    /// Manejador de consulta encargado de resolver los datos para detallar gasto.
+    /// </summary>
+public class DetallarGastoQryHdl(
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<DetallarGastoQry, DetallarGastoDto>
     {
-        public async Task<DetallarGastoDto> Handle(DetallarGastoQry request, CancellationToken cancellationToken)
+                /// <inheritdoc/>
+public async Task<DetallarGastoDto> Handle(DetallarGastoQry request, CancellationToken cancellationToken)
         {
             using var context = await _factory.CreateDbContextAsync(cancellationToken);
             

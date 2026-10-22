@@ -4,7 +4,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Compras.Proveedor.Queries
 {
-    public record ListarProveedorGridQry(
+        /// <summary>
+    /// Consulta CQRS para obtener información de listar proveedor grid.
+    /// </summary>
+public record ListarProveedorGridQry(
         FilterGrd filter
         ) : IRequest<DataGrd<ListarProveedorDto>>;
 }

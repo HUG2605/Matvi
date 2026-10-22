@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Matvi.Back.Application.Common.Results;
 using Matvi.Back.Application.Modules.Finanzas.MovimientoBancario.Commands;
@@ -13,7 +13,8 @@ namespace Matvi.Back.Application.Modules.Finanzas.MovimientoBancario.Handlers
         IUnitOfWork _unitOfWork
     ) : IRequestHandler<AlternarConciliacionCmd, OperationResult<bool>>
     {
-        public async Task<OperationResult<bool>> Handle(
+                /// <inheritdoc/>
+public async Task<OperationResult<bool>> Handle(
             AlternarConciliacionCmd request,
             CancellationToken cancellationToken)
         {

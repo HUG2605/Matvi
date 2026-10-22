@@ -13,7 +13,8 @@ namespace Matvi.Back.Application.Modules.Compras.Compra.Handlers
         IDbContextFactory<MatviQryDbCtx> factory
         ) : IRequestHandler<ObtenerSaldoVencidoQry, decimal>
     {
-        public async Task<decimal> Handle(
+                /// <inheritdoc/>
+public async Task<decimal> Handle(
             ObtenerSaldoVencidoQry request,
             CancellationToken cancellationToken)
         {

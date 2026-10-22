@@ -14,7 +14,8 @@ namespace Matvi.Back.Application.Modules.Productos.Seccion.Handlers
         IUnitOfWork _unitOfWork
         ) : IRequestHandler<EliminarSeccionCmd, OperationResult<bool>>
     {
-        public async Task<OperationResult<bool>> Handle(
+                /// <inheritdoc/>
+public async Task<OperationResult<bool>> Handle(
             EliminarSeccionCmd request, 
             CancellationToken cancellationToken)
         {

@@ -7,11 +7,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Matvi.Back.Application.Modules.Compras.Compra.Handlers
 {
-    public class DetallarCompraQryHdl(
+        /// <summary>
+    /// Manejador de consulta encargado de resolver los datos para detallar compra.
+    /// </summary>
+public class DetallarCompraQryHdl(
         IDbContextFactory<MatviQryDbCtx> _factory
     ) : IRequestHandler<DetallarCompraQry, DetallarCompraDto>
     {
-        public async Task<DetallarCompraDto> Handle(
+                /// <inheritdoc/>
+public async Task<DetallarCompraDto> Handle(
             DetallarCompraQry request,
             CancellationToken cancellationToken)
         {

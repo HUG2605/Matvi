@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Matvi.Back.Infrastructure.Common.Services
 {
+    /// <summary>
+    /// Implementación de <see cref="IConsecutivoService"/> que gestiona la asignación de números secuenciales únicos mediante bloqueos a nivel de aplicación en SQL Server.
+    /// </summary>
     public class ConsecutivoService : IConsecutivoService
     {
         private readonly MatviCmdDbCtx _context;
@@ -28,12 +31,17 @@ namespace Matvi.Back.Infrastructure.Common.Services
                 [(byte)8] = ("OpCorteCaja",     "Numero")  // CORTE DE CAJA
             };
 
+        /// <summary>
+        /// Inicializa una nueva instancia de la clase <see cref="ConsecutivoService"/>.
+        /// </summary>
+        /// <param name="context">Contexto de base de datos para operaciones de comandos.</param>
         public ConsecutivoService(
             MatviCmdDbCtx context)
         {
             _context = context;
         }
 
+        /// <inheritdoc/>
         public async Task<int> GenerarNumeroAsync(
             byte idSucursal,
             byte idTipoConsecutivo,

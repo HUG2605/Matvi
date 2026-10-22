@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using Matvi.Back.Application.Common.Dtos;
 using Matvi.Back.Application.Common.Extensions;
 
@@ -19,7 +19,10 @@ namespace Matvi.Back.Application.Modules.Ventas.Pedido.Dtos
         [Required(ErrorMessage = "El valor para {0} es requerido.")]
         public int Id { get; set; }
 
-        public string SafeId => Id.GetSafeId();
+                /// <summary>
+        /// Identificador único de safe id.
+        /// </summary>
+public string SafeId => Id.GetSafeId();
 
         #endregion
 
@@ -32,7 +35,10 @@ namespace Matvi.Back.Application.Modules.Ventas.Pedido.Dtos
         [Required(ErrorMessage = "El valor para {0} es requerido.")]
         public short IdCtUsuarioRepartidor { get; set; }
 
-        public short CtUsuaRepa_Id
+                /// <summary>
+        /// Identificador único de ct usua repa id.
+        /// </summary>
+public short CtUsuaRepa_Id
         {
             get => IdCtUsuarioRepartidor;
             set => IdCtUsuarioRepartidor = value;
@@ -60,7 +66,10 @@ namespace Matvi.Back.Application.Modules.Ventas.Pedido.Dtos
         [Range(0, double.MaxValue, ErrorMessage = "El valor para {0} debe ser mayor o igual a {1}.")]
         public decimal? MontoCobroFld { get; set; }
 
-        public decimal? MontoCobro
+                /// <summary>
+        /// Monto económico correspondiente a monto cobro.
+        /// </summary>
+public decimal? MontoCobro
         {
             get => MontoCobroFld;
             set => MontoCobroFld = value;
@@ -72,7 +81,10 @@ namespace Matvi.Back.Application.Modules.Ventas.Pedido.Dtos
         [Display(Name = "Medio de pago")]
         public byte? CtMediPago_IdFld { get; set; }
 
-        public byte? IdCtMedioPago
+                /// <summary>
+        /// Identificador único de id ct medio pago.
+        /// </summary>
+public byte? IdCtMedioPago
         {
             get => CtMediPago_IdFld;
             set => CtMediPago_IdFld = value;
@@ -84,7 +96,10 @@ namespace Matvi.Back.Application.Modules.Ventas.Pedido.Dtos
         [Display(Name = "Cuenta bancaria")]
         public byte? CtCuentaBancaria_IdFld { get; set; }
 
-        public byte? IdCtCuentaBancaria
+                /// <summary>
+        /// Identificador único de id ct cuenta bancaria.
+        /// </summary>
+public byte? IdCtCuentaBancaria
         {
             get => CtCuentaBancaria_IdFld;
             set => CtCuentaBancaria_IdFld = value;
@@ -97,7 +112,10 @@ namespace Matvi.Back.Application.Modules.Ventas.Pedido.Dtos
         [StringLength(500, ErrorMessage = "El valor para {0} no debe de exceder los {1} caracteres.")]
         public string? NotasCobroFld { get; set; }
 
-        public string? NotasCobro
+                /// <summary>
+        /// Propiedad que representa notas cobro.
+        /// </summary>
+public string? NotasCobro
         {
             get => NotasCobroFld;
             set => NotasCobroFld = value;
@@ -125,7 +143,10 @@ namespace Matvi.Back.Application.Modules.Ventas.Pedido.Dtos
         [Range(0, double.MaxValue, ErrorMessage = "El valor para {0} debe ser mayor o igual a {1}.")]
         public decimal CantidadEntregarFld { get; set; }
 
-        public decimal CantidadEntregar
+                /// <summary>
+        /// Cantidad o volumen de unidades de cantidad entregar.
+        /// </summary>
+public decimal CantidadEntregar
         {
             get => CantidadEntregarFld;
             set => CantidadEntregarFld = value;
@@ -138,7 +159,10 @@ namespace Matvi.Back.Application.Modules.Ventas.Pedido.Dtos
         [Range(0, double.MaxValue, ErrorMessage = "El valor para {0} debe ser mayor o igual a {1}.")]
         public decimal CantidadRechazarFld { get; set; }
 
-        public decimal CantidadRechazar
+                /// <summary>
+        /// Cantidad o volumen de unidades de cantidad rechazar.
+        /// </summary>
+public decimal CantidadRechazar
         {
             get => CantidadRechazarFld;
             set => CantidadRechazarFld = value;
@@ -151,7 +175,10 @@ namespace Matvi.Back.Application.Modules.Ventas.Pedido.Dtos
         [StringLength(300, ErrorMessage = "El valor para {0} no debe de exceder los {1} caracteres.")]
         public string? NotasRechazoFld { get; set; }
 
-        public string? NotasRechazo
+                /// <summary>
+        /// Propiedad que representa notas rechazo.
+        /// </summary>
+public string? NotasRechazo
         {
             get => NotasRechazoFld;
             set => NotasRechazoFld = value;

@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Modules.Compras.Compra.Queries;
+﻿using Matvi.Back.Application.Modules.Compras.Compra.Queries;
 using Matvi.Back.Application.Modules.Finanzas.CorteCaja.Queries;
 using Matvi.Back.Application.Modules.Finanzas.Pago.Commands;
 using Matvi.Back.Application.Modules.Finanzas.Pago.Dtos;
@@ -12,18 +12,28 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Matvi.Front.UI.Areas.Finanzas.Pages.CorteCaja
 {
-    [AuthorizeMatvi(Funcion.Finanzas_Pagos, Accion.Crear)]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para crear pago.
+    /// </summary>
+[AuthorizeMatvi(Funcion.Finanzas_Pagos, Accion.Crear)]
     public class CrearPagoModel(
         IMediator _mediator,
         IUsuarioActualService _usuarioActualService
     ) : BaseModel
     {
-        [BindProperty]
+                /// <summary>
+        /// Propiedad que representa pago.
+        /// </summary>
+[BindProperty]
         public required CrearPagoDto Pago { get; set; }
 
-        public SelectList MedioPagoSelectList { get; set; } = default!;
+                /// <summary>
+        /// Propiedad que representa medio pago select list.
+        /// </summary>
+public SelectList MedioPagoSelectList { get; set; } = default!;
 
-        public async Task OnGetAsync(CancellationToken cancellationToken)
+                /// <inheritdoc/>
+public async Task OnGetAsync(CancellationToken cancellationToken)
         {
             var medioPagoTask = _mediator.Send(new ListarMedioPagoSelectQry(), cancellationToken);
             await Task.WhenAll(medioPagoTask);
@@ -42,7 +52,12 @@ namespace Matvi.Front.UI.Areas.Finanzas.Pages.CorteCaja
             }
         }
 
-        public async Task<JsonResult> OnPostCreateAsync(CancellationToken cancellationToken)
+                /// <summary>
+        /// Ejecuta la operación de on post create async.
+        /// </summary>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnPostCreateAsync(CancellationToken cancellationToken)
         {
             Pago.CtSucu_Id = _usuarioActualService.UsuarioSesion!.SucursalSesion!.Id!.Value;
             Pago.CtUsua_Id = _usuarioActualService.UsuarioSesion!.Id;
@@ -51,7 +66,13 @@ namespace Matvi.Front.UI.Areas.Finanzas.Pages.CorteCaja
             return new JsonResult(res);
         }
 
-        public async Task<JsonResult> OnGetSaldoVencidoAsync(
+                /// <summary>
+        /// Ejecuta la operación de on get saldo vencido async.
+        /// </summary>
+        /// <param name="idProveedor">Identificador único del registro u objeto.</param>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnGetSaldoVencidoAsync(
             int idProveedor,
             CancellationToken cancellationToken)
         {

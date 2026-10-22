@@ -12,7 +12,8 @@ namespace Matvi.Back.Application.Modules.Seguridad.Login.Handlers
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<ObtenerUsuarioSesionQry, UsuarioLoginDto>
     {
-        public async Task<UsuarioLoginDto> Handle(
+                /// <inheritdoc/>
+public async Task<UsuarioLoginDto> Handle(
             ObtenerUsuarioSesionQry request,
             CancellationToken cancellationToken)
         {

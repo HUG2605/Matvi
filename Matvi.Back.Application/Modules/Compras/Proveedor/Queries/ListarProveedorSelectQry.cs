@@ -3,6 +3,9 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Compras.Proveedor.Queries
 {
-    public record ListarProveedorSelectQry
+        /// <summary>
+    /// Consulta CQRS para obtener información de listar proveedor select.
+    /// </summary>
+public record ListarProveedorSelectQry
     : IRequest<List<BaseDto<int>>>;
 }

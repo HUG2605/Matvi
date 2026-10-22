@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Modules.Ventas.Cliente.Dtos;
+﻿using Matvi.Back.Application.Modules.Ventas.Cliente.Dtos;
 using Matvi.Back.Application.Modules.Ventas.Cliente.Queries;
 using Matvi.Back.Infrastructure.Persistence.Contexts;
 using Matvi.Back.Infrastructure.Persistence.Entities;
@@ -11,7 +11,8 @@ namespace Matvi.Back.Application.Modules.Ventas.Cliente.Handlesrs
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<DetallarCienteQry, DetallarClienteDto>
     {
-        public async Task<DetallarClienteDto> Handle(
+                /// <inheritdoc/>
+public async Task<DetallarClienteDto> Handle(
             DetallarCienteQry request,
             CancellationToken cancellationToken)
         {

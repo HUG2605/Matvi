@@ -15,7 +15,8 @@ namespace Matvi.Back.Application.Modules.Compras.Compra.Handlers
     ) : IRequestHandler<ListarCompraQry, DataGrd<ListarCompraDto>>
     {
 
-        public async Task<DataGrd<ListarCompraDto>> Handle(
+                /// <inheritdoc/>
+public async Task<DataGrd<ListarCompraDto>> Handle(
             ListarCompraQry request,
             CancellationToken cancellationToken)
         {

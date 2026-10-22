@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Modules.Productos.Producto.Commands;
+﻿using Matvi.Back.Application.Modules.Productos.Producto.Commands;
 using Matvi.Back.Application.Modules.Productos.Producto.Dtos;
 using Matvi.Back.Application.Modules.Productos.Producto.Queries;
 using Matvi.Back.Application.Modules.Productos.UnidadBaseInventario.Queries;
@@ -11,22 +11,35 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Matvi.Front.UI.Areas.Productos.Pages.Producto
 {
-    [AuthorizeMatvi(Funcion.Productos_Productos, Accion.Editar)]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para edit.
+    /// </summary>
+[AuthorizeMatvi(Funcion.Productos_Productos, Accion.Editar)]
     public class EditModel(
         IMediator _mediator
         ) : BaseModel
     {
-        [BindProperty]
+                /// <summary>
+        /// Propiedad que representa producto.
+        /// </summary>
+[BindProperty]
         public required EditarProductoDto Producto { get; set; }
 
-        public SelectList UnidadBaseInventarioSelectList { get; set; } = default!;
+                /// <summary>
+        /// Propiedad que representa unidad base inventario select list.
+        /// </summary>
+public SelectList UnidadBaseInventarioSelectList { get; set; } = default!;
 
         //Imagen varchar	100	yes
-        [Display(Name = "Imagen")]
+                /// <summary>
+        /// Propiedad que representa imagen.
+        /// </summary>
+[Display(Name = "Imagen")]
         [BindProperty]
         public IFormFile? ImagenFld { get; set; }
 
-        public async Task OnGet(
+                /// <inheritdoc/>
+public async Task OnGet(
             string id, 
             CancellationToken cancellationToken)
         {
@@ -45,7 +58,12 @@ namespace Matvi.Front.UI.Areas.Productos.Pages.Producto
             UnidadBaseInventarioSelectList = new SelectList(unidadesBaseInventarioTask.Result, "Id", "Nombre");
         }
 
-        public async Task<JsonResult> OnPostEditAsync(CancellationToken cancellationToken)
+                /// <summary>
+        /// Ejecuta la operación de on post edit async.
+        /// </summary>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnPostEditAsync(CancellationToken cancellationToken)
         {
             if (ImagenFld != null && ImagenFld.Length > 0)
             {

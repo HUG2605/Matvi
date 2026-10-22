@@ -3,7 +3,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Ventas.Pedido.Queries
 {
-    public record ObtenerProductoSucursalQry(
+        /// <summary>
+    /// Consulta CQRS para obtener información de obtener producto sucursal.
+    /// </summary>
+public record ObtenerProductoSucursalQry(
         byte idCtSucursal,
         int idProducto
         ) : IRequest<ObtenerProductoSucursalDto>;

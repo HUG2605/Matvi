@@ -5,12 +5,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Matvi.Front.UI.Pages
 {
-    [Authorize]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para index.
+    /// </summary>
+[Authorize]
     public class IndexModel(
         IUsuarioActualService _usuarioActualService
         ) : BaseModel
     {
-        public void OnGet()
+                /// <inheritdoc/>
+public void OnGet()
         {
             // SOLO PARA GENERAR UNA VEZ
             // LAS CLAVES VAPID PARA LAS NOTIFICACIONES PUSH
@@ -19,7 +23,12 @@ namespace Matvi.Front.UI.Pages
             //Console.WriteLine($PrivateKey: $keys.PrivateKey");
         }
 
-        public async Task<JsonResult> OnGetSetSesionSucursal(byte idSucursal)
+                /// <summary>
+        /// Ejecuta la operación de on get set sesion sucursal.
+        /// </summary>
+        /// <param name="idSucursal">Identificador único del registro u objeto.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnGetSetSesionSucursal(byte idSucursal)
         {
             await _usuarioActualService.AsignarSucursalASesionAsync(idSucursal);
             var res = OperationResult<bool>.Success(

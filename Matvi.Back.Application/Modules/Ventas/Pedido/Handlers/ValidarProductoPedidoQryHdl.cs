@@ -13,7 +13,8 @@ namespace Matvi.Back.Application.Modules.Ventas.Pedido.Handlers
         ) : IRequestHandler<ValidarProductoPedidoQry, OperationResult<AgregarProductoPedidoDto?>>
     {
 
-    public async Task<OperationResult<AgregarProductoPedidoDto?>> Handle(
+        /// <inheritdoc/>
+public async Task<OperationResult<AgregarProductoPedidoDto?>> Handle(
         ValidarProductoPedidoQry request,
         CancellationToken cancellationToken)
         {

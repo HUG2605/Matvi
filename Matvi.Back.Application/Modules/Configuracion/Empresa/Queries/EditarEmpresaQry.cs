@@ -3,7 +3,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Configuracion.Empresa.Queries
 {
-    public record EditarEmpresaQry(
+        /// <summary>
+    /// Consulta CQRS para obtener información de editar empresa.
+    /// </summary>
+public record EditarEmpresaQry(
         byte id
         ): IRequest<EditarEmpresaDto>;
     

@@ -1,0 +1,11 @@
+root = true
+
+[*.cs]
+charset = utf-8
+
+# Omitir advertencias de documentación en archivos autogenerados según requerimiento
+[**/Persistence/Entities/**.cs]
+dotnet_diagnostic.CS1591.severity = none
+
+[**/Persistence/Configurations/**.cs]
+dotnet_diagnostic.CS1591.severity = none

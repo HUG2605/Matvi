@@ -12,7 +12,8 @@ namespace Matvi.Back.Application.Modules.Productos.Producto.Handlers
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<EditarProductoQry, EditarProductoDto>
     {
-        public async Task<EditarProductoDto> Handle(
+                /// <inheritdoc/>
+public async Task<EditarProductoDto> Handle(
             EditarProductoQry request, 
             CancellationToken cancellationToken)
         {

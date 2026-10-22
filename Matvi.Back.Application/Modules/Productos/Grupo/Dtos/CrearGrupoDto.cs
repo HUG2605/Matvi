@@ -4,28 +4,46 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Matvi.Back.Application.Modules.Productos.Grupo.Dtos
 {
-    public class CrearGrupoDto : IIdDto<short>
+        /// <summary>
+    /// Objeto de transferencia de datos (DTO) para crear grupo.
+    /// </summary>
+public class CrearGrupoDto : IIdDto<short>
     {
         #region Implementacion de IIdDto
 
-        public short Id { get; set; }
-        public string SafeId => Id.GetSafeId();
+                /// <summary>
+        /// Identificador único de id.
+        /// </summary>
+public short Id { get; set; }
+                /// <summary>
+        /// Identificador único de safe id.
+        /// </summary>
+public string SafeId => Id.GetSafeId();
 
         #endregion
 
         //IdCatSeccion    smallyint	 1	no
-        [Display(Name = "Sección")]
+                /// <summary>
+        /// Propiedad que representa ct secc id.
+        /// </summary>
+[Display(Name = "Sección")]
         [Required(ErrorMessage = "El valor para {0} es requerido.")]
         public required byte CtSecc_IdFld { get; set; }
 
         //Nombre varchar	50	no
-        [Display(Name = "Nombre")]
+                /// <summary>
+        /// Texto descriptivo o detalle de nombre.
+        /// </summary>
+[Display(Name = "Nombre")]
         [Required(ErrorMessage = "El valor para {0} es requerido.")]
         [StringLength(50, ErrorMessage = "El valor para {0} no debe exceder los {1} caracteres.")]
         public required string NombreFld { get; set; }
 
         //Descripcion varchar	500	no
-        [Display(Name = "Descripción")]
+                /// <summary>
+        /// Texto descriptivo o detalle de descripcion.
+        /// </summary>
+[Display(Name = "Descripción")]
         [Required(ErrorMessage = "El valor para {0} es requerido.")]
         [StringLength(50, ErrorMessage = "El valor para {0} no debe exceder los {1} caracteres.")]
         public required string DescripcionFld { get; set; }

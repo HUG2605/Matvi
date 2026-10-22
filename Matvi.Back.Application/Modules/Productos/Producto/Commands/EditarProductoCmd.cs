@@ -4,7 +4,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Productos.Producto.Commands
 {
-    public record EditarProductoCmd(
+        /// <summary>
+    /// Comando CQRS para la operación de editar producto.
+    /// </summary>
+public record EditarProductoCmd(
         EditarProductoDto producto
         ) : IRequest<OperationResult<bool>>;
 }

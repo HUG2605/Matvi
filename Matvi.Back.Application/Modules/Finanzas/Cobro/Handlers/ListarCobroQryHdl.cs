@@ -17,7 +17,8 @@ namespace Matvi.Back.Application.Modules.Finanzas.Cobro.Handlers
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<ListarCobroQry, DataGrd<ListarCobroDto>>
     {
-        public async Task<DataGrd<ListarCobroDto>> Handle(
+                /// <inheritdoc/>
+public async Task<DataGrd<ListarCobroDto>> Handle(
             ListarCobroQry request,
             CancellationToken cancellationToken)
         {

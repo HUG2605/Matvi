@@ -8,7 +8,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Compras.Compra.Queries
 {
-     public record DetallarCompraQry(int id)
+          /// <summary>
+     /// Consulta CQRS para obtener información de detallar compra.
+     /// </summary>
+public record DetallarCompraQry(int id)
         :IRequest<DetallarCompraDto>;
 
 }

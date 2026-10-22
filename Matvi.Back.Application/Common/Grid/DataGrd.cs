@@ -4,10 +4,19 @@ using System.Text;
 
 namespace Matvi.Back.Application.Common.Grid
 {
-    public class DataGrd<T>
+        /// <summary>
+    /// Representa la clase para data grd.
+    /// </summary>
+public class DataGrd<T>
     {
-        public int TotalItems { get; set; }
-        public IReadOnlyList<T> Items { get; set; } = [];
+                /// <summary>
+        /// Monto económico correspondiente a total items.
+        /// </summary>
+public int TotalItems { get; set; }
+                /// <summary>
+        /// Propiedad que representa items.
+        /// </summary>
+public IReadOnlyList<T> Items { get; set; } = [];
     }
 
 }

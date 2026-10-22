@@ -11,7 +11,8 @@ namespace Matvi.Back.Application.Modules.Ventas.RegimenFiscal.Handler
         IUnitOfWork _unitOfWork
         ) : IRequestHandler<ListarRegimenFiscalSelectQry, List<BaseDto<short>>>
     {
-        public async Task<List<BaseDto<short>>> Handle(ListarRegimenFiscalSelectQry request, CancellationToken cancellationToken)
+                /// <inheritdoc/>
+public async Task<List<BaseDto<short>>> Handle(ListarRegimenFiscalSelectQry request, CancellationToken cancellationToken)
         {
             var query = _unitOfWork.Query<CtRegimenFiscalEtt>()
             .Select(crf => new BaseDto<short>

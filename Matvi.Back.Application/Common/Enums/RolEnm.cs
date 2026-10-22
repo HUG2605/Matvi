@@ -4,13 +4,31 @@ using System.Text;
 
 namespace Matvi.Back.Application.Common.Enums
 {
-    public enum RolEnm : byte
+        /// <summary>
+    /// Catálogo de opciones para rol.
+    /// </summary>
+public enum RolEnm : byte
     {
-        SYSTEM = 0,
-        ADMINISTRADOR = 1,
-        VENDEDOR = 2,
-        ALMACENISTA = 3,
-        REPARTIDOR = 4
+                /// <summary>
+        /// Representa la opción system.
+        /// </summary>
+SYSTEM = 0,
+                /// <summary>
+        /// Representa la opción administrador.
+        /// </summary>
+ADMINISTRADOR = 1,
+                /// <summary>
+        /// Representa la opción vendedor.
+        /// </summary>
+VENDEDOR = 2,
+                /// <summary>
+        /// Representa la opción almacenista.
+        /// </summary>
+ALMACENISTA = 3,
+                /// <summary>
+        /// Representa la opción repartidor.
+        /// </summary>
+REPARTIDOR = 4
     }
 
 }

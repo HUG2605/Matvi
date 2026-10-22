@@ -6,7 +6,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Ventas.RegimenFiscal.Queries
 {
-    public record ListarRegimenFiscalSelectQry()
+        /// <summary>
+    /// Consulta CQRS para obtener información de listar regimen fiscal select.
+    /// </summary>
+public record ListarRegimenFiscalSelectQry()
         : IRequest<List<BaseDto<short>>>;
     
 }

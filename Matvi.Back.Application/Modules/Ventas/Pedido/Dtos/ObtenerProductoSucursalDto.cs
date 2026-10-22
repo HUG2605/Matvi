@@ -1,13 +1,19 @@
-namespace Matvi.Back.Application.Modules.Ventas.Pedido.Dtos
+﻿namespace Matvi.Back.Application.Modules.Ventas.Pedido.Dtos
 {
-    public class ObtenerProductoSucursalDto
+        /// <summary>
+    /// Objeto de transferencia de datos (DTO) para obtener producto sucursal.
+    /// </summary>
+public class ObtenerProductoSucursalDto
     {
         /// <summary>
         /// Indica si el producto se encuentra regularizado en la sucursal.
         /// </summary>
         public bool RlProdSucu_Regularizado { get; set; }
 
-        public bool Regularizado
+                /// <summary>
+        /// Propiedad que representa regularizado.
+        /// </summary>
+public bool Regularizado
         {
             get => RlProdSucu_Regularizado;
             set => RlProdSucu_Regularizado = value;

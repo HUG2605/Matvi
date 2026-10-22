@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Modules.Ventas.Pedido.Commands;
+﻿using Matvi.Back.Application.Modules.Ventas.Pedido.Commands;
 using Matvi.Back.Application.Modules.Ventas.Pedido.Dtos;
 using Matvi.Back.Application.Modules.Ventas.Pedido.Queries;
 using Matvi.Front.UI.Attributes;
@@ -10,15 +10,22 @@ using Matvi.Front.UI.Security.Services;
 
 namespace Matvi.Front.UI.Areas.Ventas.Pages.Pedido
 {
-    [AuthorizeMatvi(Funcion.Ventas_Pedidos, Accion.Surtir)]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para supply.
+    /// </summary>
+[AuthorizeMatvi(Funcion.Ventas_Pedidos, Accion.Surtir)]
     public class SupplyModel(
         IMediator _mediator,
         IUsuarioActualService _usuarioActualService
         ) : BaseModel
     {
-        public DetallarPedidoDto? Pedido { get; set; }
+                /// <summary>
+        /// Propiedad que representa pedido.
+        /// </summary>
+public DetallarPedidoDto? Pedido { get; set; }
 
-        public async Task OnGetAsync(
+                /// <inheritdoc/>
+public async Task OnGetAsync(
             string id,
             CancellationToken cancellationToken)
         {
@@ -29,7 +36,13 @@ namespace Matvi.Front.UI.Areas.Ventas.Pages.Pedido
                 cancellationToken);
         }
 
-        public async Task<JsonResult> OnPostSupplyAsync(
+                /// <summary>
+        /// Ejecuta la operación de on post supply async.
+        /// </summary>
+        /// <param name="surtir">Parámetro surtir.</param>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnPostSupplyAsync(
             [FromBody] SurtirPedidoDto surtir,
             CancellationToken cancellationToken)
         {

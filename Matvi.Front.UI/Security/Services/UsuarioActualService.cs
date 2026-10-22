@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Modules.Seguridad.Login.Dtos;
+﻿using Matvi.Back.Application.Modules.Seguridad.Login.Dtos;
 using Matvi.Back.Application.Modules.Seguridad.Login.Queries;
 using Matvi.Front.UI.Constants;
 using Matvi.Front.UI.Extensions;
@@ -7,7 +7,10 @@ using System.Security.Claims;
 
 namespace Matvi.Front.UI.Security.Services
 {
-    public class UsuarioActualService (
+        /// <summary>
+    /// Representa la clase para usuario actual service.
+    /// </summary>
+public class UsuarioActualService (
         IHttpContextAccessor _httpContextAccessor,
         IMediator _mediator
         ) : IUsuarioActualService
@@ -17,7 +20,10 @@ namespace Matvi.Front.UI.Security.Services
         bool _estaActivo;
         bool _estaSucursalEnSesionYRelacionada;
 
-        public async Task InicializarAsync()
+                /// <summary>
+        /// Ejecuta la operación de inicializar async.
+        /// </summary>
+public async Task InicializarAsync()
         {
             var context = _httpContextAccessor.HttpContext;
             if (context?.User == null)
@@ -66,22 +72,51 @@ namespace Matvi.Front.UI.Security.Services
             }
         }
 
-        public UsuarioLoginDto? UsuarioSesion => _usuSesDto;
+                /// <summary>
+        /// Propiedad que representa usuario sesion.
+        /// </summary>
+public UsuarioLoginDto? UsuarioSesion => _usuSesDto;
 
-        public bool EstaActivo => _estaActivo;
+                /// <summary>
+        /// Indica si esta activo se encuentra activo o habilitado.
+        /// </summary>
+public bool EstaActivo => _estaActivo;
 
-        public bool EstaSucursalEnSesionYRelacionada => _estaSucursalEnSesionYRelacionada;
+                /// <summary>
+        /// Indica si esta sucursal en sesion y relacionada se encuentra activo o habilitado.
+        /// </summary>
+public bool EstaSucursalEnSesionYRelacionada => _estaSucursalEnSesionYRelacionada;
 
-        public bool PuedeConsultar(string funcion)
+                /// <summary>
+        /// Ejecuta la operación de puede consultar.
+        /// </summary>
+        /// <param name="funcion">Parámetro funcion.</param>
+        /// <returns><c>true</c> si la operación se completó exitosamente; en caso contrario, <c>false</c>.</returns>
+public bool PuedeConsultar(string funcion)
             => _user?.HasClaim("permiso", $"{funcion}:Consultar") ?? false;
 
-        public bool TienePermiso(string funcion, string accion)
+                /// <summary>
+        /// Ejecuta la operación de tiene permiso.
+        /// </summary>
+        /// <param name="funcion">Parámetro funcion.</param>
+        /// <param name="accion">Parámetro accion.</param>
+        /// <returns><c>true</c> si la operación se completó exitosamente; en caso contrario, <c>false</c>.</returns>
+public bool TienePermiso(string funcion, string accion)
             => _user?.HasClaim("permiso", $"{funcion}:{accion}") ?? false;
 
-        public bool PuedeVerSensibles(string funcion)
+                /// <summary>
+        /// Ejecuta la operación de puede ver sensibles.
+        /// </summary>
+        /// <param name="funcion">Parámetro funcion.</param>
+        /// <returns><c>true</c> si la operación se completó exitosamente; en caso contrario, <c>false</c>.</returns>
+public bool PuedeVerSensibles(string funcion)
             => _user?.HasClaim($"verSensibles:{funcion}", "true") ?? false;
 
-        public Task AsignarSucursalASesionAsync(byte idSucursal)
+                /// <summary>
+        /// Ejecuta la operación de asignar sucursal a sesion async.
+        /// </summary>
+        /// <param name="idSucursal">Identificador único del registro u objeto.</param>
+public Task AsignarSucursalASesionAsync(byte idSucursal)
         {
             if (_usuSesDto is not null)
             {

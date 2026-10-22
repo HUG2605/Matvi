@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,11 +12,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Matvi.Back.Application.Modules.Ventas.Cliente.Handlers
 {
-    public class ObtenerEstadoCreditoClienteQryHdl(
+        /// <summary>
+    /// Manejador de consulta encargado de resolver los datos para obtener estado credito cliente.
+    /// </summary>
+public class ObtenerEstadoCreditoClienteQryHdl(
         IDbContextFactory<MatviQryDbCtx> _factory
     ) : IRequestHandler<ObtenerEstadoCreditoClienteQry, EstadoCreditoClienteDto?>
     {
-        public async Task<EstadoCreditoClienteDto?> Handle(
+                /// <inheritdoc/>
+public async Task<EstadoCreditoClienteDto?> Handle(
             ObtenerEstadoCreditoClienteQry request,
             CancellationToken cancellationToken)
         {

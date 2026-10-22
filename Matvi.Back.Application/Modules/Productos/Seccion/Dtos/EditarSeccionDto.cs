@@ -1,6 +1,9 @@
 ﻿namespace Matvi.Back.Application.Modules.Productos.Seccion.Dtos
 {
-    public class EditarSeccionDto : CrearSeccionDto
+        /// <summary>
+    /// Objeto de transferencia de datos (DTO) para editar seccion.
+    /// </summary>
+public class EditarSeccionDto : CrearSeccionDto
     {
     }
 }

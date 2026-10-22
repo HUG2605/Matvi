@@ -4,7 +4,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Seguridad.Login.Queries
 {
-    public record ObtenerAccionesRolQry(byte idRol)
+        /// <summary>
+    /// Consulta CQRS para obtener información de obtener acciones rol.
+    /// </summary>
+public record ObtenerAccionesRolQry(byte idRol)
         : IRequest<List<AccionLoginDto>>;
     
 }

@@ -13,7 +13,8 @@ namespace Matvi.Back.Application.Modules.Configuracion.Sucursal.Handlers
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<ListarSucursalGridQry, DataGrd<ListarSucursalDto>>
     {
-        public async Task<DataGrd<ListarSucursalDto>> Handle(
+                /// <inheritdoc/>
+public async Task<DataGrd<ListarSucursalDto>> Handle(
             ListarSucursalGridQry request, 
             CancellationToken cancellationToken)
         {

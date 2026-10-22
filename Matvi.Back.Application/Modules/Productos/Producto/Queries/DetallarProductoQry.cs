@@ -3,7 +3,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Productos.Producto.Queries
 {
-    public record DetallarProductoQry(
+        /// <summary>
+    /// Consulta CQRS para obtener información de detallar producto.
+    /// </summary>
+public record DetallarProductoQry(
         int id
         ) : IRequest<DetallarProductoDto>;
 }

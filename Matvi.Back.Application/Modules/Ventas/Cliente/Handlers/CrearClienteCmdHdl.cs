@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Common.Results;
+﻿using Matvi.Back.Application.Common.Results;
 using Matvi.Back.Application.Modules.Ventas.Cliente.Commands;
 using Matvi.Back.Infrastructure.Common.Attributes;
 using Matvi.Back.Infrastructure.Persistence.Entities;
@@ -12,7 +12,8 @@ namespace Matvi.Back.Application.Modules.Ventas.Cliente.Handlesrs
         IUnitOfWork _unitOfWork
         ) : IRequestHandler<CrearClienteCmd, OperationResult<bool>>
     {
-        public async Task<OperationResult<bool>> Handle(
+                /// <inheritdoc/>
+public async Task<OperationResult<bool>> Handle(
             CrearClienteCmd request, 
             CancellationToken cancellationToken)
         {

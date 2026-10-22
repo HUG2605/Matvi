@@ -4,7 +4,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Productos.Seccion.Commands
 {
-    public record EditarSeccionCmd (
+        /// <summary>
+    /// Comando CQRS para la operación de editar seccion.
+    /// </summary>
+public record EditarSeccionCmd (
         EditarSeccionDto seccion
         ) : IRequest<OperationResult<bool>>;    
 }

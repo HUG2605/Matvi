@@ -15,7 +15,8 @@ namespace Matvi.Back.Application.Modules.Seguridad.ChangePassword.Handlers
         IUnitOfWork _unitOfWork
         ) : IRequestHandler<CambiarContraseniaCmd, OperationResult<bool>>
     {
-        public async Task<OperationResult<bool>> Handle(
+                /// <inheritdoc/>
+public async Task<OperationResult<bool>> Handle(
             CambiarContraseniaCmd request, 
             CancellationToken cancellationToken)
         {

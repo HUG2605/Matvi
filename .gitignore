@@ -364,4 +364,9 @@ FodyWeavers.xsd
 
 # Environment and sensitive configuration
 *.env
-*.env.*
+*.env.*
+
+# DocFX documentation generated artifacts
+_site/
+api/
+.editorconfig.bak

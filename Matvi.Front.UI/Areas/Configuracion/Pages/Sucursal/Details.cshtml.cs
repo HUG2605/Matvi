@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Common.Results;
+﻿using Matvi.Back.Application.Common.Results;
 using Matvi.Back.Application.Modules.Configuracion.Sucursal.Commands;
 using Matvi.Back.Application.Modules.Configuracion.Sucursal.Dtos;
 using Matvi.Back.Application.Modules.Configuracion.Sucursal.Queries;
@@ -10,16 +10,23 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Matvi.Front.UI.Areas.Configuracion.Pages.Sucursal
 {
-    [AuthorizeMatvi(Funcion.Configuracion_Sucursales)]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para details.
+    /// </summary>
+[AuthorizeMatvi(Funcion.Configuracion_Sucursales)]
     public class DetailsModel(
         IMediator _mediator,
         IUsuarioActualService _usuarioActualService
         ) : BaseModel
     {
 
-        public DetallarSucursalDto? Sucursal { get; set; }
+                /// <summary>
+        /// Propiedad que representa sucursal.
+        /// </summary>
+public DetallarSucursalDto? Sucursal { get; set; }
 
-        public async Task OnGet(
+                /// <inheritdoc/>
+public async Task OnGet(
             string id, 
             CancellationToken cancellationToken)
         {
@@ -29,7 +36,13 @@ namespace Matvi.Front.UI.Areas.Configuracion.Pages.Sucursal
                 cancellationToken);
         }
 
-        public async Task<JsonResult> OnGetDelete(
+                /// <summary>
+        /// Ejecuta la operación de on get delete.
+        /// </summary>
+        /// <param name="id">Identificador único del registro u objeto.</param>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnGetDelete(
             string id, 
             CancellationToken cancellationToken)
         {

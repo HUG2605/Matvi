@@ -7,16 +7,27 @@ using System.Text;
 
 namespace Matvi.Front.UI.Filters
 {
-    public class ExceptionFilter : IExceptionFilter
+        /// <summary>
+    /// Representa la clase para exception filter.
+    /// </summary>
+public class ExceptionFilter : IExceptionFilter
     {
         private readonly ILogger<ExceptionFilter> _logger;
 
-        public ExceptionFilter(ILogger<ExceptionFilter> logger)
+                /// <summary>
+        /// Inicializa una nueva instancia de la clase <see cref="ExceptionFilter"/>.
+        /// </summary>
+        /// <param name="logger">Parámetro logger.</param>
+public ExceptionFilter(ILogger<ExceptionFilter> logger)
         {
             _logger = logger;
         }
 
-        public void OnException(ExceptionContext context)
+                /// <summary>
+        /// Ejecuta la operación de on exception.
+        /// </summary>
+        /// <param name="context">Parámetro context.</param>
+public void OnException(ExceptionContext context)
         {
             var ex = context.Exception;
             var exceptionMessage = ObtenerMensajeCompleto(ex);

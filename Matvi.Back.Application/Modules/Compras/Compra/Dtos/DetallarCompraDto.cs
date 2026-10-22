@@ -7,50 +7,98 @@ using Matvi.Back.Application.Common.Extensions;
 
 namespace Matvi.Back.Application.Modules.Compras.Compra.Dtos
 {
-    public class DetallarCompraDto : IIdDto<int>, IFolioDto
+        /// <summary>
+    /// Objeto de transferencia de datos (DTO) para detallar compra.
+    /// </summary>
+public class DetallarCompraDto : IIdDto<int>, IFolioDto
     {
         #region Implementacion de IIdDto
 
-        public int Id { get; set; }
-        public string SafeId => Id.GetSafeId();
+                /// <summary>
+        /// Identificador único de id.
+        /// </summary>
+public int Id { get; set; }
+                /// <summary>
+        /// Identificador único de safe id.
+        /// </summary>
+public string SafeId => Id.GetSafeId();
 
         #endregion
 
         #region Implementacion de IFolioDto
 
-        public string CtSucu_Clave { get; set; } = string.Empty;
-        public int Numero { get; set; }
-        public string Folio => this.GetFolio(TipoConsecutivoEnm.COMPRA);
+                /// <summary>
+        /// Propiedad que representa ct sucu clave.
+        /// </summary>
+public string CtSucu_Clave { get; set; } = string.Empty;
+                /// <summary>
+        /// Propiedad que representa numero.
+        /// </summary>
+public int Numero { get; set; }
+                /// <summary>
+        /// Propiedad que representa folio.
+        /// </summary>
+public string Folio => this.GetFolio(TipoConsecutivoEnm.COMPRA);
 
         #endregion
 
         #region Generales
 
-        public string CtSucu_Nombre { get; set; }= string.Empty;
-        public DateTime Fecha { get; set; }
-        public string CtProv_Nombre { get; set; } = string.Empty;
-        public decimal Total { get; set; }
-        public decimal TotalPagado { get; set; }
-        public decimal SaldoPendiente => Total - TotalPagado;
-        public string EstatusPago => TotalPagado >= Total ? "PAGADA" : "PENDIENTE";
+                /// <summary>
+        /// Texto descriptivo o detalle de ct sucu nombre.
+        /// </summary>
+public string CtSucu_Nombre { get; set; }= string.Empty;
+                /// <summary>
+        /// Fecha y hora correspondiente a fecha.
+        /// </summary>
+public DateTime Fecha { get; set; }
+                /// <summary>
+        /// Texto descriptivo o detalle de ct prov nombre.
+        /// </summary>
+public string CtProv_Nombre { get; set; } = string.Empty;
+                /// <summary>
+        /// Monto económico correspondiente a total.
+        /// </summary>
+public decimal Total { get; set; }
+                /// <summary>
+        /// Monto económico correspondiente a total pagado.
+        /// </summary>
+public decimal TotalPagado { get; set; }
+                /// <summary>
+        /// Monto económico correspondiente a saldo pendiente.
+        /// </summary>
+public decimal SaldoPendiente => Total - TotalPagado;
+                /// <summary>
+        /// Indica si estatus pago se encuentra activo o habilitado.
+        /// </summary>
+public string EstatusPago => TotalPagado >= Total ? "PAGADA" : "PENDIENTE";
 
         #endregion
 
         #region Productos
 
-        public List<DetallarCompraDetalleDto> Productos { get; set; } = [];
+                /// <summary>
+        /// Colección de elementos asociados a productos.
+        /// </summary>
+public List<DetallarCompraDetalleDto> Productos { get; set; } = [];
 
         #endregion
 
         #region Lotes
 
-        public List<DetallarCompraLoteDto> Lotes { get; set; } = [];
+                /// <summary>
+        /// Colección de elementos asociados a lotes.
+        /// </summary>
+public List<DetallarCompraLoteDto> Lotes { get; set; } = [];
 
         #endregion
 
         #region Pagos
 
-        public List<DetallarCompraPagoDto> Pagos { get; set; } = [];
+                /// <summary>
+        /// Colección de elementos asociados a pagos.
+        /// </summary>
+public List<DetallarCompraPagoDto> Pagos { get; set; } = [];
         
         #endregion
 

@@ -4,7 +4,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Notifications.WebPush.Commands
 {
-    public record GuardarWebPushSuscripcionCmd(
+        /// <summary>
+    /// Comando CQRS para la operación de guardar web push suscripcion.
+    /// </summary>
+public record GuardarWebPushSuscripcionCmd(
         WebPushSuscripcionDto Suscripcion
         ) : IRequest<OperationResult<bool>>;
 }

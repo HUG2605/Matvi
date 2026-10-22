@@ -10,7 +10,8 @@ namespace Matvi.Back.Application.Modules.Productos.Grupo.Handlers
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<ObtenerGrupoDescripcionQry, string>
     {
-        public async Task<string> Handle(
+                /// <inheritdoc/>
+public async Task<string> Handle(
             ObtenerGrupoDescripcionQry request, 
             CancellationToken cancellationToken)
         {

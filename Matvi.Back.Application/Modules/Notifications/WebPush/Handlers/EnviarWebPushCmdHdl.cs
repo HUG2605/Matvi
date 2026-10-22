@@ -12,7 +12,8 @@ namespace Matvi.Back.Application.Modules.Notifications.WebPush.Handlers
         IWebPushService _webPushService
     ) : IRequestHandler<EnviarWebPushCmd, OperationResult<bool>>
     {
-        public async Task<OperationResult<bool>> Handle(
+                /// <inheritdoc/>
+public async Task<OperationResult<bool>> Handle(
             EnviarWebPushCmd request,
             CancellationToken cancellationToken)
         {

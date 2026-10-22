@@ -5,10 +5,22 @@ using System.Text;
 
 namespace Matvi.Back.Application.Modules.Productos.Producto.Dtos
 {
-    public class RelacionarProveedorDto
+        /// <summary>
+    /// Objeto de transferencia de datos (DTO) para relacionar proveedor.
+    /// </summary>
+public class RelacionarProveedorDto
     {
-        public int CtProv_Id { get; set; } 
-        public string Nombre { get; set; } = string.Empty;
-        public bool EstaRelacionado { get; set; }
+                /// <summary>
+        /// Identificador único de ct prov id.
+        /// </summary>
+public int CtProv_Id { get; set; } 
+                /// <summary>
+        /// Texto descriptivo o detalle de nombre.
+        /// </summary>
+public string Nombre { get; set; } = string.Empty;
+                /// <summary>
+        /// Indica si esta relacionado se encuentra activo o habilitado.
+        /// </summary>
+public bool EstaRelacionado { get; set; }
     }
 }

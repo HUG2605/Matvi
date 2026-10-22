@@ -14,7 +14,8 @@ namespace Matvi.Back.Application.Modules.Productos.Grupo.Handlers
         IUnitOfWork _unitOfWork
         ) : IRequestHandler<EliminarGrupoCmd, OperationResult<bool>>
     {
-        public async Task<OperationResult<bool>> Handle(
+                /// <inheritdoc/>
+public async Task<OperationResult<bool>> Handle(
             EliminarGrupoCmd request, 
             CancellationToken cancellationToken)
         {

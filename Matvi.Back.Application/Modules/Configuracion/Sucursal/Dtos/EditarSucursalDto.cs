@@ -1,6 +1,9 @@
 ﻿namespace Matvi.Back.Application.Modules.Configuracion.Sucursal.Dtos
 {
-    public class EditarSucursalDto : CrearSucursalDto
+        /// <summary>
+    /// Objeto de transferencia de datos (DTO) para editar sucursal.
+    /// </summary>
+public class EditarSucursalDto : CrearSucursalDto
     {
     }
 }

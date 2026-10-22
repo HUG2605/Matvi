@@ -6,7 +6,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Finanzas.Gasto.Commands
 {
-    public record EliminarGastoCmd(
+        /// <summary>
+    /// Comando CQRS para la operación de eliminar gasto.
+    /// </summary>
+public record EliminarGastoCmd(
         int id
         ) : IRequest<OperationResult<bool>>;
     

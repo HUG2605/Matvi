@@ -4,7 +4,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Seguridad.Usuario.Queries
 {
-    public record ListarUsuariosQry(
+        /// <summary>
+    /// Consulta CQRS para obtener información de listar usuarios.
+    /// </summary>
+public record ListarUsuariosQry(
         FilterGrd filter
         ) : IRequest<DataGrd<ListarUsuarioDto>>;
 }

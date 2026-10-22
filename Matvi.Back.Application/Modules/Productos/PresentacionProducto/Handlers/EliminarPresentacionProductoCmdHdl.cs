@@ -14,7 +14,8 @@ namespace Matvi.Back.Application.Modules.Productos.PresentacionProducto.Handlers
         IUnitOfWork _unitOfWork
         ) : IRequestHandler<EliminarPresentacionProductoCmd, OperationResult<bool>>
     {
-        public async Task<OperationResult<bool>> Handle(
+                /// <inheritdoc/>
+public async Task<OperationResult<bool>> Handle(
             EliminarPresentacionProductoCmd request, 
             CancellationToken cancellationToken)
         {

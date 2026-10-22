@@ -14,7 +14,8 @@ namespace Matvi.Back.Application.Modules.Finanzas.TipoGasto.Handlers
         IUnitOfWork _unitOfWork
         ) : IRequestHandler<EliminarTipoGastoCmd, OperationResult<bool>>
     {
-        public async Task<OperationResult<bool>> Handle(
+                /// <inheritdoc/>
+public async Task<OperationResult<bool>> Handle(
             EliminarTipoGastoCmd request, 
             CancellationToken cancellationToken)
         {

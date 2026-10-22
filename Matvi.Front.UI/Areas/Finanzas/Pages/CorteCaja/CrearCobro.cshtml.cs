@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Modules.Finanzas.Cobro.Commands;
+﻿using Matvi.Back.Application.Modules.Finanzas.Cobro.Commands;
 using Matvi.Back.Application.Modules.Finanzas.Cobro.Dtos;
 using Matvi.Back.Application.Modules.Finanzas.CorteCaja.Queries;
 using Matvi.Back.Application.Modules.Ventas.MedioPago.Queries;
@@ -12,22 +12,38 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Matvi.Front.UI.Areas.Finanzas.Pages.CorteCaja
 {
-    [AuthorizeMatvi(Funcion.Finanzas_Cobros, Accion.Crear)]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para crear cobro.
+    /// </summary>
+[AuthorizeMatvi(Funcion.Finanzas_Cobros, Accion.Crear)]
     public class CrearCobroModel(
         IMediator _mediator,
         IUsuarioActualService _usuarioActualService,
         Matvi.Back.Infrastructure.Persistence.Repositories.IUnitOfWork _unitOfWork
     ) : BaseModel
     {
-        [BindProperty]
+                /// <summary>
+        /// Propiedad que representa cobro.
+        /// </summary>
+[BindProperty]
         public required CrearCobroDto Cobro { get; set; }
 
-        public SelectList MedioPagoSelectList { get; set; } = default!;
+                /// <summary>
+        /// Propiedad que representa medio pago select list.
+        /// </summary>
+public SelectList MedioPagoSelectList { get; set; } = default!;
 
-        public string? NombreClienteInicial { get; set; }
-        public int? IdClienteInicial { get; set; }
+                /// <summary>
+        /// Texto descriptivo o detalle de nombre cliente inicial.
+        /// </summary>
+public string? NombreClienteInicial { get; set; }
+                /// <summary>
+        /// Identificador único de id cliente inicial.
+        /// </summary>
+public int? IdClienteInicial { get; set; }
 
-        public async Task OnGetAsync(int? idCliente, CancellationToken cancellationToken)
+                /// <inheritdoc/>
+public async Task OnGetAsync(int? idCliente, CancellationToken cancellationToken)
         {
             var mediosPago = await _mediator.Send(new ListarMedioPagoSelectQry(), cancellationToken);
             MedioPagoSelectList = new SelectList(mediosPago, "Id", "Nombre");
@@ -57,7 +73,12 @@ namespace Matvi.Front.UI.Areas.Finanzas.Pages.CorteCaja
             }
         }
 
-        public async Task<JsonResult> OnPostCreateAsync(CancellationToken cancellationToken)
+                /// <summary>
+        /// Ejecuta la operación de on post create async.
+        /// </summary>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnPostCreateAsync(CancellationToken cancellationToken)
         {
             Cobro.CtSucu_Id = _usuarioActualService.UsuarioSesion!.SucursalSesion!.Id!.Value;
             Cobro.CtUsua_Id = _usuarioActualService.UsuarioSesion!.Id;
@@ -66,7 +87,13 @@ namespace Matvi.Front.UI.Areas.Finanzas.Pages.CorteCaja
             return new JsonResult(res);
         }
 
-        public async Task<JsonResult> OnGetSaldoPendienteAsync(
+                /// <summary>
+        /// Ejecuta la operación de on get saldo pendiente async.
+        /// </summary>
+        /// <param name="idCliente">Identificador único del registro u objeto.</param>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnGetSaldoPendienteAsync(
             int idCliente,
             CancellationToken cancellationToken)
         {

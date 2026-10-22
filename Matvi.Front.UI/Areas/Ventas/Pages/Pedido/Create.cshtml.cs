@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Common.Results;
+﻿using Matvi.Back.Application.Common.Results;
 using Matvi.Back.Application.Modules.Ventas.CanalCaptura.Queries;
 using Matvi.Back.Application.Modules.Ventas.Cliente.Queries;
 using Matvi.Back.Application.Modules.Ventas.MedioPago.Queries;
@@ -15,24 +15,37 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Matvi.Front.UI.Areas.Ventas.Pages.Pedido
 {
-    [AuthorizeMatvi(Funcion.Ventas_Pedidos, Accion.Crear)]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para create.
+    /// </summary>
+[AuthorizeMatvi(Funcion.Ventas_Pedidos, Accion.Crear)]
     public class CreateModel(
         IMediator _mediator,
         IUsuarioActualService _usuarioActualService
         ) : BaseModel
     {
-        [BindProperty]
+                /// <summary>
+        /// Propiedad que representa pedido.
+        /// </summary>
+[BindProperty]
         public required CrearPedidoDto Pedido { get; set; }
 
         #region Generales 
         
-        public SelectList CanalCapturaSelectList { get; set; } = default!;
+                /// <summary>
+        /// Propiedad que representa canal captura select list.
+        /// </summary>
+public SelectList CanalCapturaSelectList { get; set; } = default!;
 
-        public SelectList MedioPagoSelectList { get; set; } = default!;
+                /// <summary>
+        /// Propiedad que representa medio pago select list.
+        /// </summary>
+public SelectList MedioPagoSelectList { get; set; } = default!;
 
         #endregion
 
-        public async Task OnGetAsync(
+                /// <inheritdoc/>
+public async Task OnGetAsync(
             CancellationToken cancellationToken)
         {
             // Limpiar sesión del pedido al entrar a la página
@@ -53,7 +66,13 @@ namespace Matvi.Front.UI.Areas.Ventas.Pages.Pedido
 
         #region Otras acciones
 
-        public async Task<JsonResult> OnGetEstadoCreditoClienteAsync(
+                /// <summary>
+        /// Ejecuta la operación de on get estado credito cliente async.
+        /// </summary>
+        /// <param name="idCliente">Identificador único del registro u objeto.</param>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnGetEstadoCreditoClienteAsync(
             int idCliente,
             CancellationToken cancellationToken)
         {
@@ -64,7 +83,13 @@ namespace Matvi.Front.UI.Areas.Ventas.Pages.Pedido
             return new JsonResult(estadoCredito);
         }
 
-        public async Task<JsonResult> OnGetProductoSucursalAsync(
+                /// <summary>
+        /// Ejecuta la operación de on get producto sucursal async.
+        /// </summary>
+        /// <param name="idProducto">Identificador único del registro u objeto.</param>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnGetProductoSucursalAsync(
             int idProducto,
             CancellationToken cancellationToken)
         {
@@ -88,7 +113,13 @@ namespace Matvi.Front.UI.Areas.Ventas.Pages.Pedido
             return new JsonResult(esBajoPedido);
         }
 
-        public async Task<JsonResult> OnGetPresentacionProductoAsync(
+                /// <summary>
+        /// Ejecuta la operación de on get presentacion producto async.
+        /// </summary>
+        /// <param name="idPresentacionProducto">Identificador único del registro u objeto.</param>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnGetPresentacionProductoAsync(
             int idPresentacionProducto, 
             CancellationToken cancellationToken)
         {
@@ -116,7 +147,14 @@ namespace Matvi.Front.UI.Areas.Ventas.Pages.Pedido
 
         #region Productos del pedido
 
-        public async Task<IActionResult> OnPostAgregarProductoPedidoAsync(
+                /// <summary>
+        /// Ejecuta la operación de on post agregar producto pedido async.
+        /// </summary>
+        /// <param name="idPresentacionProducto">Identificador único del registro u objeto.</param>
+        /// <param name="cantidad">Parámetro cantidad.</param>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<IActionResult> OnPostAgregarProductoPedidoAsync(
             int idPresentacionProducto,
             short cantidad,
             CancellationToken cancellationToken)
@@ -165,7 +203,12 @@ namespace Matvi.Front.UI.Areas.Ventas.Pages.Pedido
             return Partial("_ListAgregarProducto", lista);
         }
 
-        public IActionResult OnPostEliminarProductoPedido(
+                /// <summary>
+        /// Ejecuta la operación de on post eliminar producto pedido.
+        /// </summary>
+        /// <param name="idPresentacionProducto">Identificador único del registro u objeto.</param>
+        /// <returns>Objeto con la información resultante de on post eliminar producto pedido.</returns>
+public IActionResult OnPostEliminarProductoPedido(
             int idPresentacionProducto)
         {
             // 1. Obtener lista de sesión
@@ -185,7 +228,13 @@ namespace Matvi.Front.UI.Areas.Ventas.Pages.Pedido
             return Partial("_ListAgregarProducto", lista);
         }
 
-        public IActionResult OnPostCambiarEntregadoMostrador(
+                /// <summary>
+        /// Ejecuta la operación de on post cambiar entregado mostrador.
+        /// </summary>
+        /// <param name="idPresentacionProducto">Identificador único del registro u objeto.</param>
+        /// <param name="entregadoMostrador">Parámetro entregado mostrador.</param>
+        /// <returns>Objeto con la información resultante de on post cambiar entregado mostrador.</returns>
+public IActionResult OnPostCambiarEntregadoMostrador(
             int idPresentacionProducto,
             bool entregadoMostrador)
         {
@@ -204,7 +253,12 @@ namespace Matvi.Front.UI.Areas.Ventas.Pages.Pedido
 
         #endregion
 
-        public async Task<JsonResult> OnPostCreateAsync(
+                /// <summary>
+        /// Ejecuta la operación de on post create async.
+        /// </summary>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnPostCreateAsync(
             CancellationToken cancellationToken)
         {
             var sucursalId = _usuarioActualService.SucursalId;

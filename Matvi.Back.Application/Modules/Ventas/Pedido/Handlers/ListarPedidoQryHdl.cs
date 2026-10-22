@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Common.Enums;
+﻿using Matvi.Back.Application.Common.Enums;
 using Matvi.Back.Application.Common.Grid;
 using Matvi.Back.Application.Modules.Ventas.Pedido.Dtos;
 using Matvi.Back.Application.Modules.Ventas.Pedido.Queries;
@@ -15,7 +15,8 @@ namespace Matvi.Back.Application.Modules.Ventas.Pedido.Handlers
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<ListarPedidoQry, DataGrd<ListarPedidoDto>>
     {
-        public async Task<DataGrd<ListarPedidoDto>> Handle(
+                /// <inheritdoc/>
+public async Task<DataGrd<ListarPedidoDto>> Handle(
             ListarPedidoQry request,
             CancellationToken cancellationToken)
         {

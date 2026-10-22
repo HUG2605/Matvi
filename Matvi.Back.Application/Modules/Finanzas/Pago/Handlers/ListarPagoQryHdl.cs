@@ -18,7 +18,8 @@ namespace Matvi.Back.Application.Modules.Finanzas.Pago.Handlers
     ) : IRequestHandler<ListarPagoQry, DataGrd<ListarPagoDto>>
 
     {
-        public async Task<DataGrd<ListarPagoDto>> Handle(
+                /// <inheritdoc/>
+public async Task<DataGrd<ListarPagoDto>> Handle(
             ListarPagoQry request, 
             CancellationToken cancellationToken)
         {

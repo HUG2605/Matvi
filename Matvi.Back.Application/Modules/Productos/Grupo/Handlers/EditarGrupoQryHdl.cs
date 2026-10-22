@@ -11,7 +11,8 @@ namespace Matvi.Back.Application.Modules.Productos.Grupo.Handlers
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<EditarGrupoQry, EditarGrupoDto>
     {
-        public async Task<EditarGrupoDto> Handle(
+                /// <inheritdoc/>
+public async Task<EditarGrupoDto> Handle(
             EditarGrupoQry request, 
             CancellationToken cancellationToken)
         {

@@ -1,12 +1,33 @@
-namespace Matvi.Back.Application.Modules.Finanzas.MovimientoBancario.Dtos
+﻿namespace Matvi.Back.Application.Modules.Finanzas.MovimientoBancario.Dtos
 {
-    public class ResumenBancarioDto
+        /// <summary>
+    /// Objeto de transferencia de datos (DTO) para resumen bancario.
+    /// </summary>
+public class ResumenBancarioDto
     {
-        public decimal TotalIngresos { get; set; }
-        public decimal TotalEgresos { get; set; }
-        public decimal BalanceNeto => TotalIngresos - TotalEgresos;
-        public int TotalPendientesConciliar { get; set; }
-        public decimal MontoPendienteConciliar { get; set; }
-        public int TotalMovimientos { get; set; }
+                /// <summary>
+        /// Monto económico correspondiente a total ingresos.
+        /// </summary>
+public decimal TotalIngresos { get; set; }
+                /// <summary>
+        /// Monto económico correspondiente a total egresos.
+        /// </summary>
+public decimal TotalEgresos { get; set; }
+                /// <summary>
+        /// Propiedad que representa balance neto.
+        /// </summary>
+public decimal BalanceNeto => TotalIngresos - TotalEgresos;
+                /// <summary>
+        /// Monto económico correspondiente a total pendientes conciliar.
+        /// </summary>
+public int TotalPendientesConciliar { get; set; }
+                /// <summary>
+        /// Monto económico correspondiente a monto pendiente conciliar.
+        /// </summary>
+public decimal MontoPendienteConciliar { get; set; }
+                /// <summary>
+        /// Monto económico correspondiente a total movimientos.
+        /// </summary>
+public int TotalMovimientos { get; set; }
     }
 }

@@ -3,6 +3,9 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Finanzas.Cobro.Queries
 {
-    public record DetallarCobroQry(int Id)
+        /// <summary>
+    /// Consulta CQRS para obtener información de detallar cobro.
+    /// </summary>
+public record DetallarCobroQry(int Id)
         : IRequest<DetallarCobroDto>;
 }

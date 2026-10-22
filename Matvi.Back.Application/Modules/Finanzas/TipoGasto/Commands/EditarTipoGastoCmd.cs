@@ -4,7 +4,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Finanzas.TipoGasto.Commands
 {
-    public record EditarTipoGastoCmd(
+        /// <summary>
+    /// Comando CQRS para la operación de editar tipo gasto.
+    /// </summary>
+public record EditarTipoGastoCmd(
              EditarTipoGastoDto tipoGasto
         ) : IRequest<OperationResult<bool>>;
 }

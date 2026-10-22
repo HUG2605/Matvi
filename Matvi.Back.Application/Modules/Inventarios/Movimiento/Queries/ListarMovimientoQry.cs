@@ -7,7 +7,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Inventarios.Movimiento.Queries
 {
-    public record ListarMovimientoQry(
+        /// <summary>
+    /// Consulta CQRS para obtener información de listar movimiento.
+    /// </summary>
+public record ListarMovimientoQry(
         byte idSucursal,
         FilterGrd filter
         ) : IRequest<DataGrd<ListarMovimientoDto>>;

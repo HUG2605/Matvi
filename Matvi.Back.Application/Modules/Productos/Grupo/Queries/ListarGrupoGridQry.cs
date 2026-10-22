@@ -4,7 +4,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Productos.Grupo.Queries
 {
-    public record ListarGruposQry(
+        /// <summary>
+    /// Consulta CQRS para obtener información de listar grupos.
+    /// </summary>
+public record ListarGruposQry(
         FilterGrd filter
         ) : IRequest<DataGrd<ListarGrupoDto>>;
 }

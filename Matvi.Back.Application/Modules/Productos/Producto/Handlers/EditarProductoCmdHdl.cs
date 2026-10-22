@@ -14,7 +14,8 @@ namespace Matvi.Back.Application.Modules.Productos.Producto.Handlers
         IUnitOfWork _unitOfWork
        ) : IRequestHandler<EditarProductoCmd, OperationResult<bool>>
     {
-        public async Task<OperationResult<bool>> Handle(
+                /// <inheritdoc/>
+public async Task<OperationResult<bool>> Handle(
             EditarProductoCmd request,
             CancellationToken cancellationToken)
         {

@@ -4,9 +4,18 @@ using Matvi.Back.Infrastructure.Persistence.Entities;
 
 namespace Matvi.Back.Application.Modules.Productos.Producto.Helpers
 {
-    public static class ProductoQueriesHelper
+        /// <summary>
+    /// Representa la clase para producto queries helper.
+    /// </summary>
+public static class ProductoQueriesHelper
     {
-        public static IQueryable<RelacionarProveedorDto> GetProveedoresRelacionados(
+                /// <summary>
+        /// Recupera la información correspondiente a get proveedores relacionados.
+        /// </summary>
+        /// <param name="db">Parámetro db.</param>
+        /// <param name="idCtProducto">Identificador único del registro u objeto.</param>
+        /// <returns>Objeto con la información resultante de get proveedores relacionados.</returns>
+public static IQueryable<RelacionarProveedorDto> GetProveedoresRelacionados(
          MatviQryDbCtx db,
          int idCtProducto)
         {
@@ -23,7 +32,12 @@ namespace Matvi.Back.Application.Modules.Productos.Producto.Helpers
                    };
         }
 
-        public static string GenerarCodigoInterno(int idProducto)
+                /// <summary>
+        /// Ejecuta la operación de generar codigo interno.
+        /// </summary>
+        /// <param name="idProducto">Identificador único del registro u objeto.</param>
+        /// <returns>Objeto con la información resultante de generar codigo interno.</returns>
+public static string GenerarCodigoInterno(int idProducto)
         {
             return $"CBI-{idProducto.ToString("D6")}";
         }

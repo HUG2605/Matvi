@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +18,8 @@ namespace Matvi.Back.Application.Modules.Finanzas.Gasto.Handlers
         IUnitOfWork _unitOfWork
         ) : IRequestHandler<EliminarGastoCmd, OperationResult<bool>>
     {
-        public async Task<OperationResult<bool>> Handle(
+                /// <inheritdoc/>
+public async Task<OperationResult<bool>> Handle(
             EliminarGastoCmd request,
             CancellationToken cancellationToken)
         {

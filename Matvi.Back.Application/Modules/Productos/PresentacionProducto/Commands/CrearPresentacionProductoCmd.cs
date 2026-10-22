@@ -4,7 +4,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Productos.PresentacionProducto.Commands
 {
-    public record CrearPresentacionProductoCmd(
+        /// <summary>
+    /// Comando CQRS para la operación de crear presentacion producto.
+    /// </summary>
+public record CrearPresentacionProductoCmd(
         CrearPresentacionProductoDto presentacionProducto
           ) : IRequest<OperationResult<bool>>;
 }

@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Common.Results;
+﻿using Matvi.Back.Application.Common.Results;
 using Matvi.Back.Application.Modules.Ventas.Pedido.Commands;
 using Matvi.Back.Application.Modules.Ventas.Pedido.Dtos;
 using Matvi.Back.Application.Modules.Ventas.Pedido.Queries;
@@ -12,19 +12,26 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Matvi.Front.UI.Areas.Ventas.Pages.Pedido
 {
-    [AuthorizeMatvi(Funcion.Ventas_Pedidos, Accion.Cancelar)]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para cancelar.
+    /// </summary>
+[AuthorizeMatvi(Funcion.Ventas_Pedidos, Accion.Cancelar)]
     public class CancelarModel(
         IMediator _mediator,
         IUsuarioActualService _usuarioActualService,
         IUnitOfWork _unitOfWork
     ) : BaseModel
     {
-        public DetallarPedidoDto? Pedido { get; set; }
+                /// <summary>
+        /// Propiedad que representa pedido.
+        /// </summary>
+public DetallarPedidoDto? Pedido { get; set; }
 
         /// <summary>Id de la caja abierta del usuario en turno, null si no hay corte activo.</summary>
         public int? IdCajaActiva { get; set; }
 
-        public async Task OnGetAsync(
+                /// <inheritdoc/>
+public async Task OnGetAsync(
             string id,
             CancellationToken cancellationToken)
         {
@@ -48,7 +55,13 @@ namespace Matvi.Front.UI.Areas.Ventas.Pages.Pedido
             }
         }
 
-        public async Task<JsonResult> OnPostCancelarAsync(
+                /// <summary>
+        /// Ejecuta la operación de on post cancelar async.
+        /// </summary>
+        /// <param name="cancelar">Parámetro cancelar.</param>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnPostCancelarAsync(
             [FromBody] CancelarPedidoDto? cancelar,
             CancellationToken cancellationToken)
         {

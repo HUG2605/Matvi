@@ -9,20 +9,30 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Matvi.Front.UI.Areas.Configuracion.Pages.Empresa
 {
-    [AuthorizeMatvi(Funcion.Configuracion_Empresa, Accion.Editar)]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para edit.
+    /// </summary>
+[AuthorizeMatvi(Funcion.Configuracion_Empresa, Accion.Editar)]
     public class EditModel(
         IMediator _mediator
         ) : BaseModel
     {
-        [BindProperty]
+                /// <summary>
+        /// Propiedad que representa empresa.
+        /// </summary>
+[BindProperty]
         public required EditarEmpresaDto Empresa { get; set; }
 
-        [BindProperty]
+                /// <summary>
+        /// Propiedad que representa logotipo.
+        /// </summary>
+[BindProperty]
         [Display(Name = "Logotipo")]
         [FileExtensions(Extensions = "jpg,jpeg,png", ErrorMessage = "Solo se permiten archivos con extensión .jpg")]
         public IFormFile? LogotipoFld { get; set; }
 
-        public async Task OnGet(
+                /// <inheritdoc/>
+public async Task OnGet(
             string id, 
             CancellationToken cancellationToken)
         {
@@ -32,7 +42,12 @@ namespace Matvi.Front.UI.Areas.Configuracion.Pages.Empresa
                 cancellationToken);
         }
 
-        public async Task<JsonResult> OnPostEditAsync(
+                /// <summary>
+        /// Ejecuta la operación de on post edit async.
+        /// </summary>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnPostEditAsync(
             CancellationToken cancellationToken)
         {
             Empresa.Id = ToByte(Request.Form["Empresa.SafeId"]!);

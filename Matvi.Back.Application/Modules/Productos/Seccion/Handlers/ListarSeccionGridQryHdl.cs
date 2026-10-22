@@ -13,7 +13,8 @@ namespace Matvi.Back.Application.Modules.Productos.Seccion.Handlers
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<ListarSeccionGridQry, DataGrd<ListarSeccionDto>>
     {
-        public async Task<DataGrd<ListarSeccionDto>> Handle(
+                /// <inheritdoc/>
+public async Task<DataGrd<ListarSeccionDto>> Handle(
             ListarSeccionGridQry request, 
             CancellationToken cancellationToken)
         {

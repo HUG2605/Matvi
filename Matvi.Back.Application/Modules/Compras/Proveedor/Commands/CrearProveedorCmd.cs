@@ -4,7 +4,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Compras.Proveedor.Commands
 {
-    public record CrearProveedorCmd(
+        /// <summary>
+    /// Comando CQRS para la operación de crear proveedor.
+    /// </summary>
+public record CrearProveedorCmd(
           CrearProveedorDto proveedor
     ) : IRequest<OperationResult<bool>>;
 }

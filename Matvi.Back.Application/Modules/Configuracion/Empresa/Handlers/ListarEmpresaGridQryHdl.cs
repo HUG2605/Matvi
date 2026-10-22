@@ -11,7 +11,8 @@ namespace Matvi.Back.Application.Modules.Configuracion.Empresa.Handlers
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<ListarEmpresaGridQry, List<ListarEmpresaDto>>
     {
-        public async Task<List<ListarEmpresaDto>> Handle(
+                /// <inheritdoc/>
+public async Task<List<ListarEmpresaDto>> Handle(
             ListarEmpresaGridQry request, 
             CancellationToken cancellationToken)
         {

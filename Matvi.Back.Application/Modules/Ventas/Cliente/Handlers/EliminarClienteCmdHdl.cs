@@ -14,7 +14,8 @@ namespace Matvi.Back.Application.Modules.Ventas.Cliente.Handlesrs
         IUnitOfWork _unitOfWork
         ) : IRequestHandler<EliminarClienteCmd, OperationResult<bool>>
     {
-        public async Task<OperationResult<bool>> Handle(
+                /// <inheritdoc/>
+public async Task<OperationResult<bool>> Handle(
             EliminarClienteCmd request, 
             CancellationToken cancellationToken)
         {

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using Matvi.Back.Application.Modules.Finanzas.CorteCaja.Dtos;
@@ -10,11 +10,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Matvi.Back.Application.Modules.Finanzas.CorteCaja.Handlers
 {
-    public class ObtenerCajaActivaQryHdl(
+        /// <summary>
+    /// Manejador de consulta encargado de resolver los datos para obtener caja activa.
+    /// </summary>
+public class ObtenerCajaActivaQryHdl(
         IDbContextFactory<MatviQryDbCtx> _factory
     ) : IRequestHandler<ObtenerCajaActivaQry, CajaActivaDto?>
     {
-        public async Task<CajaActivaDto?> Handle(
+                /// <inheritdoc/>
+public async Task<CajaActivaDto?> Handle(
             ObtenerCajaActivaQry request,
             CancellationToken cancellationToken)
         {

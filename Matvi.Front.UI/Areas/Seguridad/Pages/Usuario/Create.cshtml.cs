@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Modules.Seguridad.Rol.Queries;
+﻿using Matvi.Back.Application.Modules.Seguridad.Rol.Queries;
 using Matvi.Back.Application.Modules.Seguridad.Usuario.Commands;
 using Matvi.Back.Application.Modules.Seguridad.Usuario.Dtos;
 using Matvi.Back.Application.Modules.Seguridad.Usuario.Queries;
@@ -10,17 +10,27 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Matvi.Front.UI.Areas.Seguridad.Pages.Usuario
 {
-    [AuthorizeMatvi(Funcion.Seguridad_Usuarios, Accion.Crear)]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para create.
+    /// </summary>
+[AuthorizeMatvi(Funcion.Seguridad_Usuarios, Accion.Crear)]
     public class CreateModel(
         IMediator _mediator
         ) : BaseModel
     {
-        [BindProperty]
+                /// <summary>
+        /// Propiedad que representa usuario.
+        /// </summary>
+[BindProperty]
         public required CrearUsuarioDto Usuario { get; set; }
 
-        public SelectList RolesSelectList { get; set; } = default!;
+                /// <summary>
+        /// Propiedad que representa roles select list.
+        /// </summary>
+public SelectList RolesSelectList { get; set; } = default!;
 
-        public async Task OnGetAsync(
+                /// <inheritdoc/>
+public async Task OnGetAsync(
             CancellationToken cancellationToken)
         {
             var usuarioTask = _mediator.Send(
@@ -36,7 +46,12 @@ namespace Matvi.Front.UI.Areas.Seguridad.Pages.Usuario
             RolesSelectList = new SelectList(rolesTask.Result, "Id", "Nombre");
         }
 
-        public async Task<JsonResult> OnPostCreateAsync(
+                /// <summary>
+        /// Ejecuta la operación de on post create async.
+        /// </summary>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnPostCreateAsync(
             CancellationToken cancellationToken)
         {
             var res = await _mediator.Send(

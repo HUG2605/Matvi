@@ -3,7 +3,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Ventas.Cliente.Queries
 {
-    public record EditarClienteQry(
+        /// <summary>
+    /// Consulta CQRS para obtener información de editar cliente.
+    /// </summary>
+public record EditarClienteQry(
         int id
         ) : IRequest<EditarClienteDto>;
 }

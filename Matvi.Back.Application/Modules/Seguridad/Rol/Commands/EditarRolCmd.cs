@@ -4,7 +4,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Seguridad.Rol.Commands
 {
-    public record EditarRolCmd(
+        /// <summary>
+    /// Comando CQRS para la operación de editar rol.
+    /// </summary>
+public record EditarRolCmd(
         EditarRolDto rol
         ) : IRequest<OperationResult<bool>>;
     

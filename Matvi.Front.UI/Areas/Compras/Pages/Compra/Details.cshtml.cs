@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Modules.Compras.Compra.Dtos;
+﻿using Matvi.Back.Application.Modules.Compras.Compra.Dtos;
 using Matvi.Back.Application.Modules.Compras.Compra.Queries;
 using Matvi.Front.UI.Attributes;
 using Matvi.Front.UI.Security.Permission;
@@ -7,14 +7,21 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Matvi.Front.UI.Areas.Compras.Pages.Compra
 {
-    [AuthorizeMatvi(Funcion.Compras_Compras)]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para details.
+    /// </summary>
+[AuthorizeMatvi(Funcion.Compras_Compras)]
     public class DetailsModel(
         IMediator _mediator
     ) : BaseModel
     {
-        public DetallarCompraDto? Compra { get; set; }
+                /// <summary>
+        /// Propiedad que representa compra.
+        /// </summary>
+public DetallarCompraDto? Compra { get; set; }
 
-        public async Task<IActionResult> OnGet(
+                /// <inheritdoc/>
+public async Task<IActionResult> OnGet(
             string id,
             CancellationToken cancellationToken)
         {

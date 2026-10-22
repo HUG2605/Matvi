@@ -7,11 +7,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Matvi.Back.Application.Modules.Inventarios.Lote.Handlers
 {
-    public class DetallarLoteQryHdl(
+        /// <summary>
+    /// Manejador de consulta encargado de resolver los datos para detallar lote.
+    /// </summary>
+public class DetallarLoteQryHdl(
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<DetallarLoteQry, DetallarLoteDto>
     {
-        public async Task<DetallarLoteDto> Handle(
+                /// <inheritdoc/>
+public async Task<DetallarLoteDto> Handle(
             DetallarLoteQry request, 
             CancellationToken cancellationToken)
         {

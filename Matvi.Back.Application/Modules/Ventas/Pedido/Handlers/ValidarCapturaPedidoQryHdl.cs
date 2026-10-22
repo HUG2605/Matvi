@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Common.Enums;
+﻿using Matvi.Back.Application.Common.Enums;
 using Matvi.Back.Application.Common.Results;
 using Matvi.Back.Application.Modules.Ventas.Pedido.Queries;
 using Matvi.Back.Infrastructure.Persistence.Contexts;
@@ -21,7 +21,8 @@ namespace Matvi.Back.Application.Modules.Ventas.Pedido.Handlers
         private const byte CANAL_PRESENCIAL = 1;
         private const int ID_CLIENTE_MOSTRADOR = 1;
 
-        public async Task<OperationResult<bool>> Handle(
+                /// <inheritdoc/>
+public async Task<OperationResult<bool>> Handle(
             ValidarCapturaPedidoQry request,
             CancellationToken cancellationToken)
         {

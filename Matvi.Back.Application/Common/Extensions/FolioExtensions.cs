@@ -3,9 +3,18 @@ using Matvi.Back.Application.Common.Enums;
 
 namespace Matvi.Back.Application.Common.Extensions
 {
-    public static class FolioExtensions
+        /// <summary>
+    /// Representa la clase para folio extensions.
+    /// </summary>
+public static class FolioExtensions
     {
-        public static string GetFolio(this IFolioDto dto, TipoConsecutivoEnm tipoConsecutivo)
+                /// <summary>
+        /// Recupera la información correspondiente a get folio.
+        /// </summary>
+        /// <param name="dto">Parámetro dto.</param>
+        /// <param name="tipoConsecutivo">Parámetro tipo consecutivo.</param>
+        /// <returns>Objeto con la información resultante de get folio.</returns>
+public static string GetFolio(this IFolioDto dto, TipoConsecutivoEnm tipoConsecutivo)
         {
             string prefijo = tipoConsecutivo switch
             {

@@ -4,7 +4,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Configuracion.Sucursal.Queries
 {
-    public record ListarSucursalGridQry(
+        /// <summary>
+    /// Consulta CQRS para obtener información de listar sucursal grid.
+    /// </summary>
+public record ListarSucursalGridQry(
         FilterGrd filter
         ) : IRequest<DataGrd<ListarSucursalDto>>;
 }

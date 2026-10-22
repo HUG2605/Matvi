@@ -4,16 +4,28 @@ using Microsoft.AspNetCore.Authentication;
 
 namespace Matvi.Front.UI.Security.Middlewares
 {
-    public class UsuarioActualMiddleware
+        /// <summary>
+    /// Representa la clase para usuario actual middleware.
+    /// </summary>
+public class UsuarioActualMiddleware
     {
         private readonly RequestDelegate _next;
 
-        public UsuarioActualMiddleware(RequestDelegate next)
+                /// <summary>
+        /// Inicializa una nueva instancia de la clase <see cref="UsuarioActualMiddleware"/>.
+        /// </summary>
+        /// <param name="next">Parámetro next.</param>
+public UsuarioActualMiddleware(RequestDelegate next)
         {
             _next = next;
         }
 
-        public async Task InvokeAsync(HttpContext context, IUsuarioActualService usuarioActualService)
+                /// <summary>
+        /// Ejecuta la operación de invoke async.
+        /// </summary>
+        /// <param name="context">Parámetro context.</param>
+        /// <param name="usuarioActualService">Parámetro usuario actual service.</param>
+public async Task InvokeAsync(HttpContext context, IUsuarioActualService usuarioActualService)
         {
             var path = context.Request.Path.Value?.ToLower() ?? "";
 

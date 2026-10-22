@@ -7,7 +7,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Finanzas.Cobro.Queries
 {
-    public record ListarCobroQry
+        /// <summary>
+    /// Consulta CQRS para obtener información de listar cobro.
+    /// </summary>
+public record ListarCobroQry
     (
         byte idSucursal,
         FilterGrd filter

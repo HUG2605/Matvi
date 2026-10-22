@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Modules.Inventarios.ProductoSucursal.Commands;
+﻿using Matvi.Back.Application.Modules.Inventarios.ProductoSucursal.Commands;
 using Matvi.Back.Application.Modules.Inventarios.ProductoSucursal.Dtos;
 using Matvi.Back.Application.Modules.Inventarios.ProductoSucursal.Queries;
 using Matvi.Front.UI.Attributes;
@@ -9,16 +9,23 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Matvi.Front.UI.Areas.Inventarios.Pages.Inventario
 {
-    [AuthorizeMatvi(Funcion.Inventarios_Inventario, Accion.Editar)]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para edit.
+    /// </summary>
+[AuthorizeMatvi(Funcion.Inventarios_Inventario, Accion.Editar)]
     public class EditModel(
         IMediator _mediator,
         IUsuarioActualService _usuarioActualService
         ) : BaseModel
     {
-        [BindProperty]
+                /// <summary>
+        /// Propiedad que representa producto sucursal.
+        /// </summary>
+[BindProperty]
         public required EditarProductoSucursalDto ProductoSucursal { get; set; }
 
-        public async Task OnGet(string idProducto, CancellationToken cancellationToken)
+                /// <inheritdoc/>
+public async Task OnGet(string idProducto, CancellationToken cancellationToken)
         {
             var idProd = ToShort(idProducto);
 
@@ -28,7 +35,12 @@ namespace Matvi.Front.UI.Areas.Inventarios.Pages.Inventario
                 ), cancellationToken);
         }
 
-        public async Task<JsonResult> OnPostEditAsync(CancellationToken cancellationToken)
+                /// <summary>
+        /// Ejecuta la operación de on post edit async.
+        /// </summary>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnPostEditAsync(CancellationToken cancellationToken)
         {
             ProductoSucursal.CtProd_Id = ToShort(Request.Form["ProductoSucursal.CtProd_SafeId"]!);
             ProductoSucursal.CtSuc_Id = _usuarioActualService.UsuarioSesion!.SucursalSesion!.Id!.Value;

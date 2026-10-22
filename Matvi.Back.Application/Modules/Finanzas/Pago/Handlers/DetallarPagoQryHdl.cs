@@ -7,11 +7,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Matvi.Back.Application.Modules.Finanzas.Pago.Handlers
 {
-    public class DetallarPagoQryHdl(
+        /// <summary>
+    /// Manejador de consulta encargado de resolver los datos para detallar pago.
+    /// </summary>
+public class DetallarPagoQryHdl(
         IDbContextFactory<MatviQryDbCtx> _factory
     ) : IRequestHandler<DetallarPagoQry, DetallarPagoDto>
     {
-        public async Task<DetallarPagoDto> Handle(
+                /// <inheritdoc/>
+public async Task<DetallarPagoDto> Handle(
             DetallarPagoQry request,
             CancellationToken cancellationToken)
         {

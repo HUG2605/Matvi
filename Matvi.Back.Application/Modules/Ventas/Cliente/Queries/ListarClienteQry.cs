@@ -4,7 +4,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Ventas.Cliente.Queries
 {
-    public record ListarClienteQry(
+        /// <summary>
+    /// Consulta CQRS para obtener información de listar cliente.
+    /// </summary>
+public record ListarClienteQry(
         FilterGrd filter
         ) : IRequest<DataGrd<ListarClienteDto>>;
 }

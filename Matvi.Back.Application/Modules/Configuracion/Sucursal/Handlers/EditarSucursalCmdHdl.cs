@@ -12,7 +12,8 @@ namespace Matvi.Back.Application.Modules.Configuracion.Sucursal.Handlers
         IUnitOfWork _unitOfWork
         ) : IRequestHandler<EditarSucursalCmd, OperationResult<bool>>
     {
-        public async Task<OperationResult<bool>> Handle(
+                /// <inheritdoc/>
+public async Task<OperationResult<bool>> Handle(
             EditarSucursalCmd request, 
             CancellationToken cancellationToken)
         {

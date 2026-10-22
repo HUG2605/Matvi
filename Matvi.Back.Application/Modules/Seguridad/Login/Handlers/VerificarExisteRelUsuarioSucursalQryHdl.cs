@@ -10,7 +10,8 @@ namespace Matvi.Back.Application.Modules.Seguridad.Login.Handlers
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<VerificarExisteRelUsuarioSucursalQry, bool>
     {
-        public async Task<bool> Handle(
+                /// <inheritdoc/>
+public async Task<bool> Handle(
             VerificarExisteRelUsuarioSucursalQry request, 
             CancellationToken cancellationToken)
         {

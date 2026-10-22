@@ -14,7 +14,8 @@ namespace Matvi.Back.Application.Modules.Seguridad.Usuario.Handlers
         IUnitOfWork _unitOfWork
         ) : IRequestHandler<EliminarUsuarioCmd, OperationResult<bool>>
     {
-        public async Task<OperationResult<bool>> Handle(
+                /// <inheritdoc/>
+public async Task<OperationResult<bool>> Handle(
             EliminarUsuarioCmd request, 
             CancellationToken cancellationToken)
         {

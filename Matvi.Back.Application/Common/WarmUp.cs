@@ -5,10 +5,17 @@ using System.Text;
 
 namespace Matvi.Back.Application.Common
 {
-    public class WarmUp
+        /// <summary>
+    /// Representa la clase para warm up.
+    /// </summary>
+public class WarmUp
     {
 
-        public static async Task InitializeAsync(IServiceScope scope)
+                /// <summary>
+        /// Ejecuta la operación de initialize async.
+        /// </summary>
+        /// <param name="scope">Parámetro scope.</param>
+public static async Task InitializeAsync(IServiceScope scope)
         {
             await Infrastructure.Performance.WarmUpDbContext.InitializeAsync(scope);
         }

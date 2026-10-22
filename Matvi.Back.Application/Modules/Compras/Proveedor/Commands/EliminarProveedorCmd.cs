@@ -3,7 +3,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Compras.Proveedor.Commands
 {
-    public  record EliminarProveedorCmd(
+        /// <summary>
+    /// Comando CQRS para la operación de eliminar proveedor.
+    /// </summary>
+public  record EliminarProveedorCmd(
         int id
         ) : IRequest<OperationResult<bool>>;
 }

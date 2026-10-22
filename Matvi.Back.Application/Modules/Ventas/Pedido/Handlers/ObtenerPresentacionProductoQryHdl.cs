@@ -12,7 +12,8 @@ namespace Matvi.Back.Application.Modules.Ventas.Pedido.Handlers
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<ObtenerPresentacionProductoQry, ObtenerPresentacionProductoDto>
     {
-        public async Task<ObtenerPresentacionProductoDto> Handle(
+                /// <inheritdoc/>
+public async Task<ObtenerPresentacionProductoDto> Handle(
             ObtenerPresentacionProductoQry request, 
             CancellationToken cancellationToken)
         {

@@ -3,7 +3,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Configuracion.Empresa.Queries
 {
-    public record ListarEmpresaGridQry 
+        /// <summary>
+    /// Consulta CQRS para obtener información de listar empresa grid.
+    /// </summary>
+public record ListarEmpresaGridQry 
         : IRequest<List<ListarEmpresaDto>>;
 
 }

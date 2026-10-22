@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using Matvi.Back.Application.Common.Enums;
@@ -17,7 +17,8 @@ namespace Matvi.Back.Application.Modules.Finanzas.CorteCaja.Handlers
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<ListarCorteCajaQry, DataGrd<ListarCorteCajaDto>>
     {
-        public async Task<DataGrd<ListarCorteCajaDto>> Handle(
+                /// <inheritdoc/>
+public async Task<DataGrd<ListarCorteCajaDto>> Handle(
             ListarCorteCajaQry request,
             CancellationToken cancellationToken)
         {

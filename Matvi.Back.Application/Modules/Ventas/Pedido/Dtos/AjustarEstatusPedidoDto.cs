@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using Matvi.Back.Application.Common.Dtos;
 using Matvi.Back.Application.Common.Enums;
 using Matvi.Back.Application.Common.Extensions;
@@ -21,7 +21,10 @@ namespace Matvi.Back.Application.Modules.Ventas.Pedido.Dtos
         [Required(ErrorMessage = "El valor para {0} es requerido.")]
         public int Id { get; set; }
 
-        public string SafeId => Id.GetSafeId();
+                /// <summary>
+        /// Identificador único de safe id.
+        /// </summary>
+public string SafeId => Id.GetSafeId();
 
         #endregion
 
@@ -45,7 +48,10 @@ namespace Matvi.Back.Application.Modules.Ventas.Pedido.Dtos
 
         #region Bitacora
 
-        [Display(Name = "Usuario")]
+                /// <summary>
+        /// Identificador único de ct usua id.
+        /// </summary>
+[Display(Name = "Usuario")]
         [Required(ErrorMessage = "El valor para {0} es requerido.")]
         public short CtUsua_Id { get; set; }
 

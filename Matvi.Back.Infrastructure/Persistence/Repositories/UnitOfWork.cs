@@ -1,4 +1,4 @@
-﻿using Matvi.Back.Infrastructure.Common.Interceptors;
+using Matvi.Back.Infrastructure.Common.Interceptors;
 using Matvi.Back.Infrastructure.Persistence.Contexts;
 using Matvi.Transversal.Exceptions;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +8,12 @@ using System.Text.RegularExpressions;
 
 namespace Matvi.Back.Infrastructure.Persistence.Repositories
 {
+    /// <summary>
+    /// Implementación de la unidad de trabajo (<see cref="IUnitOfWork"/>) que coordina operaciones de persistencia, auditoría y control de transacciones con Entity Framework Core.
+    /// </summary>
+    /// <param name="context">Contexto de base de datos de comandos.</param>
+    /// <param name="audit">Interceptor de auditoría para registro de cambios.</param>
+    /// <param name="usuarioProvider">Función delegada para resolver el identificador del usuario en sesión.</param>
     public class UnitOfWork(
         MatviCmdDbCtx context,
         AuditInterceptor audit,
@@ -21,6 +27,7 @@ namespace Matvi.Back.Infrastructure.Persistence.Repositories
 
         #region Transacciones
 
+        /// <inheritdoc/>
         public async Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken)
         {
             if (_transaction == null)
@@ -30,6 +37,7 @@ namespace Matvi.Back.Infrastructure.Persistence.Repositories
             return _transaction;
         }
 
+        /// <inheritdoc/>
         public async Task CommitAsync(CancellationToken cancellationToken)
         {
             if (_transaction != null)
@@ -40,6 +48,7 @@ namespace Matvi.Back.Infrastructure.Persistence.Repositories
             }
         }
 
+        /// <inheritdoc/>
         public async Task RollbackAsync(CancellationToken cancellationToken)
         {
             if (_transaction != null)
@@ -54,6 +63,7 @@ namespace Matvi.Back.Infrastructure.Persistence.Repositories
 
         #region Persistencia
 
+        /// <inheritdoc/>
         public async Task SaveChangesAsync(CancellationToken cancellationToken)
         {
             try
@@ -72,16 +82,19 @@ namespace Matvi.Back.Infrastructure.Persistence.Repositories
 
         #region CRUD genérico
 
+        /// <inheritdoc/>
         public void Add<TEntity>(TEntity entity) where TEntity : class
         {
             _context.Set<TEntity>().Add(entity);
         }
 
+        /// <inheritdoc/>
         public void AddRange<TEntity>(IEnumerable<TEntity> entities) where TEntity : class
         {
             _context.Set<TEntity>().AddRange(entities);
         }
 
+        /// <inheritdoc/>
         public void Update<TEntity>(TEntity entity) where TEntity : class
         {
             var entry = _context.Entry(entity);
@@ -92,6 +105,7 @@ namespace Matvi.Back.Infrastructure.Persistence.Repositories
             entry.State = EntityState.Modified;
         }
 
+        /// <inheritdoc/>
         public void Remove<TEntity>(TEntity entity) where TEntity : class
         {
             var entry = _context.Entry(entity);
@@ -102,6 +116,7 @@ namespace Matvi.Back.Infrastructure.Persistence.Repositories
             entry.State = EntityState.Deleted;
         }
       
+        /// <inheritdoc/>
         public void RemoveRange<TEntity>(IEnumerable<TEntity> entities) where TEntity : class
         {
             foreach (var entity in entities)
@@ -117,11 +132,13 @@ namespace Matvi.Back.Infrastructure.Persistence.Repositories
             }
         }
 
+        /// <inheritdoc/>
         public async Task<TEntity?> FindAsync<TEntity, TId>(TId id, CancellationToken cancellationToken) where TEntity : class
         {
             return await _context.Set<TEntity>().FindAsync(new object?[] { id }, cancellationToken);
         }
 
+        /// <inheritdoc/>
         public IQueryable<TEntity> Query<TEntity>() where TEntity : class
         {
             return _context.Set<TEntity>().AsQueryable();
@@ -131,6 +148,7 @@ namespace Matvi.Back.Infrastructure.Persistence.Repositories
 
         #region Métodos para adjuntar padres automáticamente
 
+        /// <inheritdoc/>
         public void AttachParentsRange<TEntity>(IEnumerable<TEntity> entities) where TEntity : class
         {
             foreach (var entity in entities)

@@ -7,11 +7,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Matvi.Back.Application.Modules.Compras.Proveedor.Handlers
 {
-    public class DetallarProveedorQryHdl(
+        /// <summary>
+    /// Manejador de consulta encargado de resolver los datos para detallar proveedor.
+    /// </summary>
+public class DetallarProveedorQryHdl(
       IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<DetallarProveedorQry, DetallarProveedorDto>
     {   
-        public async Task<DetallarProveedorDto> Handle(
+                /// <inheritdoc/>
+public async Task<DetallarProveedorDto> Handle(
             DetallarProveedorQry request, 
             CancellationToken cancellationToken)
         {

@@ -4,7 +4,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Ventas.Pedido.Queries
 {
-    public record ListarPedidoQry(
+        /// <summary>
+    /// Consulta CQRS para obtener información de listar pedido.
+    /// </summary>
+public record ListarPedidoQry(
         byte idSucursal, 
         byte idRol,
         short? idUsuario,

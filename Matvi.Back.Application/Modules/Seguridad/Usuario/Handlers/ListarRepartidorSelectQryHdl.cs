@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Common.Dtos;
+﻿using Matvi.Back.Application.Common.Dtos;
 using Matvi.Back.Application.Common.Enums;
 using Matvi.Back.Application.Modules.Seguridad.Usuario.Queries;
 using Matvi.Back.Infrastructure.Persistence.Contexts;
@@ -12,7 +12,8 @@ namespace Matvi.Back.Application.Modules.Seguridad.Usuario.Handlers
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<ListarRepartidorSelectQry, List<BaseDto<short>>>
     {
-        public async Task<List<BaseDto<short>>> Handle(
+                /// <inheritdoc/>
+public async Task<List<BaseDto<short>>> Handle(
             ListarRepartidorSelectQry request,
             CancellationToken cancellationToken)
         {

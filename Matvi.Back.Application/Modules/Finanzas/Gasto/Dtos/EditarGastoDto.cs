@@ -4,7 +4,10 @@ using System.Text;
 
 namespace Matvi.Back.Application.Modules.Finanzas.Gasto.Dtos
 {
-    public class EditarGastoDto:CrearGastoDto
+        /// <summary>
+    /// Objeto de transferencia de datos (DTO) para editar gasto.
+    /// </summary>
+public class EditarGastoDto:CrearGastoDto
     {
       
     }

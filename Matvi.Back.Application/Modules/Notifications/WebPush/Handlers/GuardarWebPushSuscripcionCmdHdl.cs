@@ -10,7 +10,8 @@ namespace Matvi.Back.Application.Modules.Notifications.WebPush.Handlers
         IUnitOfWork _unitOfWork
         ) : IRequestHandler<GuardarWebPushSuscripcionCmd, OperationResult<bool>>
     {
-        public async Task<OperationResult<bool>> Handle(
+                /// <inheritdoc/>
+public async Task<OperationResult<bool>> Handle(
             GuardarWebPushSuscripcionCmd request,
             CancellationToken cancellationToken)
         {

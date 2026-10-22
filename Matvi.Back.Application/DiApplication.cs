@@ -3,9 +3,19 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Matvi.Back.Application
 {
-    public static class DiApplication
+        /// <summary>
+    /// Representa la clase para di application.
+    /// </summary>
+public static class DiApplication
     {
-        public static IServiceCollection AddMatviServices(
+                /// <summary>
+        /// Crea o registra una nueva entrada de add matvi services.
+        /// </summary>
+        /// <param name="services">Parámetro services.</param>
+        /// <param name="connectionString">Parámetro connection string.</param>
+        /// <param name="userFactory">Parámetro user factory.</param>
+        /// <returns>Objeto con la información resultante de add matvi services.</returns>
+public static IServiceCollection AddMatviServices(
             this IServiceCollection services,
             string connectionString,
             Func<IServiceProvider, short> userFactory)
@@ -19,7 +29,12 @@ namespace Matvi.Back.Application
             return services;
         }
 
-        public static IServiceCollection AddApplication(this IServiceCollection services)
+                /// <summary>
+        /// Crea o registra una nueva entrada de add application.
+        /// </summary>
+        /// <param name="services">Parámetro services.</param>
+        /// <returns>Objeto con la información resultante de add application.</returns>
+public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             // Registro de MediatR y Validadores
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(DiApplication).Assembly));

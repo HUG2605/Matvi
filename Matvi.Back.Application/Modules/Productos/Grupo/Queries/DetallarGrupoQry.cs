@@ -3,7 +3,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Productos.Grupo.Queries
 {
-    public record DetallarGrupoQry(
+        /// <summary>
+    /// Consulta CQRS para obtener información de detallar grupo.
+    /// </summary>
+public record DetallarGrupoQry(
         short id
         ) : IRequest<DetallarGrupoDto>;
 }

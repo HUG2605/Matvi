@@ -1,0 +1,44 @@
+{
+  "$schema": "https://raw.githubusercontent.com/dotnet/docfx/main/schemas/docfx.json",
+  "metadata": [
+    {
+      "src": [
+        {
+          "files": [
+            "Matvi.Transversal/Matvi.Transversal.csproj",
+            "Matvi.Back.Infrastructure/Matvi.Back.Infrastructure.csproj",
+            "Matvi.Back.Application/Matvi.Back.Application.csproj",
+            "Matvi.Front.UI/Matvi.Front.UI.csproj"
+          ]
+        }
+      ],
+      "dest": "api"
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [
+          "api/**.yml",
+          "api/index.md"
+        ]
+      },
+      {
+        "files": [
+          "toc.yml",
+          "index.md"
+        ]
+      }
+    ],
+    "output": "_site",
+    "globalMetadata": {
+      "_appName": "Matvi - Documentación",
+      "_appTitle": "Matvi API Docs",
+      "_enableSearch": true
+    },
+    "template": [
+      "default",
+      "modern"
+    ]
+  }
+}

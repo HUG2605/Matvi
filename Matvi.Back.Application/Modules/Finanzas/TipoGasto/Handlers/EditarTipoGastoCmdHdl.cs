@@ -12,7 +12,8 @@ namespace Matvi.Back.Application.Modules.Finanzas.TipoGasto.Handlers
        IUnitOfWork _unitOfWork
        ) : IRequestHandler<EditarTipoGastoCmd, OperationResult<bool>>
     {
-        public async Task<OperationResult<bool>> Handle(
+                /// <inheritdoc/>
+public async Task<OperationResult<bool>> Handle(
             EditarTipoGastoCmd request, 
             CancellationToken cancellationToken)
         {

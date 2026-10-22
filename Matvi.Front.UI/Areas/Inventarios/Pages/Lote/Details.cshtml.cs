@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Modules.Inventarios.Lote.Dtos;
+﻿using Matvi.Back.Application.Modules.Inventarios.Lote.Dtos;
 using Matvi.Back.Application.Modules.Inventarios.Lote.Queries;
 using Matvi.Front.UI.Attributes;
 using Matvi.Front.UI.Security.Permission;
@@ -7,14 +7,21 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Matvi.Front.UI.Areas.Inventarios.Pages.Lote
 {
-    [AuthorizeMatvi(Funcion.Inventarios_Lotes)]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para details.
+    /// </summary>
+[AuthorizeMatvi(Funcion.Inventarios_Lotes)]
     public class DetailsModel(
         IMediator _mediator
     ) : BaseModel
     {
-        public DetallarLoteDto? Lote { get; set; }
+                /// <summary>
+        /// Propiedad que representa lote.
+        /// </summary>
+public DetallarLoteDto? Lote { get; set; }
 
-        public async Task<IActionResult> OnGet(
+                /// <inheritdoc/>
+public async Task<IActionResult> OnGet(
             string id, 
             CancellationToken cancellationToken)
         {

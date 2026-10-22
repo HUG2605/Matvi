@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Modules.Inventarios.Movimiento.Dtos;
+﻿using Matvi.Back.Application.Modules.Inventarios.Movimiento.Dtos;
 using Matvi.Back.Application.Modules.Inventarios.Movimiento.Queries;
 using Matvi.Front.UI.Attributes;
 using Matvi.Front.UI.Security.Permission;
@@ -7,14 +7,21 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Matvi.Front.UI.Areas.Inventarios.Pages.Movimiento
 {
-    [AuthorizeMatvi(Funcion.Inventarios_Movimientos)]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para details.
+    /// </summary>
+[AuthorizeMatvi(Funcion.Inventarios_Movimientos)]
     public class DetailsModel(
         IMediator _mediator
     ) : BaseModel
     {
-        public DetalleMovimientoDto? Movimiento { get; set; }
+                /// <summary>
+        /// Propiedad que representa movimiento.
+        /// </summary>
+public DetalleMovimientoDto? Movimiento { get; set; }
 
-        public async Task<IActionResult> OnGet(
+                /// <inheritdoc/>
+public async Task<IActionResult> OnGet(
             string id,
             CancellationToken cancellationToken)
         {

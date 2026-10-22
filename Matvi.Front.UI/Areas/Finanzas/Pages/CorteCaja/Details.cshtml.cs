@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Common.Grid;
+﻿using Matvi.Back.Application.Common.Grid;
 using Matvi.Back.Application.Modules.Finanzas.CorteCaja.Dtos;
 using Matvi.Back.Application.Modules.Finanzas.CorteCaja.Queries;
 using Matvi.Front.UI.Attributes;
@@ -9,14 +9,21 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Matvi.Front.UI.Areas.Finanzas.Pages.CorteCaja
 {
-    [AuthorizeMatvi(Funcion.Finanzas_Cortes_de_caja)]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para details.
+    /// </summary>
+[AuthorizeMatvi(Funcion.Finanzas_Cortes_de_caja)]
     public class DetailsModel(
         IMediator _mediator
     ) : BaseModel
     {
-        public DetallarCorteCajaDto? Corte { get; set; }
+                /// <summary>
+        /// Propiedad que representa corte.
+        /// </summary>
+public DetallarCorteCajaDto? Corte { get; set; }
 
-        public async Task<IActionResult> OnGet(
+                /// <inheritdoc/>
+public async Task<IActionResult> OnGet(
             string id,
             CancellationToken cancellationToken)
         {
@@ -34,7 +41,19 @@ namespace Matvi.Front.UI.Areas.Finanzas.Pages.CorteCaja
             return Page();
         }
 
-        public async Task<JsonResult> OnGetCobrosJsonAsync(
+                /// <summary>
+        /// Ejecuta la operación de on get cobros json async.
+        /// </summary>
+        /// <param name="idCorte">Identificador único del registro u objeto.</param>
+        /// <param name="draw">Parámetro draw.</param>
+        /// <param name="start">Parámetro start.</param>
+        /// <param name="length">Parámetro length.</param>
+        /// <param name="search">Parámetro search.</param>
+        /// <param name="sortBy">Parámetro sort by.</param>
+        /// <param name="sortDesc">Parámetro sort desc.</param>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnGetCobrosJsonAsync(
             string idCorte,
             int draw,
             int start,
@@ -67,7 +86,19 @@ namespace Matvi.Front.UI.Areas.Finanzas.Pages.CorteCaja
             });
         }
 
-        public async Task<JsonResult> OnGetGastosJsonAsync(
+                /// <summary>
+        /// Ejecuta la operación de on get gastos json async.
+        /// </summary>
+        /// <param name="idCorte">Identificador único del registro u objeto.</param>
+        /// <param name="draw">Parámetro draw.</param>
+        /// <param name="start">Parámetro start.</param>
+        /// <param name="length">Parámetro length.</param>
+        /// <param name="search">Parámetro search.</param>
+        /// <param name="sortBy">Parámetro sort by.</param>
+        /// <param name="sortDesc">Parámetro sort desc.</param>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnGetGastosJsonAsync(
             string idCorte,
             int draw,
             int start,
@@ -100,7 +131,19 @@ namespace Matvi.Front.UI.Areas.Finanzas.Pages.CorteCaja
             });
         }
 
-        public async Task<JsonResult> OnGetPagosJsonAsync(
+                /// <summary>
+        /// Ejecuta la operación de on get pagos json async.
+        /// </summary>
+        /// <param name="idCorte">Identificador único del registro u objeto.</param>
+        /// <param name="draw">Parámetro draw.</param>
+        /// <param name="start">Parámetro start.</param>
+        /// <param name="length">Parámetro length.</param>
+        /// <param name="search">Parámetro search.</param>
+        /// <param name="sortBy">Parámetro sort by.</param>
+        /// <param name="sortDesc">Parámetro sort desc.</param>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnGetPagosJsonAsync(
             string idCorte,
             int draw,
             int start,

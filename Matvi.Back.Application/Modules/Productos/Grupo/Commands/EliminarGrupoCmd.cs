@@ -3,7 +3,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Productos.Grupo.Commands
 {
-    public record EliminarGrupoCmd(
+        /// <summary>
+    /// Comando CQRS para la operación de eliminar grupo.
+    /// </summary>
+public record EliminarGrupoCmd(
         short id
         ) : IRequest<OperationResult<bool>>;
 }

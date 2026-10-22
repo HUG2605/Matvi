@@ -6,14 +6,23 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Matvi.Front.UI.Areas.Notifications.Api
 {
-    [Authorize]
+        /// <summary>
+    /// Controlador de API para endpoints relacionados con web push.
+    /// </summary>
+[Authorize]
     [Route("/Notifications/api/webpush")]
     [ApiController]
     public class WebPushController(
         IMediator _mediator
         ) : Controller
     {
-        [HttpPost("suscribir")]
+                /// <summary>
+        /// Ejecuta la operación de suscribir.
+        /// </summary>
+        /// <param name="dto">Parámetro dto.</param>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+[HttpPost("suscribir")]
         public async Task<IActionResult> Suscribir(
             [FromBody] WebPushSuscripcionDto dto,
             CancellationToken cancellationToken)
@@ -26,7 +35,12 @@ namespace Matvi.Front.UI.Areas.Notifications.Api
         }
 
 
-        [HttpGet("test")]
+                /// <summary>
+        /// Ejecuta la operación de test.
+        /// </summary>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+[HttpGet("test")]
         public async Task<IActionResult> Test(CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(

@@ -16,7 +16,8 @@ namespace Matvi.Back.Application.Modules.Inventarios.Movimiento.Handlers
         IDbContextFactory<MatviQryDbCtx> factory
         ) : IRequestHandler<ListarMovimientoQry, DataGrd<ListarMovimientoDto>>
     {
-        public async Task<DataGrd<ListarMovimientoDto>> Handle(
+                /// <inheritdoc/>
+public async Task<DataGrd<ListarMovimientoDto>> Handle(
             ListarMovimientoQry request,
             CancellationToken cancellationToken)
         {

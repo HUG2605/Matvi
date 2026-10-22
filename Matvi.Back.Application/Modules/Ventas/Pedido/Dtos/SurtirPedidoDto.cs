@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using Matvi.Back.Application.Common.Dtos;
 using Matvi.Back.Application.Common.Enums;
 using Matvi.Back.Application.Common.Extensions;
@@ -19,7 +19,10 @@ namespace Matvi.Back.Application.Modules.Ventas.Pedido.Dtos
         [Required(ErrorMessage = "El valor para {0} es requerido.")]
         public int Id { get; set; }
 
-        public string SafeId => Id.GetSafeId();
+                /// <summary>
+        /// Identificador único de safe id.
+        /// </summary>
+public string SafeId => Id.GetSafeId();
 
         #endregion
 
@@ -38,7 +41,10 @@ namespace Matvi.Back.Application.Modules.Ventas.Pedido.Dtos
         [Display(Name = "Repartidor")]
         public short? IdCtUsuarioRepartidor { get; set; }
 
-        public short? CtUsuaRepa_Id
+                /// <summary>
+        /// Identificador único de ct usua repa id.
+        /// </summary>
+public short? CtUsuaRepa_Id
         {
             get => IdCtUsuarioRepartidor;
             set => IdCtUsuarioRepartidor = value;
@@ -89,7 +95,10 @@ namespace Matvi.Back.Application.Modules.Ventas.Pedido.Dtos
         [Range(0, double.MaxValue, ErrorMessage = "El valor para {0} debe ser mayor o igual a {1}.")]
         public decimal CantidadASurtirFld { get; set; }
 
-        public decimal CantidadASurtir
+                /// <summary>
+        /// Cantidad o volumen de unidades de cantidad a surtir.
+        /// </summary>
+public decimal CantidadASurtir
         {
             get => CantidadASurtirFld;
             set => CantidadASurtirFld = value;

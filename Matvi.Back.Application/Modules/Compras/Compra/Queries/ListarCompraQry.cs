@@ -7,7 +7,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Compras.Compra.Queries
 {
-    public record ListarCompraQry
+        /// <summary>
+    /// Consulta CQRS para obtener información de listar compra.
+    /// </summary>
+public record ListarCompraQry
     (
         byte idSucursal,
         FilterGrd filter

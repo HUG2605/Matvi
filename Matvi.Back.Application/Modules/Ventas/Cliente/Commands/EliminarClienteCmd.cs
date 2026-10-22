@@ -3,7 +3,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Ventas.Cliente.Commands
 {
-    public record EliminarClienteCmd(
+        /// <summary>
+    /// Comando CQRS para la operación de eliminar cliente.
+    /// </summary>
+public record EliminarClienteCmd(
         int id
         ) : IRequest<OperationResult<bool>>;
 }

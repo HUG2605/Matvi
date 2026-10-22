@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Common.Grid;
+﻿using Matvi.Back.Application.Common.Grid;
 using Matvi.Back.Application.Modules.Ventas.Cliente.Dtos;
 using Matvi.Back.Application.Modules.Ventas.Cliente.Queries;
 using Matvi.Front.UI.Attributes;
@@ -10,16 +10,31 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Matvi.Front.UI.Areas.Ventas.Pages.Cliente
 {
-    [AuthorizeMatvi(Funcion.Ventas_Clientes)]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para index.
+    /// </summary>
+[AuthorizeMatvi(Funcion.Ventas_Clientes)]
     public class IndexModel(
         IMediator _mediator
         ) : PageModel
     {
-        public void OnGet()
+                /// <inheritdoc/>
+public void OnGet()
         {
         }
 
-        public async Task<JsonResult> OnGetClientesJsonAsync(
+                /// <summary>
+        /// Ejecuta la operación de on get clientes json async.
+        /// </summary>
+        /// <param name="draw">Parámetro draw.</param>
+        /// <param name="start">Parámetro start.</param>
+        /// <param name="length">Parámetro length.</param>
+        /// <param name="search">Parámetro search.</param>
+        /// <param name="sortBy">Parámetro sort by.</param>
+        /// <param name="sortDesc">Parámetro sort desc.</param>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnGetClientesJsonAsync(
             int draw,
             int start,
             int length,

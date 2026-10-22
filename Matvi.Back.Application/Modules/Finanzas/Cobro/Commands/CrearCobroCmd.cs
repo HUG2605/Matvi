@@ -4,7 +4,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Finanzas.Cobro.Commands
 {
-    public record CrearCobroCmd(
+        /// <summary>
+    /// Comando CQRS para la operación de crear cobro.
+    /// </summary>
+public record CrearCobroCmd(
         CrearCobroDto cobro
     ) : IRequest<OperationResult<bool>>;
 }

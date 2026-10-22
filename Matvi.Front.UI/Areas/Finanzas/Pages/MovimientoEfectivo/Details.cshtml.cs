@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Matvi.Back.Application.Modules.Finanzas.MovimientoEfectivo.Dtos;
 using Matvi.Back.Application.Modules.Finanzas.MovimientoEfectivo.Queries;
@@ -9,14 +9,21 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Matvi.Front.UI.Areas.Finanzas.Pages.MovimientoEfectivo
 {
-    [AuthorizeMatvi(Funcion.Finanzas_Movimientos_Efectivo)]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para details.
+    /// </summary>
+[AuthorizeMatvi(Funcion.Finanzas_Movimientos_Efectivo)]
     public class DetailsModel(
         IMediator _mediator
     ) : BaseModel
     {
-        public DetallarMovimientoEfectivoDto Movimiento { get; set; } = default!;
+                /// <summary>
+        /// Propiedad que representa movimiento.
+        /// </summary>
+public DetallarMovimientoEfectivoDto Movimiento { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(string origen, string id, CancellationToken cancellationToken)
+                /// <inheritdoc/>
+public async Task<IActionResult> OnGetAsync(string origen, string id, CancellationToken cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(origen) || string.IsNullOrWhiteSpace(id))
                 return NotFound();

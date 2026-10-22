@@ -1,13 +1,17 @@
-using Matvi.Front.UI.Constants;
+﻿using Matvi.Front.UI.Constants;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Matvi.Front.UI.Pages.Security
 {
-    public class LogoutModel : PageModel
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para logout.
+    /// </summary>
+public class LogoutModel : PageModel
     {
-        public async Task<IActionResult> OnGetAsync()
+                /// <inheritdoc/>
+public async Task<IActionResult> OnGetAsync()
         {
             await HttpContext.SignOutAsync(AuthConstants.Scheme);
             HttpContext.Session.Clear();

@@ -12,7 +12,8 @@ namespace Matvi.Back.Application.Modules.Seguridad.Rol.Handlers
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<ListarCatalogoRolesQry, List<BaseDto<byte>>>
     {
-        public async Task<List<BaseDto<byte>>> Handle(
+                /// <inheritdoc/>
+public async Task<List<BaseDto<byte>>> Handle(
             ListarCatalogoRolesQry request,
             CancellationToken cancellationToken)
         {

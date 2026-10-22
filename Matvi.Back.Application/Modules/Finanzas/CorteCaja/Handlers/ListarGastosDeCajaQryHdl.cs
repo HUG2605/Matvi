@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,11 +13,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Matvi.Back.Application.Modules.Finanzas.CorteCaja.Handlers
 {
-    public class ListarGastosDeCajaQryHdl(
+        /// <summary>
+    /// Manejador de consulta encargado de resolver los datos para listar gastos de caja.
+    /// </summary>
+public class ListarGastosDeCajaQryHdl(
         IDbContextFactory<MatviQryDbCtx> _factory
     ) : IRequestHandler<ListarGastosDeCajaQry, DataGrd<ListarGastoCajaDto>>
     {
-        public async Task<DataGrd<ListarGastoCajaDto>> Handle(
+                /// <inheritdoc/>
+public async Task<DataGrd<ListarGastoCajaDto>> Handle(
             ListarGastosDeCajaQry request,
             CancellationToken cancellationToken)
         {

@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Modules.Finanzas.CorteCaja.Commands;
+﻿using Matvi.Back.Application.Modules.Finanzas.CorteCaja.Commands;
 using Matvi.Back.Application.Modules.Finanzas.CorteCaja.Dtos;
 using Matvi.Back.Application.Modules.Finanzas.CorteCaja.Queries;
 using Matvi.Front.UI.Attributes;
@@ -9,16 +9,23 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Matvi.Front.UI.Areas.Finanzas.Pages.CorteCaja
 {
-    [AuthorizeMatvi(Funcion.Finanzas_Cortes_de_caja, Accion.Crear)]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para cerrar.
+    /// </summary>
+[AuthorizeMatvi(Funcion.Finanzas_Cortes_de_caja, Accion.Crear)]
     public class CerrarModel(
         IMediator _mediator,
         IUsuarioActualService _usuarioActualService
     ) : BaseModel
     {
-        [BindProperty]
+                /// <summary>
+        /// Propiedad que representa corte.
+        /// </summary>
+[BindProperty]
         public required CerrarCorteCajaDto Corte { get; set; }
 
-        public async Task OnGetAsync(CancellationToken cancellationToken)
+                /// <inheritdoc/>
+public async Task OnGetAsync(CancellationToken cancellationToken)
         {
             Corte = new CerrarCorteCajaDto();
 
@@ -32,7 +39,12 @@ namespace Matvi.Front.UI.Areas.Finanzas.Pages.CorteCaja
             }
         }
 
-        public async Task<JsonResult> OnPostCerrarAsync(CancellationToken cancellationToken)
+                /// <summary>
+        /// Ejecuta la operación de on post cerrar async.
+        /// </summary>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnPostCerrarAsync(CancellationToken cancellationToken)
         {
             Corte.CtSucu_Id = _usuarioActualService.UsuarioSesion!.SucursalSesion!.Id!.Value;
             Corte.CtUsua_Id = _usuarioActualService.UsuarioSesion!.Id;

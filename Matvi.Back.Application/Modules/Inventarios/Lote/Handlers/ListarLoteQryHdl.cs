@@ -13,7 +13,8 @@ namespace Matvi.Back.Application.Modules.Inventarios.Lote.Handlers
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<ListarLoteQry, DataGrd<ListarLoteDto>>
     {
-        public async Task<DataGrd<ListarLoteDto>> Handle(
+                /// <inheritdoc/>
+public async Task<DataGrd<ListarLoteDto>> Handle(
             ListarLoteQry request,
             CancellationToken cancellationToken)
         {

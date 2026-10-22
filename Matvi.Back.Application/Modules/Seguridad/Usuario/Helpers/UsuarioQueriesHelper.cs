@@ -4,9 +4,18 @@ using Matvi.Back.Infrastructure.Persistence.Entities;
 
 namespace Matvi.Back.Application.Modules.Seguridad.Usuario.Helpers
 {
-    public static class UsuarioQueriesHelper
+        /// <summary>
+    /// Representa la clase para usuario queries helper.
+    /// </summary>
+public static class UsuarioQueriesHelper
     {
-        public static IQueryable<RelacionarSucursalDto> GetSucursalesRelacionadas(
+                /// <summary>
+        /// Recupera la información correspondiente a get sucursales relacionadas.
+        /// </summary>
+        /// <param name="db">Parámetro db.</param>
+        /// <param name="idCtUsuario">Identificador único del registro u objeto.</param>
+        /// <returns>Objeto con la información resultante de get sucursales relacionadas.</returns>
+public static IQueryable<RelacionarSucursalDto> GetSucursalesRelacionadas(
             MatviQryDbCtx db,
             int idCtUsuario)
         {

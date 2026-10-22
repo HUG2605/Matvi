@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Common.Grid;
+﻿using Matvi.Back.Application.Common.Grid;
 using Matvi.Back.Application.Modules.Ventas.Cliente.Dtos;
 using Matvi.Back.Application.Modules.Ventas.Cliente.Queries;
 using Matvi.Back.Infrastructure.Common.Extensions;
@@ -13,7 +13,8 @@ namespace Matvi.Back.Application.Modules.Ventas.Cliente.Handlesrs
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<ListarClienteQry, DataGrd<ListarClienteDto>>
     {
-        public async Task<DataGrd<ListarClienteDto>> Handle(
+                /// <inheritdoc/>
+public async Task<DataGrd<ListarClienteDto>> Handle(
             ListarClienteQry request, 
             CancellationToken cancellationToken)
         {

@@ -7,7 +7,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Finanzas.Gasto.Queries
 {
-    public record ListarGastoQry
+        /// <summary>
+    /// Consulta CQRS para obtener información de listar gasto.
+    /// </summary>
+public record ListarGastoQry
     (
         byte idSucursal,
         FilterGrd filter

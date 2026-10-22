@@ -2,9 +2,17 @@
 
 namespace Matvi.Back.Application.Common.Extensions
 {
-    public static class StringExtensions
+        /// <summary>
+    /// Representa la clase para string extensions.
+    /// </summary>
+public static class StringExtensions
     {
-        public static string ToCapitalize(this string texto)
+                /// <summary>
+        /// Ejecuta la operación de to capitalize.
+        /// </summary>
+        /// <param name="texto">Parámetro texto.</param>
+        /// <returns>Objeto con la información resultante de to capitalize.</returns>
+public static string ToCapitalize(this string texto)
         {
             if (string.IsNullOrWhiteSpace(texto))
                 return string.Empty;
@@ -25,14 +33,24 @@ namespace Matvi.Back.Application.Common.Extensions
             return string.Join(". ", resultado) + (texto.EndsWith(".") ? "." : "");
         }
 
-        public static string ToObfuscated(this string textoPlano)
+                /// <summary>
+        /// Ejecuta la operación de to obfuscated.
+        /// </summary>
+        /// <param name="textoPlano">Parámetro texto plano.</param>
+        /// <returns>Objeto con la información resultante de to obfuscated.</returns>
+public static string ToObfuscated(this string textoPlano)
         {
             if (string.IsNullOrEmpty(textoPlano)) return string.Empty;
             var bytes = Encoding.UTF8.GetBytes(textoPlano);
             return Convert.ToBase64String(bytes);
         }
 
-        public static string FromObfuscated(this string textoOfuscado)
+                /// <summary>
+        /// Ejecuta la operación de from obfuscated.
+        /// </summary>
+        /// <param name="textoOfuscado">Parámetro texto ofuscado.</param>
+        /// <returns>Objeto con la información resultante de from obfuscated.</returns>
+public static string FromObfuscated(this string textoOfuscado)
         {
             if (string.IsNullOrEmpty(textoOfuscado)) return string.Empty;
             var bytes = Convert.FromBase64String(textoOfuscado);

@@ -14,7 +14,8 @@ namespace Matvi.Back.Application.Modules.Compras.Proveedor.Handlers
         IUnitOfWork _unitOfWork
         ) : IRequestHandler<EliminarProveedorCmd, OperationResult<bool>>
     {
-        public async Task<OperationResult<bool>> Handle(
+                /// <inheritdoc/>
+public async Task<OperationResult<bool>> Handle(
             EliminarProveedorCmd request, 
             CancellationToken cancellationToken)
         {

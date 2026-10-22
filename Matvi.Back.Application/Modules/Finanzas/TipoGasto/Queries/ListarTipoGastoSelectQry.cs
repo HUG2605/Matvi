@@ -6,6 +6,9 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Finanzas.TipoGasto.Queries
 {
-    public record ListarTipoGastoSelectQry(
+        /// <summary>
+    /// Consulta CQRS para obtener información de listar tipo gasto select.
+    /// </summary>
+public record ListarTipoGastoSelectQry(
         ) : IRequest<List<BaseDto<byte>>>;
 }

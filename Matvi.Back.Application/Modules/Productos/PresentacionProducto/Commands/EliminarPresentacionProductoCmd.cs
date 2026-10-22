@@ -3,7 +3,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Productos.PresentacionProducto.Commands
 {
-    public record EliminarPresentacionProductoCmd(
+        /// <summary>
+    /// Comando CQRS para la operación de eliminar presentacion producto.
+    /// </summary>
+public record EliminarPresentacionProductoCmd(
         int id
         ) : IRequest<OperationResult<bool>>;
 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using Matvi.Back.Application.Common.Grid;
@@ -7,7 +7,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Finanzas.CorteCaja.Queries
 {
-    public record ListarCorteCajaQry(
+        /// <summary>
+    /// Consulta CQRS para obtener información de listar corte caja.
+    /// </summary>
+public record ListarCorteCajaQry(
         byte idSucursal,
         byte idRol,
         short idUsuario,

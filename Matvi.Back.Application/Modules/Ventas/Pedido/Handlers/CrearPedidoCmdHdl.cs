@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Common.Enums;
+﻿using Matvi.Back.Application.Common.Enums;
 using Matvi.Back.Application.Common.Results;
 using Matvi.Back.Application.Modules.Ventas.Pedido.Commands;
 using Matvi.Back.Application.Modules.Ventas.Pedido.Dtos;
@@ -37,7 +37,8 @@ namespace Matvi.Back.Application.Modules.Ventas.Pedido.Handlers
         // ID de cliente "Mostrador" según el seed del EST_Matvi.sql.
         private const int ID_CLIENTE_MOSTRADOR = 1;
 
-        public async Task<OperationResult<bool>> Handle(
+                /// <inheritdoc/>
+public async Task<OperationResult<bool>> Handle(
             CrearPedidoCmd request,
             CancellationToken cancellationToken)
         {

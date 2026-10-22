@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Modules.Seguridad.ChangePassword.Commands;
+﻿using Matvi.Back.Application.Modules.Seguridad.ChangePassword.Commands;
 using Matvi.Back.Application.Modules.Seguridad.ChangePassword.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -7,18 +7,28 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Matvi.Front.UI.Pages.Security
 {
-    [AllowAnonymous]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para change password.
+    /// </summary>
+[AllowAnonymous]
     public class ChangePasswordModel (
         IMediator _mediator
         ) : BaseModel
     {
-        [Display(Name = "Usuario")]
+                /// <summary>
+        /// Propiedad que representa usuario.
+        /// </summary>
+[Display(Name = "Usuario")]
         public string UsuarioFld { get; set; } = string.Empty;
 
-        [BindProperty]
+                /// <summary>
+        /// Propiedad que representa usuario.
+        /// </summary>
+[BindProperty]
         public required CambiarContraseniaDto Usuario { get; set; }
 
-        public void OnGet()
+                /// <inheritdoc/>
+public void OnGet()
         {
             Usuario = new CambiarContraseniaDto();
             Usuario.Id = short.Parse(TempData["UsuarioId"]?.ToString()!);
@@ -27,7 +37,8 @@ namespace Matvi.Front.UI.Pages.Security
             TempData["Usuario"] = UsuarioFld;
         }
 
-        public async Task<IActionResult> OnPostAsync(CancellationToken cancellationToken)
+                /// <inheritdoc/>
+public async Task<IActionResult> OnPostAsync(CancellationToken cancellationToken)
         {
             Usuario.Id = ToShort(Request.Form["Usuario.SafeId"]!);
             var res = await _mediator.Send(

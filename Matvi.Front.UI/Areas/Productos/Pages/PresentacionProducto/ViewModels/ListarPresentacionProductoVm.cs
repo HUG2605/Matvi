@@ -2,10 +2,19 @@
 
 namespace Matvi.Front.UI.Areas.Productos.Pages.PresentacionProducto.ViewModels
 {
-    public class ListarPresentacionProductoVm
+        /// <summary>
+    /// Representa la clase para listar presentacion producto vm.
+    /// </summary>
+public class ListarPresentacionProductoVm
     {
-        public string CtProd_SafeId { get; set; } = string.Empty;
-        public List<ListarProductoSucursalDto>? PresentacionesProducto { get; set; }
+                /// <summary>
+        /// Identificador único de ct prod safe id.
+        /// </summary>
+public string CtProd_SafeId { get; set; } = string.Empty;
+                /// <summary>
+        /// Colección de elementos asociados a presentaciones producto.
+        /// </summary>
+public List<ListarProductoSucursalDto>? PresentacionesProducto { get; set; }
 
     }
 }

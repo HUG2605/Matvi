@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Common.Results;
+﻿using Matvi.Back.Application.Common.Results;
 using MediatR;
 
 namespace Matvi.Back.Application.Modules.Ventas.Pedido.Queries
@@ -27,7 +27,10 @@ namespace Matvi.Back.Application.Modules.Ventas.Pedido.Queries
         List<ValidarCapturaPedidoProducto> Productos
     ) : IRequest<OperationResult<bool>>;
 
-    public record ValidarCapturaPedidoProducto(
+        /// <summary>
+    /// Representa la registro (record) para validar captura pedido producto.
+    /// </summary>
+public record ValidarCapturaPedidoProducto(
         int IdProducto,
         bool ProductoEntregaMostrador,
         bool ProductoBajoPedido,

@@ -1,4 +1,4 @@
-﻿using Matvi.Back.Infrastructure.Common.Decorators;
+using Matvi.Back.Infrastructure.Common.Decorators;
 using Matvi.Back.Infrastructure.Common.Interceptors;
 using Matvi.Back.Infrastructure.Common.Services;
 using Matvi.Back.Infrastructure.Persistence.Contexts;
@@ -9,8 +9,18 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Matvi.Back.Application
 {
+    /// <summary>
+    /// Métodos de extensión para configurar y registrar los servicios y persistencia de la capa de infraestructura en el contenedor de dependencias.
+    /// </summary>
     public static class DiInfrastructure
     {
+        /// <summary>
+        /// Registra en la colección de servicios los contextos de base de datos, interceptores de auditoría, repositorios y decoradores transaccionales.
+        /// </summary>
+        /// <param name="services">Colección de descriptores de servicios.</param>
+        /// <param name="connectionString">Cadena de conexión a SQL Server.</param>
+        /// <param name="userFactory">Fábrica delegada para obtener el identificador de usuario actual.</param>
+        /// <returns>La misma colección de servicios para encadenamiento.</returns>
         public static IServiceCollection AddInfrastructure(
             this IServiceCollection services,
             string connectionString,

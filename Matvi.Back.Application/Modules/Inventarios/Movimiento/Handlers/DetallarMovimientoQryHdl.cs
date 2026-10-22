@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Modules.Inventarios.Movimiento.Dtos;
+﻿using Matvi.Back.Application.Modules.Inventarios.Movimiento.Dtos;
 using Matvi.Back.Application.Modules.Inventarios.Movimiento.Queries;
 using Matvi.Back.Infrastructure.Persistence.Contexts;
 using Matvi.Back.Infrastructure.Persistence.Entities;
@@ -7,11 +7,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Matvi.Back.Application.Modules.Inventarios.Movimiento.Handlers
 {
-    public class DetallarMovimientoQryHdl(
+        /// <summary>
+    /// Manejador de consulta encargado de resolver los datos para detallar movimiento.
+    /// </summary>
+public class DetallarMovimientoQryHdl(
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<DetallarMovimientoQry, DetalleMovimientoDto>
     {
-        public async Task<DetalleMovimientoDto> Handle(
+                /// <inheritdoc/>
+public async Task<DetalleMovimientoDto> Handle(
             DetallarMovimientoQry request,
             CancellationToken cancellationToken)
         {

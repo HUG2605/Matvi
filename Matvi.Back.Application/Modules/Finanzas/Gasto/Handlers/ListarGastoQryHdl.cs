@@ -16,7 +16,8 @@ namespace Matvi.Back.Application.Modules.Finanzas.Gasto.Handlers
         IDbContextFactory<MatviQryDbCtx> _factory
     ) : IRequestHandler<ListarGastoQry, DataGrd<ListarGastoDto>>
     {
-        public async Task<DataGrd<ListarGastoDto>> Handle(
+                /// <inheritdoc/>
+public async Task<DataGrd<ListarGastoDto>> Handle(
             ListarGastoQry request,
             CancellationToken cancellationToken)
         {

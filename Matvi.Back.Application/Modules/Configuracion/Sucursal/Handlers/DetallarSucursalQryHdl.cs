@@ -11,7 +11,8 @@ namespace Matvi.Back.Application.Modules.Configuracion.Sucursal.Handlers
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<DetallarSucursalQry, DetallarSucursalDto>
     {
-        public async Task<DetallarSucursalDto> Handle(
+                /// <inheritdoc/>
+public async Task<DetallarSucursalDto> Handle(
             DetallarSucursalQry request, 
             CancellationToken cancellationToken)
         {

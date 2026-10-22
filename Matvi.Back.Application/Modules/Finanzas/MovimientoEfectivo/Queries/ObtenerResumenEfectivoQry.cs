@@ -1,10 +1,13 @@
-using System;
+﻿using System;
 using Matvi.Back.Application.Modules.Finanzas.MovimientoEfectivo.Dtos;
 using MediatR;
 
 namespace Matvi.Back.Application.Modules.Finanzas.MovimientoEfectivo.Queries
 {
-    public record ObtenerResumenEfectivoQry(
+        /// <summary>
+    /// Consulta CQRS para obtener información de obtener resumen efectivo.
+    /// </summary>
+public record ObtenerResumenEfectivoQry(
         byte IdCtSucursal,
         DateTime? FechaInicio,
         DateTime? FechaFin

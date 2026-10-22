@@ -11,7 +11,8 @@ namespace Matvi.Back.Application.Modules.Ventas.CanalCaptura.Handlers
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<ListarCanalCapturaSelectQry, List<BaseDto<byte>>>
     {
-        public async Task<List<BaseDto<byte>>> Handle(
+                /// <inheritdoc/>
+public async Task<List<BaseDto<byte>>> Handle(
             ListarCanalCapturaSelectQry request,
             CancellationToken cancellationToken)
         {

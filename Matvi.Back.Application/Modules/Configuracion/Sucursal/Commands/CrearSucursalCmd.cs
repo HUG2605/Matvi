@@ -4,7 +4,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Configuracion.Sucursal.Commands
 {
-    public record CrearSucursalCmd(
+        /// <summary>
+    /// Comando CQRS para la operación de crear sucursal.
+    /// </summary>
+public record CrearSucursalCmd(
           CrearSucursalDto sucursal
     ) : IRequest<OperationResult<bool>>;
 }

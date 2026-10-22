@@ -10,7 +10,10 @@ using MediatR;
 namespace Matvi.Back.Application.Modules.Finanzas.Gasto.Commands
 {
 
-    public record EditarGastoCmd(
+        /// <summary>
+    /// Comando CQRS para la operación de editar gasto.
+    /// </summary>
+public record EditarGastoCmd(
         EditarGastoDto gasto
         ) : IRequest<OperationResult<bool>>;
 

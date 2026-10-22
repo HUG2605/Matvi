@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Common.Extensions;
+﻿using Matvi.Back.Application.Common.Extensions;
 using Matvi.Back.Application.Modules.Seguridad.Login.Dtos;
 using Matvi.Back.Application.Modules.Seguridad.Login.Queries;
 using Matvi.Front.UI.Constants;
@@ -13,32 +13,46 @@ using System.Security.Claims;
 
 namespace Matvi.Front.UI.Pages.Security
 {
-    [AllowAnonymous]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para login.
+    /// </summary>
+[AllowAnonymous]
     public class LoginModel(
         IMediator _mediator
         ) : PageModel
     {
-        [BindProperty]
+                /// <summary>
+        /// Propiedad que representa usuario.
+        /// </summary>
+[BindProperty]
         [Display(Name = "Usuario")]
         [Required(ErrorMessage = "Se requiere valor para {0}.")]
         public string? UsuarioFld { get; set; }
 
-        [BindProperty]
+                /// <summary>
+        /// Propiedad que representa contrasenia.
+        /// </summary>
+[BindProperty]
         [Display(Name = "Contraseña")]
         [Required(ErrorMessage = "Se requiere valor para {0}.")]
         [DataType(DataType.Password)]
         public string? ContraseniaFld { get; set; }
 
-        [BindProperty]
+                /// <summary>
+        /// Propiedad que representa recordarme.
+        /// </summary>
+[BindProperty]
         [Display(Name = "Recordarme")]
         public bool Recordarme { get; set; }
 
-        public void OnGet()
+                /// <inheritdoc/>
+public void OnGet()
         {
             var password = Convert.ToString("AAJR3423").ToObfuscated();
         }
 
-        public async Task<IActionResult> OnPostAsync(CancellationToken cancellationToken)
+                /// <inheritdoc/>
+public async Task<IActionResult> OnPostAsync(CancellationToken cancellationToken)
         {
             #region Forzar cerrado de sesión anterior, por si le dieron regresar al navegador
 

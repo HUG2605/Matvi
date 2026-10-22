@@ -12,7 +12,8 @@ namespace Matvi.Back.Application.Modules.Seguridad.Usuario.Handlers
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<EditarUsuarioQry, EditarUsuarioDto>
     {
-        public async Task<EditarUsuarioDto> Handle(
+                /// <inheritdoc/>
+public async Task<EditarUsuarioDto> Handle(
             EditarUsuarioQry request, 
             CancellationToken cancellationToken)
         {

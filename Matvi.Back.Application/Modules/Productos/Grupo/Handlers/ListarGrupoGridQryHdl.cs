@@ -13,7 +13,8 @@ namespace Matvi.Back.Application.Modules.Productos.Grupo.Handlers
         IDbContextFactory<MatviQryDbCtx> _factory
         ) : IRequestHandler<ListarGruposQry, DataGrd<ListarGrupoDto>>
     {
-        public async Task<DataGrd<ListarGrupoDto>> Handle(
+                /// <inheritdoc/>
+public async Task<DataGrd<ListarGrupoDto>> Handle(
             ListarGruposQry request, 
             CancellationToken cancellationToken)
         {

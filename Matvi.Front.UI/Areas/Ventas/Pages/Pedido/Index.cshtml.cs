@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Common.Grid;
+﻿using Matvi.Back.Application.Common.Grid;
 using Matvi.Back.Application.Modules.Ventas.Pedido.Dtos;
 using Matvi.Back.Application.Modules.Ventas.Pedido.Queries;
 using Matvi.Front.UI.Attributes;
@@ -11,17 +11,32 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Matvi.Front.UI.Areas.Ventas.Pages.Pedido
 {
-    [AuthorizeMatvi(Funcion.Ventas_Pedidos)]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para index.
+    /// </summary>
+[AuthorizeMatvi(Funcion.Ventas_Pedidos)]
     public class IndexModel(
         IMediator _mediator,
         IUsuarioActualService _usuarioActualService
         ) : PageModel
     {
-        public void OnGet()
+                /// <inheritdoc/>
+public void OnGet()
         {
         }
 
-        public async Task<JsonResult> OnGetPedidosJsonAsync(
+                /// <summary>
+        /// Ejecuta la operación de on get pedidos json async.
+        /// </summary>
+        /// <param name="draw">Parámetro draw.</param>
+        /// <param name="start">Parámetro start.</param>
+        /// <param name="length">Parámetro length.</param>
+        /// <param name="search">Parámetro search.</param>
+        /// <param name="sortBy">Parámetro sort by.</param>
+        /// <param name="sortDesc">Parámetro sort desc.</param>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnGetPedidosJsonAsync(
         int draw,
         int start,
         int length,
@@ -65,7 +80,13 @@ namespace Matvi.Front.UI.Areas.Ventas.Pages.Pedido
             });
         }
 
-        public async Task<JsonResult> OnGetEstadoCreditoClienteAsync(
+                /// <summary>
+        /// Ejecuta la operación de on get estado credito cliente async.
+        /// </summary>
+        /// <param name="idCliente">Identificador único del registro u objeto.</param>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnGetEstadoCreditoClienteAsync(
             int idCliente,
             CancellationToken cancellationToken)
         {

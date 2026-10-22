@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Common.Grid;
+﻿using Matvi.Back.Application.Common.Grid;
 using Matvi.Back.Application.Modules.Compras.Proveedor.Dtos;
 using Matvi.Back.Application.Modules.Compras.Proveedor.Queries;
 using Matvi.Front.UI.Attributes;
@@ -10,16 +10,31 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Matvi.Front.UI.Areas.Compras.Pages.Proveedor
 {
-    [AuthorizeMatvi(Funcion.Compras_Proveedores)]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para index.
+    /// </summary>
+[AuthorizeMatvi(Funcion.Compras_Proveedores)]
     public class IndexModel(
         IMediator _mediator
         ) : PageModel
     {
-        public void OnGet()
+                /// <inheritdoc/>
+public void OnGet()
         {
         }
 
-        public async Task<JsonResult> OnGetProveedoresJsonAsync(
+                /// <summary>
+        /// Ejecuta la operación de on get proveedores json async.
+        /// </summary>
+        /// <param name="draw">Parámetro draw.</param>
+        /// <param name="start">Parámetro start.</param>
+        /// <param name="length">Parámetro length.</param>
+        /// <param name="search">Parámetro search.</param>
+        /// <param name="sortBy">Parámetro sort by.</param>
+        /// <param name="sortDesc">Parámetro sort desc.</param>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnGetProveedoresJsonAsync(
             int draw,
             int start,
             int length,

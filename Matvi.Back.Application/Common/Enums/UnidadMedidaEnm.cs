@@ -4,13 +4,34 @@ using System.Text;
 
 namespace Matvi.Back.Application.Common.Enums
 {
-    public enum UnidadMedidaEnm : byte
+        /// <summary>
+    /// Catálogo de opciones para unidad medida.
+    /// </summary>
+public enum UnidadMedidaEnm : byte
     {
-        KILOGRAMO_KG = 1,
-        LITRO_LT = 2,
-        METRO_CUADRADO_M2 = 3,
-        METRO_CÚBICO_M3 = 4,
-        METRO_LINEAL_M = 5,
-        PIEZA_PZ = 6
+                /// <summary>
+        /// Representa la opción kilogramo kg.
+        /// </summary>
+KILOGRAMO_KG = 1,
+                /// <summary>
+        /// Representa la opción litro lt.
+        /// </summary>
+LITRO_LT = 2,
+                /// <summary>
+        /// Representa la opción metro cuadrado m 2.
+        /// </summary>
+METRO_CUADRADO_M2 = 3,
+                /// <summary>
+        /// Representa la opción metro c bico m 3.
+        /// </summary>
+METRO_CÚBICO_M3 = 4,
+                /// <summary>
+        /// Representa la opción metro lineal m.
+        /// </summary>
+METRO_LINEAL_M = 5,
+                /// <summary>
+        /// Representa la opción pieza pz.
+        /// </summary>
+PIEZA_PZ = 6
     }
 }

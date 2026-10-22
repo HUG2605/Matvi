@@ -4,7 +4,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Productos.Grupo.Commands
 {
-    public record CrearGrupoCmd(
+        /// <summary>
+    /// Comando CQRS para la operación de crear grupo.
+    /// </summary>
+public record CrearGrupoCmd(
         CrearGrupoDto grupo
     ) : IRequest<OperationResult<bool>>;
 }

@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Common.Results;
+﻿using Matvi.Back.Application.Common.Results;
 using Matvi.Back.Application.Modules.Compras.Compra.Dtos;
 using Matvi.Back.Application.Modules.Compras.Compra.Queries;
 using Matvi.Back.Infrastructure.Persistence.Contexts;
@@ -12,7 +12,8 @@ namespace Matvi.Back.Application.Modules.Compras.Compra.Handlers
         IDbContextFactory<MatviQryDbCtx> factory
     ) : IRequestHandler<ObtenerProductoParaCompraQry, OperationResult<AgregarProductoCompraDto?>>
     {
-        public async Task<OperationResult<AgregarProductoCompraDto?>> Handle(
+                /// <inheritdoc/>
+public async Task<OperationResult<AgregarProductoCompraDto?>> Handle(
             ObtenerProductoParaCompraQry request,
             CancellationToken cancellationToken)
         {

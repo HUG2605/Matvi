@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Modules.Compras.Compra.Commands;
+﻿using Matvi.Back.Application.Modules.Compras.Compra.Commands;
 using Matvi.Back.Application.Modules.Compras.Compra.Dtos;
 using Matvi.Back.Application.Modules.Compras.Compra.Queries;
 using Matvi.Back.Application.Modules.Ventas.MedioPago.Queries;
@@ -12,18 +12,28 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Matvi.Front.UI.Areas.Compras.Pages.Compra
 {
-    [AuthorizeMatvi(Funcion.Compras_Compras, Accion.Crear)]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para create.
+    /// </summary>
+[AuthorizeMatvi(Funcion.Compras_Compras, Accion.Crear)]
     public class CreateModel(
         IMediator _mediator,
         IUsuarioActualService _usuarioActualService
         ) : BaseModel
     {
-        [BindProperty]
+                /// <summary>
+        /// Propiedad que representa compra.
+        /// </summary>
+[BindProperty]
         public required CrearCompraDto Compra { get; set; }
 
-        public SelectList MedioPagoSelectList { get; set; } = default!;
+                /// <summary>
+        /// Propiedad que representa medio pago select list.
+        /// </summary>
+public SelectList MedioPagoSelectList { get; set; } = default!;
 
-        public async Task OnGetAsync(
+                /// <inheritdoc/>
+public async Task OnGetAsync(
             CancellationToken cancellationToken)
         {
             HttpContext.Session.Remove("Compra");
@@ -36,7 +46,15 @@ namespace Matvi.Front.UI.Areas.Compras.Pages.Compra
 
         #region Productos de la compra
 
-        public async Task<IActionResult> OnPostAgregarProductoCompraAsync(
+                /// <summary>
+        /// Ejecuta la operación de on post agregar producto compra async.
+        /// </summary>
+        /// <param name="idPresentacionProducto">Identificador único del registro u objeto.</param>
+        /// <param name="cantidad">Parámetro cantidad.</param>
+        /// <param name="costo">Parámetro costo.</param>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<IActionResult> OnPostAgregarProductoCompraAsync(
             int idPresentacionProducto,
             decimal cantidad,
             decimal costo,
@@ -75,7 +93,12 @@ namespace Matvi.Front.UI.Areas.Compras.Pages.Compra
             return Partial("_ListAgregarProductoCompra", lista);
         }
 
-        public IActionResult OnPostEliminarProductoCompra(
+                /// <summary>
+        /// Ejecuta la operación de on post eliminar producto compra.
+        /// </summary>
+        /// <param name="idPresentacionProducto">Identificador único del registro u objeto.</param>
+        /// <returns>Objeto con la información resultante de on post eliminar producto compra.</returns>
+public IActionResult OnPostEliminarProductoCompra(
             int idPresentacionProducto)
         {
             var lista = HttpContext.Session.GetObject<List<AgregarProductoCompraDto>>("Compra")
@@ -92,7 +115,12 @@ namespace Matvi.Front.UI.Areas.Compras.Pages.Compra
 
         #endregion
 
-        public async Task<JsonResult> OnPostCreateAsync(CancellationToken cancellationToken)
+                /// <summary>
+        /// Ejecuta la operación de on post create async.
+        /// </summary>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnPostCreateAsync(CancellationToken cancellationToken)
         {
             var lista = HttpContext.Session.GetObject<List<AgregarProductoCompraDto>>("Compra");
 
@@ -105,7 +133,13 @@ namespace Matvi.Front.UI.Areas.Compras.Pages.Compra
             return new JsonResult(res);
         }
 
-        public async Task<JsonResult> OnGetSaldoVencidoAsync(
+                /// <summary>
+        /// Ejecuta la operación de on get saldo vencido async.
+        /// </summary>
+        /// <param name="idProveedor">Identificador único del registro u objeto.</param>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnGetSaldoVencidoAsync(
             int idProveedor,
             CancellationToken cancellationToken)
         {

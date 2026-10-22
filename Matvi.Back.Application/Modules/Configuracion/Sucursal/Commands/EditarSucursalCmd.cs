@@ -4,7 +4,10 @@ using MediatR;
 
 namespace Matvi.Back.Application.Modules.Configuracion.Sucursal.Commands
 {
-    public record EditarSucursalCmd (
+        /// <summary>
+    /// Comando CQRS para la operación de editar sucursal.
+    /// </summary>
+public record EditarSucursalCmd (
              EditarSucursalDto sucursal
         ) : IRequest<OperationResult<bool>>;
 

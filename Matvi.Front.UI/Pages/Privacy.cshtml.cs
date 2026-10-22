@@ -2,9 +2,13 @@
 
 namespace Matvi.Front.UI.Pages
 {
-    public class PrivacyModel : PageModel
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para privacy.
+    /// </summary>
+public class PrivacyModel : PageModel
     {
-        public void OnGet()
+                /// <inheritdoc/>
+public void OnGet()
         {
         }
     }

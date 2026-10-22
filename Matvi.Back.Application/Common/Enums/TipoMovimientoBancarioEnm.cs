@@ -1,8 +1,17 @@
-namespace Matvi.Back.Application.Common.Enums
+﻿namespace Matvi.Back.Application.Common.Enums
 {
-    public enum TipoMovimientoBancarioEnm
+        /// <summary>
+    /// Catálogo de opciones para tipo movimiento bancario.
+    /// </summary>
+public enum TipoMovimientoBancarioEnm
     {
-        INGRESO = 1,
-        EGRESO = 2
+                /// <summary>
+        /// Representa la opción ingreso.
+        /// </summary>
+INGRESO = 1,
+                /// <summary>
+        /// Representa la opción egreso.
+        /// </summary>
+EGRESO = 2
     }
 }

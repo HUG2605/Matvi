@@ -1,11 +1,14 @@
-using System;
+﻿using System;
 using Matvi.Back.Application.Common.Grid;
 using Matvi.Back.Application.Modules.Finanzas.MovimientoEfectivo.Dtos;
 using MediatR;
 
 namespace Matvi.Back.Application.Modules.Finanzas.MovimientoEfectivo.Queries
 {
-    public record ListarMovimientoEfectivoQry(
+        /// <summary>
+    /// Consulta CQRS para obtener información de listar movimiento efectivo.
+    /// </summary>
+public record ListarMovimientoEfectivoQry(
         byte IdCtSucursal,
         byte? Tipo,
         string? OrigenTipo,

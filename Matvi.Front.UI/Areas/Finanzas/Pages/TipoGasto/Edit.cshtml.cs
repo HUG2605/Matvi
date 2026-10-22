@@ -1,4 +1,4 @@
-using Matvi.Back.Application.Modules.Finanzas.TipoGasto.Commands;
+﻿using Matvi.Back.Application.Modules.Finanzas.TipoGasto.Commands;
 using Matvi.Back.Application.Modules.Finanzas.TipoGasto.Dtos;
 using Matvi.Back.Application.Modules.Finanzas.TipoGasto.Queries;
 using Matvi.Front.UI.Attributes;
@@ -8,15 +8,22 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Matvi.Front.UI.Areas.Finanzas.Pages.TipoGasto
 {
-    [AuthorizeMatvi(Funcion.Finanzas_Tipos_de_Gastos, Accion.Editar)]
+        /// <summary>
+    /// Modelo de página Razor (PageModel) que gestiona la interacción para edit.
+    /// </summary>
+[AuthorizeMatvi(Funcion.Finanzas_Tipos_de_Gastos, Accion.Editar)]
     public class EditModel(
         IMediator _mediator
         ) : BaseModel
     {
-        [BindProperty]
+                /// <summary>
+        /// Propiedad que representa tipo gasto.
+        /// </summary>
+[BindProperty]
         public required EditarTipoGastoDto TipoGasto { get; set; }
 
-        public async Task OnGet(
+                /// <inheritdoc/>
+public async Task OnGet(
             string id, 
             CancellationToken cancellationToken)
         {
@@ -26,7 +33,12 @@ namespace Matvi.Front.UI.Areas.Finanzas.Pages.TipoGasto
                 cancellationToken);
         }
 
-        public async Task<JsonResult> OnPostEditAsync(
+                /// <summary>
+        /// Ejecuta la operación de on post edit async.
+        /// </summary>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación asíncrona.</param>
+        /// <returns>Tarea asíncrona con el resultado de la operación.</returns>
+public async Task<JsonResult> OnPostEditAsync(
             CancellationToken cancellationToken)
         {
             TipoGasto.Id = ToByte(Request.Form["TipoGasto.SafeId"]!);
